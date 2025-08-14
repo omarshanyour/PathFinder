@@ -19,15 +19,34 @@
       min-height: 100vh;
     }
 
-    header {
-      text-align: center;
-      padding: 60px 20px 30px;
-      background-color: #1e1e1e;
+    nav {
+      background-color: #1f1f1f;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border-bottom: 1px solid #333;
     }
 
+    nav a {
+      color: #82b1ff;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 15px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffffff;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
     header h1 {
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       margin-bottom: 10px;
     }
 
@@ -37,7 +56,7 @@
 
     .container {
       max-width: 1000px;
-      margin: 40px auto;
+      margin: 20px auto;
       padding: 0 20px;
     }
 
@@ -52,172 +71,198 @@
       color: #e0e0e0;
     }
 
-    .results {
-      margin-top: 30px;
-    }
-
     .card {
-      background-color: #1c1c1c;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
+      background-color: #1e1e1e;
       border: 1px solid #333;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      cursor: pointer;
       transition: 0.3s;
     }
 
     .card:hover {
-      background-color: #222;
-      transform: scale(1.01);
+      background-color: #2a2a2a;
     }
 
     .card h2 {
       color: #82b1ff;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
-    .card p {
+    .details {
+      display: none;
+      margin-top: 15px;
       color: #ccc;
-      margin: 5px 0;
+      line-height: 1.5;
     }
 
     ul {
       padding-left: 20px;
-      color: #bbb;
     }
 
-    .no-result {
-      color: #aaa;
-      font-style: italic;
-      margin-top: 20px;
+    .nav-links {
+      display: flex;
+    }
+
+    .nav-title {
+      font-size: 1.2rem;
+      color: #82b1ff;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
+  <nav>
+    <div class="nav-title">Pathfinder</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="#">Colleges</a> <!-- Placeholder for future -->
+    </div>
+  </nav>
+
   <header>
     <h1>Explore Majors</h1>
-    <p>Type an interest or field to get started</p>
+    <p>Type an interest or field to explore career and college options</p>
   </header>
 
   <div class="container">
-    <input type="text" id="searchInput" placeholder="Try 'engineering', 'biology', 'law'..." oninput="searchMajors()">
-    <div class="results" id="resultsContainer"></div>
+    <input type="text" id="searchInput" placeholder="Try 'biology', 'engineering', 'nursing'..." oninput="searchMajors()">
+    <div id="resultsContainer"></div>
   </div>
+<!-- END OF CHUNK 1 -->
+<script>
+  const majorsData = {
+    "biology": {
+      summary: "Biology is the study of life and living organisms. Students dive into ecosystems, genetics, and anatomy.",
+      salary: "$70,000",
+      difficulty: "Medium to High",
+      outlook: "89% employment rate",
+      tests: "MCAT (for med), GRE (grad school)",
+      classes: ["Cell Biology", "Genetics", "Human Anatomy", "Ecology", "Microbiology"],
+      colleges: ["UC Davis", "UCLA", "Cal Poly SLO", "CSU Long Beach"]
+    },
+    "engineering": {
+      summary: "Engineering involves solving real-world problems using math, science, and creativity.",
+      salary: "$91,000",
+      difficulty: "High",
+      outlook: "92% employment rate",
+      tests: "FE Exam, PE License (later)",
+      classes: ["Physics", "Calculus", "Statics", "Materials Science", "Thermodynamics"],
+      colleges: ["UC Berkeley", "Cal Poly SLO", "San Jose State", "CSU Fullerton"]
+    },
+    "nursing": {
+      summary: "Nursing is about providing patient care and working closely with doctors to improve health outcomes.",
+      salary: "$77,000",
+      difficulty: "High (clinical work + exams)",
+      outlook: "94% employment rate",
+      tests: "NCLEX-RN",
+      classes: ["Human Anatomy", "Pharmacology", "Patient Care", "Health Assessment"],
+      colleges: ["CSU San Marcos", "CSU Fresno", "UCLA", "UC Irvine"]
+    },
+    "psychology": {
+      summary: "Psychology is the scientific study of behavior and mental processes. Great for therapy, HR, or research careers.",
+      salary: "$58,000",
+      difficulty: "Medium",
+      outlook: "86% employment rate",
+      tests: "GRE Psychology (grad), licensing for therapy",
+      classes: ["Intro to Psych", "Abnormal Psychology", "Developmental Psychology", "Neuroscience"],
+      colleges: ["UC San Diego", "UC Berkeley", "CSU Long Beach", "UC Riverside"]
+    },
+    "math": {
+      summary: "Math majors study patterns, data, and problem-solving. It's foundational for tech, science, and finance careers.",
+      salary: "$88,000",
+      difficulty: "High",
+      outlook: "89% employment rate",
+      tests: "GRE Math (optional for grad)",
+      classes: ["Calculus I-III", "Linear Algebra", "Abstract Algebra", "Probability", "Statistics"],
+      colleges: ["UC Santa Barbara", "Cal Poly Pomona", "CSU East Bay"]
+    },
+    "business": {
+      summary: "Business covers management, marketing, and entrepreneurship — ideal for future leaders and innovators.",
+      salary: "$65,000",
+      difficulty: "Medium",
+      outlook: "90% employment rate",
+      tests: "GMAT (for MBA)",
+      classes: ["Microeconomics", "Accounting", "Finance", "Marketing", "Business Law"],
+      colleges: ["San Diego State", "UC Riverside", "CSU Fullerton", "UC Berkeley"]
+    },
+    "finance": {
+      summary: "Finance majors learn how to manage money, analyze markets, and assess risk. Great for Wall Street careers.",
+      salary: "$85,000",
+      difficulty: "Medium to High",
+      outlook: "88% employment rate",
+      tests: "CFA, Series 7 (optional for finance jobs)",
+      classes: ["Corporate Finance", "Investments", "Econometrics", "Accounting", "Financial Modeling"],
+      colleges: ["UCLA", "CSU Northridge", "UC Irvine", "Santa Clara University"]
+    },
+    "education": {
+      summary: "Education majors learn how to teach, mentor, and lead classrooms in a variety of subjects and grade levels.",
+      salary: "$54,000",
+      difficulty: "Medium",
+      outlook: "91% employment rate",
+      tests: "CBEST, CSET, RICA (CA teaching)",
+      classes: ["Child Development", "Curriculum Planning", "Instructional Methods", "Educational Psychology"],
+      colleges: ["CSU Chico", "CSU San Bernardino", "UC Riverside", "San Jose State"]
+    }
+  };
+</script>
+<!-- END OF CHUNK 2 -->
+<script>
+  function searchMajors() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const resultsContainer = document.getElementById("resultsContainer");
+    resultsContainer.innerHTML = "";
 
-  <script>
-    const database = {
-      "engineering": [
-        {
-          major: "Mechanical Engineer",
-          salary: "$87,000",
-          employment: "92%",
-          summary: "Designs machines and mechanical systems.",
-          colleges: ["Cal Poly SLO", "UC Berkeley", "CSU Fullerton", "San Jose State"]
-        },
-        {
-          major: "Civil Engineer",
-          salary: "$84,000",
-          employment: "90%",
-          summary: "Plans and builds infrastructure like roads and bridges.",
-          colleges: ["UC Irvine", "CSU Long Beach", "Fresno State"]
-        },
-        {
-          major: "Electrical Engineer",
-          salary: "$91,000",
-          employment: "88%",
-          summary: "Works with electrical systems and power distribution.",
-          colleges: ["UC Davis", "CSU Sacramento", "UC Santa Barbara"]
-        },
-        {
-          major: "Software Engineer",
-          salary: "$105,000",
-          employment: "95%",
-          summary: "Builds and maintains computer programs and systems.",
-          colleges: ["UC San Diego", "San Jose State", "CSU East Bay"]
-        }
-      ],
-      "biology": [
-        {
-          major: "Biologist",
-          salary: "$70,000",
-          employment: "89%",
-          summary: "Studies living organisms and ecosystems.",
-          colleges: ["UC Davis", "UCLA", "Cal Poly SLO", "CSU Long Beach"]
-        },
-        {
-          major: "Biomedical Engineer",
-          salary: "$93,000",
-          employment: "90%",
-          summary: "Applies engineering to healthcare solutions.",
-          colleges: ["UC Irvine", "UC San Diego", "CSU Northridge"]
-        },
-        {
-          major: "Bioinformatics Analyst",
-          salary: "$95,000",
-          employment: "88%",
-          summary: "Combines biology and coding to analyze data.",
-          colleges: ["UC Santa Cruz", "UC San Diego", "Cal State LA"]
-        },
-        {
-          major: "Biology Teacher",
-          salary: "$58,000",
-          employment: "85%",
-          summary: "Teaches biology in schools and colleges.",
-          colleges: ["CSU Fullerton", "UC Riverside", "CSU Chico"]
-        }
-      ],
-      "law": [
-        {
-          major: "Lawyer",
-          salary: "$126,000",
-          employment: "85%",
-          summary: "Represents clients in legal matters.",
-          colleges: ["UC Berkeley", "UC Hastings", "USC", "UCLA"]
-        },
-        {
-          major: "Paralegal",
-          salary: "$52,000",
-          employment: "88%",
-          summary: "Supports attorneys with legal documents and research.",
-          colleges: ["CSU Long Beach", "San Diego State", "CSU LA"]
-        }
-      ]
-    };
+    if (!query) return;
 
-    function searchMajors() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const results = document.getElementById("resultsContainer");
-      results.innerHTML = "";
+    let found = false;
 
-      if (!query) return;
+    for (const major in majorsData) {
+      if (major.includes(query)) {
+        found = true;
 
-      let found = false;
+        const data = majorsData[major];
+        const card = document.createElement("div");
+        card.classList.add("card");
 
-      for (const interest in database) {
-        if (interest.includes(query)) {
-          database[interest].forEach(item => {
-            const card = document.createElement("div");
-            card.classList.add("card");
+        const id = "details-" + major;
 
-            const collegeList = item.colleges.map(college => `<li>${college}</li>`).join("");
+        card.innerHTML = `
+          <h2>${capitalize(major)}</h2>
+          <p><strong>Salary:</strong> ${data.salary}</p>
+          <p><strong>Difficulty:</strong> ${data.difficulty}</p>
+          <div class="details" id="${id}">
+            <p><strong>Summary:</strong> ${data.summary}</p>
+            <p><strong>Job Outlook:</strong> ${data.outlook}</p>
+            <p><strong>Important Tests:</strong> ${data.tests}</p>
+            <p><strong>Core Classes:</strong></p>
+            <ul>${data.classes.map(cls => `<li>${cls}</li>`).join("")}</ul>
+            <p><strong>🎓 California Colleges:</strong></p>
+            <ul>${data.colleges.map(college => `<li>${college}</li>`).join("")}</ul>
+          </div>
+        `;
 
-            card.innerHTML = `
-              <h2>${item.major}</h2>
-              <p><strong>Salary:</strong> ${item.salary}</p>
-              <p><strong>Employment Rate:</strong> ${item.employment}</p>
-              <p>${item.summary}</p>
-              <p><strong>🎓 California Colleges:</strong></p>
-              <ul>${collegeList}</ul>
-            `;
-            results.appendChild(card);
-            found = true;
-          });
-        }
-      }
+        card.onclick = () => {
+          const details = document.getElementById(id);
+          details.style.display = details.style.display === "block" ? "none" : "block";
+        };
 
-      if (!found) {
-        results.innerHTML = "<p class='no-result'>No matching majors found. Try something like 'biology' or 'law'.</p>";
+        resultsContainer.appendChild(card);
       }
     }
-  </script>
+
+    if (!found) {
+      resultsContainer.innerHTML = `<p style="color:#999; margin-top:20px;">No majors found. Try something like "biology", "psychology", or "engineering".</p>`;
+    }
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+</script>
+<!-- END OF CHUNK 3 -->
 </body>
 </html>
+<!-- END OF CHUNK 4 -->
