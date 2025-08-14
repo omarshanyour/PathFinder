@@ -1,1 +1,102 @@
+<script>
+  const database = {
+    "engineering": [
+      {
+        major: "Mechanical Engineer",
+        salary: "$87,000",
+        employment: "92%",
+        summary: "Designs machines and mechanical systems.",
+        colleges: ["Cal Poly SLO", "UC Berkeley", "CSU Fullerton", "San Jose State"]
+      },
+      {
+        major: "Civil Engineer",
+        salary: "$84,000",
+        employment: "90%",
+        summary: "Plans and builds infrastructure like roads and bridges.",
+        colleges: ["Cal Poly SLO", "UC Irvine", "CSU Long Beach", "Fresno State"]
+      },
+      {
+        major: "Electrical Engineer",
+        salary: "$91,000",
+        employment: "88%",
+        summary: "Works with electrical systems and power distribution.",
+        colleges: ["UC Santa Barbara", "Cal State LA", "UC Davis", "CSU Sacramento"]
+      },
+      {
+        major: "Software Engineer",
+        salary: "$105,000",
+        employment: "95%",
+        summary: "Builds and maintains computer programs and systems.",
+        colleges: ["UC San Diego", "San Jose State", "UC Irvine", "CSU East Bay"]
+      }
+    ],
+    "biology": [
+      {
+        major: "Biologist",
+        salary: "$70,000",
+        employment: "89%",
+        summary: "Studies living organisms and ecosystems.",
+        colleges: ["UC Davis", "UCLA", "Cal Poly SLO", "CSU Long Beach"]
+      },
+      {
+        major: "Biomedical Engineer",
+        salary: "$93,000",
+        employment: "90%",
+        summary: "Applies engineering to healthcare solutions.",
+        colleges: ["UC Irvine", "UC San Diego", "CSU Northridge", "Santa Clara University"]
+      },
+      {
+        major: "Bioinformatics Analyst",
+        salary: "$95,000",
+        employment: "88%",
+        summary: "Combines biology and coding to analyze data.",
+        colleges: ["UC Santa Cruz", "UC San Diego", "Cal State LA"]
+      },
+      {
+        major: "Biology Teacher",
+        salary: "$58,000",
+        employment: "85%",
+        summary: "Teaches biology in schools and colleges.",
+        colleges: ["CSU Fullerton", "UC Riverside", "CSU Chico"]
+      }
+    ],
+    // Add similar "colleges" arrays to other categories too
+  };
+
+  function searchMajors() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const results = document.getElementById("resultsContainer");
+    results.innerHTML = "";
+
+    if (!query) return;
+
+    let found = false;
+
+    for (const interest in database) {
+      if (interest.includes(query)) {
+        database[interest].forEach(item => {
+          const card = document.createElement("div");
+          card.classList.add("card");
+
+          const collegeList = item.colleges.map(college => `<li>${college}</li>`).join("");
+
+          card.innerHTML = `
+            <h2>${item.major}</h2>
+            <p><strong>Salary:</strong> ${item.salary}</p>
+            <p><strong>Employment Rate:</strong> ${item.employment}</p>
+            <p>${item.summary}</p>
+            <p><strong>🎓 California Colleges:</strong></p>
+            <ul style="padding-left: 20px; color: #bbb;">${collegeList}</ul>
+          `;
+          results.appendChild(card);
+          found = true;
+        });
+      }
+    }
+
+    if (!found) {
+      results.innerHTML = "<p class='no-result'>No matching majors found. Try another interest like 'math' or 'biology'.</p>";
+    }
+  }
+</script>
 
