@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pathfinder | Discover Your Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+      color: #1a237e;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px 40px;
+      background: #1565c0;
+      color: white;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      color: #bbdefb;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 1rem;
+      background: white;
+      color: #1565c0;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #90caf9;
+      color: #0d47a1;
+      transform: scale(1.05);
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: #f9f9f9;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+    }
+
+    .card h2 {
+      color: #0d47a1;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    footer {
+      margin-top: auto;
+      background: #eeeeee;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pathfinder</h1>
+    <p>Helping students explore majors, careers, and college possibilities</p>
+    <a href="explore.html" class="btn">Start Exploring</a>
+  </header>
+
+  <div class="section">
+    <div class="features">
+      <div class="card">
+        <h2>🎯 Interest-Based Search</h2>
+        <p>Pick your passion — like art, engineering, or business — and we’ll show matching majors.</p>
+      </div>
+      <div class="card">
+        <h2>💼 Income & Job Outlook</h2>
+        <p>Compare majors by income, employment rate, and what classes you’ll take.</p>
+      </div>
+      <div class="card">
+        <h2>🎓 California College Matches</h2>
+        <p>See which colleges accept your GPA and major — with real acceptance rates.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Made by Omar • Pathfinder © 2025
+  </footer>
+</body>
+</html>
 
