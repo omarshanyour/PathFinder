@@ -6,11 +6,7 @@
   <title>Pathfinder | Discover Your Future</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Outfit', sans-serif;
@@ -20,6 +16,28 @@
       display: flex;
       flex-direction: column;
     }
+
+    /* NEW NAV */
+    nav {
+      background: #0d1117;
+      border-bottom: 1px solid #2a2f36;
+      padding: 14px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand { font-weight: 700; letter-spacing: .3px; color: #9cb5f0; }
+    .links a {
+      color: #82b1ff;
+      text-decoration: none;
+      margin-left: 16px;
+      font-weight: 700;
+      transition: .2s;
+    }
+    .links a:hover { color: #ffffff; }
 
     header {
       text-align: center;
@@ -40,6 +58,13 @@
       color: #9cb5f0;
     }
 
+    .cta-row {
+      display: inline-flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
     .btn {
       display: inline-block;
       padding: 15px 30px;
@@ -52,11 +77,22 @@
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(41, 121, 255, 0.3);
     }
-
     .btn:hover {
       background: #5393ff;
       transform: scale(1.05);
       box-shadow: 0 6px 20px rgba(41, 121, 255, 0.5);
+    }
+    .btn.secondary {
+      background: transparent;
+      border: 2px solid #2979ff;
+      color: #9cb5f0;
+      box-shadow: none;
+    }
+    .btn.secondary:hover {
+      color: #ffffff;
+      border-color: #5393ff;
+      background: rgba(83,147,255,0.08);
+      transform: none;
     }
 
     .section {
@@ -120,10 +156,23 @@
   </style>
 </head>
 <body>
+  <!-- NEW NAV -->
+  <nav>
+    <div class="brand">Pathfinder</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="colleges.html">Colleges</a>
+    </div>
+  </nav>
+
   <header>
     <h1>Pathfinder</h1>
     <p>Helping students explore majors, careers, and college possibilities</p>
-    <a href="explore.html" class="btn">Start Exploring</a>
+    <div class="cta-row">
+      <a href="explore.html" class="btn">Start Exploring</a>
+      <a href="colleges.html" class="btn secondary">Find Colleges</a>
+    </div>
   </header>
 
   <div class="section">
