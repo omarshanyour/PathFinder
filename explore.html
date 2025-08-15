@@ -14,13 +14,12 @@
 
     body {
       font-family: 'Outfit', sans-serif;
-      background: #121212;
+      background: #0e0e0e;
       color: #e0e0e0;
-      min-height: 100vh;
     }
 
     nav {
-      background-color: #1f1f1f;
+      background: #111;
       padding: 15px 30px;
       display: flex;
       justify-content: space-between;
@@ -31,9 +30,9 @@
     nav a {
       color: #82b1ff;
       text-decoration: none;
-      font-weight: bold;
       margin: 0 15px;
-      transition: 0.3s;
+      font-weight: bold;
+      transition: 0.3s ease;
     }
 
     nav a:hover {
@@ -42,225 +41,335 @@
 
     header {
       text-align: center;
-      padding: 40px 20px 20px;
+      padding: 50px 20px 20px;
     }
 
     header h1 {
-      font-size: 2.6rem;
+      font-size: 2.7rem;
+      color: #82b1ff;
+      text-shadow: 0 0 5px #82b1ff;
       margin-bottom: 10px;
     }
 
     header p {
-      color: #9e9e9e;
+      color: #aaa;
     }
 
     .container {
-      max-width: 1000px;
-      margin: 20px auto;
+      max-width: 1100px;
+      margin: 40px auto;
       padding: 0 20px;
     }
 
     input {
       width: 100%;
-      padding: 12px 16px;
-      margin: 20px 0;
+      padding: 14px 18px;
       font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #555;
-      background-color: #1f1f1f;
+      margin: 20px 0;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background: #1b1b1b;
       color: #e0e0e0;
     }
 
     .card {
-      background-color: #1e1e1e;
+      background: #1a1a1a;
       border: 1px solid #333;
       padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.3s ease;
     }
 
     .card:hover {
-      background-color: #2a2a2a;
+      background-color: #232323;
+      box-shadow: 0 0 12px #2979ff3d;
     }
 
     .card h2 {
+      font-size: 1.4rem;
       color: #82b1ff;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
 
     .details {
       display: none;
       margin-top: 15px;
       color: #ccc;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     ul {
       padding-left: 20px;
     }
 
-    .nav-links {
-      display: flex;
+    .links a {
+      color: #64b5f6;
+      text-decoration: underline;
+      display: block;
+      margin: 5px 0;
+    }
+
+    .links a:hover {
+      color: #ffffff;
     }
 
     .nav-title {
-      font-size: 1.2rem;
-      color: #82b1ff;
       font-weight: bold;
+      font-size: 1.3rem;
+      color: #82b1ff;
     }
   </style>
 </head>
 <body>
   <nav>
     <div class="nav-title">Pathfinder</div>
-    <div class="nav-links">
+    <div>
       <a href="index.html">Home</a>
       <a href="explore.html">Explore</a>
-      <a href="#">Colleges</a> <!-- Placeholder for future -->
+      <a href="#">Colleges</a>
     </div>
   </nav>
 
   <header>
     <h1>Explore Majors</h1>
-    <p>Type an interest or field to explore career and college options</p>
+    <p>Click on a major to explore career info, classes, salary, and resources</p>
   </header>
 
   <div class="container">
-    <input type="text" id="searchInput" placeholder="Try 'biology', 'engineering', 'nursing'..." oninput="searchMajors()">
+    <input type="text" id="searchInput" placeholder="Search by field... (e.g., biology, business, nursing)" oninput="searchMajors()">
     <div id="resultsContainer"></div>
   </div>
 <!-- END OF CHUNK 1 -->
 <script>
-  const majorsData = {
-    "biology": {
-      summary: "Biology is the study of life and living organisms. Students dive into ecosystems, genetics, and anatomy.",
-      salary: "$70,000",
-      difficulty: "Medium to High",
-      outlook: "89% employment rate",
-      tests: "MCAT (for med), GRE (grad school)",
-      classes: ["Cell Biology", "Genetics", "Human Anatomy", "Ecology", "Microbiology"],
-      colleges: ["UC Davis", "UCLA", "Cal Poly SLO", "CSU Long Beach"]
-    },
-    "engineering": {
-      summary: "Engineering involves solving real-world problems using math, science, and creativity.",
-      salary: "$91,000",
-      difficulty: "High",
-      outlook: "92% employment rate",
-      tests: "FE Exam, PE License (later)",
-      classes: ["Physics", "Calculus", "Statics", "Materials Science", "Thermodynamics"],
-      colleges: ["UC Berkeley", "Cal Poly SLO", "San Jose State", "CSU Fullerton"]
-    },
-    "nursing": {
-      summary: "Nursing is about providing patient care and working closely with doctors to improve health outcomes.",
-      salary: "$77,000",
-      difficulty: "High (clinical work + exams)",
-      outlook: "94% employment rate",
-      tests: "NCLEX-RN",
-      classes: ["Human Anatomy", "Pharmacology", "Patient Care", "Health Assessment"],
-      colleges: ["CSU San Marcos", "CSU Fresno", "UCLA", "UC Irvine"]
-    },
-    "psychology": {
-      summary: "Psychology is the scientific study of behavior and mental processes. Great for therapy, HR, or research careers.",
-      salary: "$58,000",
-      difficulty: "Medium",
-      outlook: "86% employment rate",
-      tests: "GRE Psychology (grad), licensing for therapy",
-      classes: ["Intro to Psych", "Abnormal Psychology", "Developmental Psychology", "Neuroscience"],
-      colleges: ["UC San Diego", "UC Berkeley", "CSU Long Beach", "UC Riverside"]
-    },
-    "math": {
-      summary: "Math majors study patterns, data, and problem-solving. It's foundational for tech, science, and finance careers.",
-      salary: "$88,000",
-      difficulty: "High",
-      outlook: "89% employment rate",
-      tests: "GRE Math (optional for grad)",
-      classes: ["Calculus I-III", "Linear Algebra", "Abstract Algebra", "Probability", "Statistics"],
-      colleges: ["UC Santa Barbara", "Cal Poly Pomona", "CSU East Bay"]
-    },
-    "business": {
-      summary: "Business covers management, marketing, and entrepreneurship — ideal for future leaders and innovators.",
-      salary: "$65,000",
-      difficulty: "Medium",
-      outlook: "90% employment rate",
-      tests: "GMAT (for MBA)",
-      classes: ["Microeconomics", "Accounting", "Finance", "Marketing", "Business Law"],
-      colleges: ["San Diego State", "UC Riverside", "CSU Fullerton", "UC Berkeley"]
-    },
-    "finance": {
-      summary: "Finance majors learn how to manage money, analyze markets, and assess risk. Great for Wall Street careers.",
-      salary: "$85,000",
-      difficulty: "Medium to High",
-      outlook: "88% employment rate",
-      tests: "CFA, Series 7 (optional for finance jobs)",
-      classes: ["Corporate Finance", "Investments", "Econometrics", "Accounting", "Financial Modeling"],
-      colleges: ["UCLA", "CSU Northridge", "UC Irvine", "Santa Clara University"]
-    },
-    "education": {
-      summary: "Education majors learn how to teach, mentor, and lead classrooms in a variety of subjects and grade levels.",
-      salary: "$54,000",
-      difficulty: "Medium",
-      outlook: "91% employment rate",
-      tests: "CBEST, CSET, RICA (CA teaching)",
-      classes: ["Child Development", "Curriculum Planning", "Instructional Methods", "Educational Psychology"],
-      colleges: ["CSU Chico", "CSU San Bernardino", "UC Riverside", "San Jose State"]
+const majorsData = {
+  "biology": {
+    summary: "Study of living organisms, including anatomy, ecosystems, genetics, and cells. Prepares students for medicine, research, or teaching.",
+    salary: "$70,000 - $95,000",
+    studyYears: "4 years (BS), 6–8 years for MD/PhD",
+    passRate: "72% graduation rate nationally",
+    outlook: "89% employment",
+    tests: ["GRE (grad school)", "MCAT (pre-med)"],
+    classes: ["Genetics", "Microbiology", "Anatomy", "Biochemistry"],
+    colleges: ["UC Davis", "UCLA", "Cal Poly SLO", "CSU Long Beach"],
+    links: {
+      official: "https://www.biologyonline.com/",
+      salary: "https://www.bls.gov/ooh/life-physical-and-social-science/biological-technicians.htm",
+      video: "https://www.youtube.com/watch?v=IStkXaSSj6g"
     }
-  };
+  },
+  "nursing": {
+    summary: "Focuses on patient care, working with doctors, and managing health outcomes in hospitals and clinics.",
+    salary: "$65,000 - $100,000",
+    studyYears: "2–4 years (ADN or BSN)",
+    passRate: "87% NCLEX pass rate (U.S. avg)",
+    outlook: "94% employment rate",
+    tests: ["NCLEX-RN"],
+    classes: ["Pharmacology", "Anatomy", "Health Assessment", "Pediatrics"],
+    colleges: ["UCLA", "UC Irvine", "CSU San Marcos"],
+    links: {
+      official: "https://www.nursingworld.org/",
+      salary: "https://www.bls.gov/ooh/healthcare/registered-nurses.htm",
+      video: "https://www.youtube.com/watch?v=4XzI4unfeKs"
+    }
+  },
+  "engineering": {
+    summary: "A broad major focused on solving problems through math, science, and technology. Leads to specialties like mechanical, civil, or electrical.",
+    salary: "$80,000 - $120,000",
+    studyYears: "4 years (BS)",
+    passRate: "65% graduation rate nationally",
+    outlook: "92% employment",
+    tests: ["FE Exam", "PE License (optional)"],
+    classes: ["Physics", "Calculus", "Statics", "Thermodynamics"],
+    colleges: ["UC Berkeley", "Cal Poly SLO", "San Jose State", "CSU Fullerton"],
+    links: {
+      official: "https://www.nspe.org/resources/licensure",
+      salary: "https://www.bls.gov/ooh/architecture-and-engineering/home.htm",
+      video: "https://www.youtube.com/watch?v=tuZxFL9cGkI"
+    }
+  },
+  "psychology": {
+    summary: "The study of behavior, thoughts, and emotions. Paths include therapy, research, education, or HR.",
+    salary: "$55,000 - $95,000",
+    studyYears: "4 years (BA), 6+ years (PhD or PsyD)",
+    passRate: "60% graduate school acceptance",
+    outlook: "86% employment rate",
+    tests: ["GRE", "EPPP (for licensure)"],
+    classes: ["Abnormal Psych", "Cognitive Psych", "Neuroscience", "Research Methods"],
+    colleges: ["UC San Diego", "UC Berkeley", "CSU Long Beach"],
+    links: {
+      official: "https://www.apa.org/careers/resources/guides/careers",
+      salary: "https://www.bls.gov/ooh/community-and-social-service/psychologists.htm",
+      video: "https://www.youtube.com/watch?v=vo4pMVb0R6M"
+    }
+  },
+  "computer science": {
+    summary: "Study of computing, programming, and systems. Prepares students for software development, data science, and AI careers.",
+    salary: "$90,000 - $160,000",
+    studyYears: "4 years (BS)",
+    passRate: "65% graduation rate",
+    outlook: "95% employment rate",
+    tests: ["None required, optional certifications"],
+    classes: ["Data Structures", "Algorithms", "Web Dev", "Machine Learning"],
+    colleges: ["UC Irvine", "UC San Diego", "Stanford", "CSU East Bay"],
+    links: {
+      official: "https://cs50.harvard.edu/",
+      salary: "https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm",
+      video: "https://www.youtube.com/watch?v=O5nskjZ_GoI"
+    }
+  },
+  "business": {
+    summary: "Covers management, marketing, entrepreneurship, and leadership. Useful for launching companies or working in corporate roles.",
+    salary: "$60,000 - $110,000",
+    studyYears: "4 years (BS or BBA)",
+    passRate: "78% national graduation rate",
+    outlook: "90% employment rate",
+    tests: ["GMAT (for MBA)"],
+    classes: ["Microeconomics", "Finance", "Marketing", "Operations"],
+    colleges: ["UC Riverside", "UC Berkeley", "CSU Fullerton", "USC"],
+    links: {
+      official: "https://www.hbs.edu/",
+      salary: "https://www.bls.gov/ooh/management/home.htm",
+      video: "https://www.youtube.com/watch?v=F0jYFz2T3XI"
+    }
+  },
+  "finance": {
+    summary: "Focuses on managing money, analyzing investments, and preparing reports. Great for careers in banking and wealth management.",
+    salary: "$75,000 - $135,000",
+    studyYears: "4 years (BS)",
+    passRate: "63% CFA Level I",
+    outlook: "88% employment rate",
+    tests: ["CFA", "Series 7 (optional)"],
+    classes: ["Corporate Finance", "Investments", "Risk Management", "Econometrics"],
+    colleges: ["UCLA", "CSU Northridge", "Santa Clara University"],
+    links: {
+      official: "https://www.cfainstitute.org/",
+      salary: "https://www.bls.gov/ooh/business-and-financial/financial-analysts.htm",
+      video: "https://www.youtube.com/watch?v=EGcCE5XSYV4"
+    }
+  },
+  "education": {
+    summary: "Prepares students to become teachers, counselors, or administrators. Focused on learning theory, child development, and curriculum.",
+    salary: "$50,000 - $75,000",
+    studyYears: "4–5 years (includes credential)",
+    passRate: "70% average CA teacher credential exams",
+    outlook: "91% employment rate",
+    tests: ["CBEST", "CSET", "RICA"],
+    classes: ["Curriculum Planning", "Instruction Methods", "Psychology of Learning"],
+    colleges: ["CSU Chico", "UC Riverside", "San Jose State"],
+    links: {
+      official: "https://www.ctc.ca.gov/",
+      salary: "https://www.bls.gov/ooh/education-training-and-library/home.htm",
+      video: "https://www.youtube.com/watch?v=K2x1NK3jS5A"
+    }
+  },
+  "law": {
+    summary: "Law prepares students to become attorneys, judges, or legal analysts. Covers constitutional, criminal, and civil law.",
+    salary: "$75,000 - $160,000",
+    studyYears: "7 years (BA + JD)",
+    passRate: "67% CA bar exam (2024)",
+    outlook: "84% employment rate",
+    tests: ["LSAT", "Bar Exam"],
+    classes: ["Legal Writing", "Contracts", "Constitutional Law", "Torts"],
+    colleges: ["UC Hastings", "UCLA", "USC Gould", "Berkeley Law"],
+    links: {
+      official: "https://www.lsac.org/",
+      salary: "https://www.bls.gov/ooh/legal/lawyers.htm",
+      video: "https://www.youtube.com/watch?v=kDh3nJ-RrCA"
+    }
+  },
+  "art": {
+    summary: "Covers creative expression through design, illustration, animation, and visual media. Opens paths in creative industries.",
+    salary: "$45,000 - $85,000",
+    studyYears: "4 years (BFA/BA)",
+    passRate: "Varies by school",
+    outlook: "78% employment",
+    tests: ["Portfolio required"],
+    classes: ["Drawing", "Digital Media", "Art History", "Color Theory"],
+    colleges: ["CalArts", "CSU Long Beach", "UC Irvine", "Otis College"],
+    links: {
+      official: "https://www.artinstitutes.edu/",
+      salary: "https://www.bls.gov/ooh/arts-and-design/home.htm",
+      video: "https://www.youtube.com/watch?v=pWV2ZtxTq3E"
+    }
+  },
+  "environmental science": {
+    summary: "Study of the environment and solutions to environmental problems. Great for careers in conservation and sustainability.",
+    salary: "$60,000 - $90,000",
+    studyYears: "4 years (BS)",
+    passRate: "69% graduation rate",
+    outlook: "88% employment",
+    tests: ["None required"],
+    classes: ["Ecology", "Environmental Law", "Earth Systems", "Chemistry"],
+    colleges: ["UC Santa Barbara", "UC Davis", "CSU Humboldt"],
+    links: {
+      official: "https://www.epa.gov/education",
+      salary: "https://www.bls.gov/ooh/life-physical-and-social-science/environmental-scientists.htm",
+      video: "https://www.youtube.com/watch?v=JpE5Ug1h9dM"
+    }
+  }
+};
 </script>
-<!-- END OF CHUNK 2 -->
+<!-- END OF CHUNK 2N -->
 <script>
-  function searchMajors() {
-    const query = document.getElementById("searchInput").value.toLowerCase();
-    const resultsContainer = document.getElementById("resultsContainer");
-    resultsContainer.innerHTML = "";
+function searchMajors() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const results = document.getElementById("resultsContainer");
+  results.innerHTML = "";
 
-    if (!query) return;
+  if (!input) return;
 
-    let found = false;
+  let found = false;
 
-    for (const major in majorsData) {
-      if (major.includes(query)) {
-        found = true;
+  for (const key in majorsData) {
+    if (key.includes(input)) {
+      found = true;
+      const data = majorsData[key];
+      const card = document.createElement("div");
+      card.classList.add("card");
 
-        const data = majorsData[major];
-        const card = document.createElement("div");
-        card.classList.add("card");
+      const id = "details-" + key.replace(/\s+/g, '-');
 
-        const id = "details-" + major;
-
-        card.innerHTML = `
-          <h2>${capitalize(major)}</h2>
-          <p><strong>Salary:</strong> ${data.salary}</p>
-          <p><strong>Difficulty:</strong> ${data.difficulty}</p>
-          <div class="details" id="${id}">
-            <p><strong>Summary:</strong> ${data.summary}</p>
-            <p><strong>Job Outlook:</strong> ${data.outlook}</p>
-            <p><strong>Important Tests:</strong> ${data.tests}</p>
-            <p><strong>Core Classes:</strong></p>
-            <ul>${data.classes.map(cls => `<li>${cls}</li>`).join("")}</ul>
-            <p><strong>🎓 California Colleges:</strong></p>
-            <ul>${data.colleges.map(college => `<li>${college}</li>`).join("")}</ul>
+      card.innerHTML = `
+        <h2>${capitalize(key)}</h2>
+        <p><strong>Salary:</strong> ${data.salary}</p>
+        <p><strong>Study Time:</strong> ${data.studyYears}</p>
+        <p><strong>Employment Rate:</strong> ${data.outlook}</p>
+        <div class="details" id="${id}">
+          <p><strong>Summary:</strong> ${data.summary}</p>
+          <p><strong>Pass Rate:</strong> ${data.passRate}</p>
+          <p><strong>Key Tests:</strong> ${data.tests.join(', ')}</p>
+          <p><strong>Core Classes:</strong></p>
+          <ul>${data.classes.map(cls => `<li>${cls}</li>`).join("")}</ul>
+          <p><strong>Top California Colleges:</strong></p>
+          <ul>${data.colleges.map(college => `<li>${college}</li>`).join("")}</ul>
+          <p><strong>Resources:</strong></p>
+          <div class="links">
+            <a href="${data.links.official}" target="_blank">📘 Official Site</a>
+            <a href="${data.links.salary}" target="_blank">💰 Salary Info</a>
+            <a href="${data.links.video}" target="_blank">▶️ Video Overview</a>
           </div>
-        `;
+        </div>
+      `;
 
-        card.onclick = () => {
-          const details = document.getElementById(id);
-          details.style.display = details.style.display === "block" ? "none" : "block";
-        };
+      card.onclick = () => {
+        const details = document.getElementById(id);
+        details.style.display = details.style.display === "block" ? "none" : "block";
+      };
 
-        resultsContainer.appendChild(card);
-      }
-    }
-
-    if (!found) {
-      resultsContainer.innerHTML = `<p style="color:#999; margin-top:20px;">No majors found. Try something like "biology", "psychology", or "engineering".</p>`;
+      results.appendChild(card);
     }
   }
 
-  function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+  if (!found) {
+    results.innerHTML = "<p style='color:#999; margin-top:20px;'>No matching majors found. Try something like 'biology', 'law', or 'engineering'.</p>";
   }
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 </script>
 <!-- END OF CHUNK 3 -->
 </body>
