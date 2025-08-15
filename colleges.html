@@ -7,19 +7,49 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b1020; --panel:#0f1533; --muted:#9aa4c7; --text:#eaf0ff; --accent:#4da3ff; --accent-2:#7cc8ff;
-      --ok:#1ed760; --warn:#ffcc00; --danger:#ff5c5c; --line:#243066;
-      --glass:linear-gradient(180deg,#10183a,#0c1230);
+      --bg:#070c1e; --panel:#0f1533; --muted:#9aa4c7; --text:#eaf0ff; --accent:#4da3ff; --accent-2:#7cc8ff;
+      --ok:#1ed760; --warn:#ffcc00; --danger:#ff5c5c; --line:#243066; --glass:linear-gradient(180deg,#10183a,#0c1230);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:
-      radial-gradient(1200px 800px at 10% -10%,#13224d 0%, transparent 50%),
-      radial-gradient(1000px 700px at 110% 10%, #0c1a3a 0%, transparent 50%), var(--bg);color:var(--text)}
+    body{margin:0;font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden}
     a{color:var(--text);text-decoration:none}
 
+    /* ===== SUPER COOL ANIMATED BACKGROUND (CSS-only, no libs) ===== */
+    .bg{position:fixed;inset:0;z-index:-2;overflow:hidden}
+    /* subtle starfield */
+    .bg:before{content:"";position:absolute;inset:-20%;background:
+      radial-gradient(2px 2px at 20% 30%,#9fb2ff88,transparent 60%),
+      radial-gradient(1.5px 1.5px at 70% 20%,#9fb2ff66,transparent 60%),
+      radial-gradient(1.7px 1.7px at 40% 70%,#7cc8ff66,transparent 60%),
+      radial-gradient(1.3px 1.3px at 85% 60%,#c7d6ff55,transparent 60%),
+      radial-gradient(1.2px 1.2px at 55% 45%,#7aa7ff55,transparent 60%),
+      radial-gradient(1.2px 1.2px at 10% 80%,#7aa7ff55,transparent 60%),
+      radial-gradient(1.2px 1.2px at 92% 12%,#7aa7ff55,transparent 60%);
+      filter:drop-shadow(0 0 4px #9fb2ff66);
+      animation: drift 120s linear infinite;
+    }
+    @keyframes drift{to{transform:translate3d(-2%, -4%, 0)}}
+    /* moving holographic orbs */
+    .orb{position:absolute;filter:blur(45px) saturate(115%);opacity:.55}
+    .orb.one{width:40vw;height:40vw;left:-10vw;top:-10vw;background:radial-gradient(circle at 30% 30%,#2745ff,transparent 55%), radial-gradient(circle at 60% 70%,#00e1ff,transparent 55%);animation: float1 22s ease-in-out infinite}
+    .orb.two{width:45vw;height:45vw;right:-15vw;top:10vh;background:radial-gradient(circle at 60% 40%,#7a30ff,transparent 55%), radial-gradient(circle at 30% 60%,#00d1ff,transparent 55%);animation: float2 28s ease-in-out infinite}
+    .orb.three{width:55vw;height:55vw;left:10vw;bottom:-20vh;background:radial-gradient(circle at 40% 50%,#00ffa6,transparent 55%), radial-gradient(circle at 70% 30%,#3a63ff,transparent 55%);animation: float3 32s ease-in-out infinite}
+    @keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(6vh)}}
+    @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-4vh)}}
+    @keyframes float3{0%,100%{transform:translateY(0)}50%{transform:translateY(8vh)}}
+    /* tech grid overlay */
+    .grid-overlay{position:absolute;inset:0;pointer-events:none;opacity:.08;background:
+      linear-gradient(transparent 96%, #7aa7ff 96%),
+      linear-gradient(90deg, transparent 96%, #7aa7ff 96%);
+      background-size: 22px 22px, 22px 22px;
+      mask-image: radial-gradient(circle at 60% 20%, black 0 35%, transparent 60%);
+      animation: gridGlow 8s ease-in-out infinite alternate;
+    }
+    @keyframes gridGlow{to{opacity:.14;filter:hue-rotate(20deg)}}
+
     .container{max-width:1280px;margin:0 auto;padding:24px}
-    header{position:sticky;top:0;background:rgba(11,16,32,.7);backdrop-filter: blur(8px);border-bottom:1px solid #1b2550;z-index:20}
+    header{position:sticky;top:0;background:rgba(11,16,32,.7);backdrop-filter: blur(10px);border-bottom:1px solid #1b2550;z-index:20}
     nav{display:flex;gap:14px;align-items:center;justify-content:space-between}
     .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
     .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
@@ -34,7 +64,7 @@
 
     .panel{background:var(--glass);border:1px solid #233068;border-radius:18px;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02)}
 
-    /* COACH (typewriter prompt) */
+    /* Typewriter coach */
     .coach{display:flex;align-items:center;gap:8px;border:1px solid #223068;background:#0a1331AA;padding:12px 14px;border-radius:14px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
     .coach .caret{width:10px;height:18px;background:#8fb8ff;display:inline-block;margin-left:4px;animation:blink 1s steps(1) infinite}
     @keyframes blink{50%{opacity:0}}
@@ -43,14 +73,12 @@
     .coach .dot:nth-child(2){animation-delay:.15s}.coach .dot:nth-child(3){animation-delay:.3s}
     @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-4px);opacity:1}}
 
-    /* STEPPER */
+    /* Stepper */
     .stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
     .step{background:#0b1332;border:1px solid #223068;border-radius:12px;padding:10px;text-align:center;color:#9fb2ff}
     .step.active{background:#14205a;color:#fff;border-color:#2e4dac}
 
-    /* FORM */
-    .row{display:grid;grid-template-columns:1fr;gap:12px}
-    @media (min-width:800px){.row{grid-template-columns:1fr 1fr}}
+    /* Inputs */
     label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
     input,select,button{width:100%;padding:14px 16px;border-radius:12px;background:#0a1331;border:1px solid #243470;color:var(--text);font-size:15px}
     input:focus,select:focus,button:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.25)}
@@ -79,10 +107,10 @@
     .why{font-size:12.5px;color:#c8d3ff;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
     .mini-link{font-size:12px;border:1px solid #2a3a7a;border-radius:999px;padding:6px 10px;background:#0a1331;display:inline-block}
 
-    /* ACTION BAR */
+    /* Sticky action bar */
     .actionbar{position:sticky;bottom:0;left:0;right:0;background:rgba(10,15,30,.85);backdrop-filter:blur(8px);border-top:1px solid #223068;padding:10px;display:flex;justify-content:space-between;align-items:center;z-index:15}
 
-    /* DRAWER (Bookmarks) */
+    /* Drawer (Bookmarks) */
     .drawer{position:fixed;top:64px;right:16px;width:360px;max-width:92vw;background:var(--panel);border:1px solid #233068;border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,.45);padding:14px;display:none;z-index:30}
     .drawer.open{display:block}
     .bm-empty{color:var(--muted);font-size:13px}
@@ -94,14 +122,32 @@
     .star{cursor:pointer;user-select:none}
     .star.filled{filter:drop-shadow(0 0 6px var(--accent))}
 
-    /* LOADER */
-    .loader{display:inline-flex;gap:6px;margin-left:6px}
-    .loader .dot{width:8px;height:8px;border-radius:50%;background:#9fb2ff;opacity:.4;animation:bounce 1s infinite ease-in-out}
-    .loader .dot:nth-child(2){animation-delay:.15s}.loader .dot:nth-child(3){animation-delay:.3s}
-    @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-4px);opacity:1}}
+    /* ===== Animated view transitions (slides + fades) ===== */
+    .views{position:relative;min-height:140px}
+    .view{position:relative}
+    @media (min-width:800px){.view{display:grid;grid-template-columns:1fr 200px;gap:12px}}
+    .view.hidden{display:none}
+
+    .slide{position:relative}
+    .slide-enter-right{animation:enterRight .35s cubic-bezier(.25,.8,.25,1)}
+    .slide-exit-left{animation:exitLeft .32s cubic-bezier(.25,.8,.25,1)}
+    .slide-enter-left{animation:enterLeft .35s cubic-bezier(.25,.8,.25,1)}
+    .slide-exit-right{animation:exitRight .32s cubic-bezier(.25,.8,.25,1)}
+    @keyframes enterRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes exitLeft{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-28px)}}
+    @keyframes enterLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes exitRight{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(28px)}}
   </style>
 </head>
 <body>
+  <!-- Animated background layers -->
+  <div class="bg">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
   <header>
     <div class="container">
       <nav>
@@ -132,29 +178,32 @@
         <div class="step" id="s3">3. Results</div>
       </div>
 
-      <div class="row" id="step1">
-        <div>
-          <label for="gpa">Weighted GPA (can be above 4.0)</label>
-          <input id="gpa" type="number" min="0" max="5.00" step="0.01" placeholder="e.g., 4.18" />
+      <div class="views">
+        <!-- STEP 1 -->
+        <div id="view1" class="view slide">
+          <div>
+            <label for="gpa">Weighted GPA (can be above 4.0)</label>
+            <input id="gpa" type="number" min="0" max="5.00" step="0.01" placeholder="e.g., 4.18" />
+          </div>
+          <div style="align-self:end"><button id="toStep2">Next →</button></div>
         </div>
-        <div style="align-self:end"><button id="toStep2">Next →</button></div>
-      </div>
-
-      <div class="row" id="step2" style="display:none">
-        <div>
-          <label for="major">Major</label>
-          <input list="majors" id="major" placeholder="Start typing… e.g., Electrical Engineering" />
-          <datalist id="majors"></datalist>
-        </div>
-        <div style="display:flex;gap:8px;align-items:end">
-          <button id="back1">← Back</button>
-          <button id="run">Show Results</button>
+        <!-- STEP 2 -->
+        <div id="view2" class="view slide hidden">
+          <div>
+            <label for="major">Major</label>
+            <input list="majors" id="major" placeholder="Start typing… e.g., Electrical Engineering" />
+            <datalist id="majors"></datalist>
+          </div>
+          <div style="display:flex;gap:8px;align-items:end">
+            <button id="back1">← Back</button>
+            <button id="run">Show Results</button>
+          </div>
         </div>
       </div>
 
       <details class="collapse" id="filters">
         <summary><strong>Filters</strong></summary>
-        <div class="row" style="margin-top:8px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">
           <label>System
             <select id="system">
               <option value="ALL">All</option>
@@ -179,10 +228,10 @@
 
     <section class="panel">
       <div class="table-wrap" id="tableWrap"><div id="results" aria-live="polite"></div></div>
-      <div class="chips" id="legend" style="margin-top:10px">
-        <span class="chip"><span class="tag safety">Safety</span> GPA ≥ midpoint + 0.20</span>
-        <span class="chip"><span class="tag target">Target</span> |GPA − midpoint| ≤ 0.15</span>
-        <span class="chip"><span class="tag reach">Reach</span> GPA ≤ midpoint − 0.16</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px" id="legend">
+        <span class="mini-link"><span class="tag safety">Safety</span> GPA ≥ midpoint + 0.20</span>
+        <span class="mini-link"><span class="tag target">Target</span> |GPA − midpoint| ≤ 0.15</span>
+        <span class="mini-link"><span class="tag reach">Reach</span> GPA ≤ midpoint − 0.16</span>
       </div>
     </section>
 
@@ -207,13 +256,13 @@
   </main>
 
   <script>
-    // ====== Majors ======
+    // ===== Majors =====
     const MAJORS = [
       "Electrical Engineering","Civil Engineering","Mechanical Engineering","Materials Science",
       "Computer Science","Business Administration","Finance","Mathematics","Psychology","Nursing","Liberal Arts"
     ];
 
-    // ====== Dataset (demo) ======
+    // ===== Dataset (demo) =====
     const COLLEGES = [
       {name:"UC Berkeley", system:"UC", midGpa:4.25, admitRate:12, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science","Liberal Arts"], midByMajor:{"Electrical Engineering":4.28,"Computer Science":4.30,"Mathematics":4.18,"Liberal Arts":4.08}},
       {name:"UCLA", system:"UC", midGpa:4.23, admitRate:11, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Psychology","Mathematics","Liberal Arts"], midByMajor:{"Electrical Engineering":4.26,"Computer Science":4.29,"Psychology":4.15,"Mathematics":4.17,"Liberal Arts":4.05}},
@@ -236,26 +285,16 @@
       {name:"Stanford", system:"Private", midGpa:4.30, admitRate:4, majors:["Computer Science","Mathematics","Electrical Engineering","Liberal Arts"], midByMajor:{"Computer Science":4.33,"Mathematics":4.25}}
     ];
 
-    // ====== Helpers ======
+    // ===== Helpers =====
     const majorsDL = document.getElementById('majors');
     MAJORS.forEach(m => majorsDL.insertAdjacentHTML('beforeend', `<option value="${m}"></option>`));
     const getMidpoint = (college, major) => (college.midByMajor && college.midByMajor[major]) ? college.midByMajor[major] : college.midGpa;
     const admissionsUrl = (name) => `https://www.google.com/search?q=${encodeURIComponent(name+' undergraduate admissions')}`;
     const fitTagClass = (b) => b==='Safety'?'safety':(b==='Target'?'target':'reach');
+    function classify(gpa, midpoint){ if (isNaN(gpa) || isNaN(midpoint)) return {band:"—", diff:NaN}; const diff = +(gpa - midpoint).toFixed(2); if (diff >= 0.20) return {band:"Safety", diff}; if (Math.abs(diff) <= 0.15) return {band:"Target", diff}; return {band:"Reach", diff}; }
+    function reasonText({gpa, mid, band, name, major}){ const delta = +(gpa - mid).toFixed(2); const aboveBelow = delta >= 0 ? 'above' : 'below'; const abs = Math.abs(delta).toFixed(2); return `${major?`<strong>${major}</strong> at ${name}`:name}: midpoint <strong>${mid.toFixed(2)}</strong>. Your GPA is <strong>${abs}</strong> ${aboveBelow} → <strong>${band}</strong>.`; }
 
-    function classify(gpa, midpoint){
-      if (isNaN(gpa) || isNaN(midpoint)) return {band:"—", diff:NaN};
-      const diff = +(gpa - midpoint).toFixed(2);
-      if (diff >= 0.20) return {band:"Safety", diff};
-      if (Math.abs(diff) <= 0.15) return {band:"Target", diff};
-      return {band:"Reach", diff};
-    }
-    function reasonText({gpa, mid, band, name, major}){
-      const delta = +(gpa - mid).toFixed(2); const aboveBelow = delta >= 0 ? 'above' : 'below'; const abs = Math.abs(delta).toFixed(2);
-      return `${major?`<strong>${major}</strong> at ${name}`:name}: midpoint <strong>${mid.toFixed(2)}</strong>. Your GPA is <strong>${abs}</strong> ${aboveBelow} → <strong>${band}</strong>.`;
-    }
-
-    // ====== Bookmarks (drawer, localStorage) ======
+    // ===== Bookmarks (drawer, localStorage) =====
     const LS_KEYS = {BOOKMARKS:'pf_bookmarks', PROFILE:'pf_profile'};
     const getJSON = (k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f;}catch{return f;}};
     const setJSON = (k,v)=>localStorage.setItem(k, JSON.stringify(v));
@@ -288,57 +327,56 @@
       });
     }
 
-    // ====== UI: Stepper & Typewriter coach ======
-    const s1=document.getElementById('s1'), s2=document.getElementById('s2'), s3=document.getElementById('s3');
-    function setStep(n){ [s1,s2,s3].forEach((el,i)=> el.classList.toggle('active', i===n-1)); }
-
+    // ===== Typewriter coach =====
     const coachText = document.getElementById('coachText');
     const coachDots = document.getElementById('coachDots');
-    let typing = false; let typeQueue = Promise.resolve();
-    function typeLine(text, speed=22){
-      return new Promise(resolve=>{
-        typing = true; coachDots.style.display='none'; coachText.textContent='';
-        let i=0; const timer = setInterval(()=>{
-          coachText.textContent += text.charAt(i++);
-          if(i>=text.length){ clearInterval(timer); typing=false; resolve(); }
-        }, speed);
-      });
-    }
+    let typing=false; let typeQueue=Promise.resolve();
+    function typeLine(text, speed=22){ return new Promise(resolve=>{ typing=true; coachDots.style.display='none'; coachText.textContent=''; let i=0; const t=setInterval(()=>{ coachText.textContent += text.charAt(i++); if(i>=text.length){ clearInterval(t); typing=false; resolve(); } }, speed); }); }
     function say(text){ typeQueue = typeQueue.then(()=>typeLine(text)); return typeQueue; }
     function thinking(on=true){ coachDots.style.display = on ? 'inline-flex' : 'none'; }
 
-    // ====== Flow: auto-advance & analyze ======
-    const gpa = document.getElementById('gpa');
-    const major = document.getElementById('major');
-    const step1 = document.getElementById('step1');
-    const step2 = document.getElementById('step2');
+    // ===== Animated step transitions =====
+    const s1=document.getElementById('s1'), s2=document.getElementById('s2'), s3=document.getElementById('s3');
+    const v1=document.getElementById('view1');
+    const v2=document.getElementById('view2');
+    const gpa=document.getElementById('gpa');
+    const major=document.getElementById('major');
 
-    function toStep2(){ step1.style.display='none'; step2.style.display='grid'; setStep(2); major.focus(); }
-    function toStep1(){ step2.style.display='none'; step1.style.display='grid'; setStep(1); gpa.focus(); }
+    function setStep(n){ [s1,s2,s3].forEach((el,i)=> el.classList.toggle('active', i===n-1)); }
+
+    function show(from, to, dir){
+      if(from===to) return;
+      const enter = dir==='forward' ? 'slide-enter-right' : 'slide-enter-left';
+      const exit  = dir==='forward' ? 'slide-exit-left' : 'slide-exit-right';
+      from.classList.add(exit);
+      to.classList.remove('hidden');
+      to.classList.add(enter);
+      const clean = (el, cls)=> el.addEventListener('animationend', function h(){ el.classList.remove(cls); el.removeEventListener('animationend', h); if(el===from) el.classList.add('hidden'); });
+      clean(from, exit);
+      clean(to, enter);
+    }
+
+    function toStep2(){ setStep(2); show(v1, v2, 'forward'); major.focus(); }
+    function backToStep1(){ setStep(1); show(v2, v1, 'back'); gpa.focus(); }
+
     document.getElementById('toStep2').addEventListener('click', toStep2);
-    document.getElementById('back1').addEventListener('click', toStep1);
+    document.getElementById('back1').addEventListener('click', backToStep1);
 
-    function validGpa(){ const v=parseFloat(gpa.value); return !isNaN(v) && v>=0 && v<=5; }
-    function matchesMajor(val){ return MAJORS.map(m=>m.toLowerCase()).includes((val||'').toLowerCase().trim()); }
+    // Validation & auto-advance
+    const MAJOR_SET = new Set(MAJORS.map(m=>m.toLowerCase()));
+    const validGpa = ()=>{ const v=parseFloat(gpa.value); return !isNaN(v)&&v>=0&&v<=5; };
+    const matchesMajor = (val)=> MAJOR_SET.has((val||'').toLowerCase().trim());
 
-    // Debounce helper
     function debounce(fn,ms){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),ms); }; }
 
-    gpa.addEventListener('input', debounce(()=>{
-      if (validGpa()){
-        say('Great — now choose your intended major.').then(()=>{ toStep2(); });
-      }
-    }, 400));
-    gpa.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && validGpa()){ e.preventDefault(); toStep2(); } });
+    gpa.addEventListener('input', debounce(()=>{ if(validGpa()){ say('Nice. Now choose your intended major.').then(toStep2); } }, 380));
+    gpa.addEventListener('keydown', e=>{ if(e.key==='Enter'&&validGpa()){ e.preventDefault(); toStep2(); }});
 
-    function goResults(){ setStep(3); thinking(true); say('Crunching your matches').then(()=>{
-      setTimeout(()=>{ analyze(); thinking(false); }, 450);
-    }); }
+    function goResults(){ setStep(3); thinking(true); say('Crunching your matches').then(()=>{ setTimeout(()=>{ analyze(); thinking(false); }, 420); }); }
+    major.addEventListener('change', ()=>{ if(matchesMajor(major.value)) goResults(); });
+    major.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); if(matchesMajor(major.value)) goResults(); }});
 
-    major.addEventListener('change', ()=>{ if(matchesMajor(major.value)){ goResults(); } });
-    major.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); if(matchesMajor(major.value)) goResults(); } });
-
-    // ====== Share (profile in URL + clipboard) ======
+    // ===== Share (profile in URL + clipboard) =====
     function getProfile(){return {gpa: gpa.value, major: major.value, system: system.value, minrate: minrate.value};}
     function applyProfile(p){ if(!p) return; if(p.gpa!=null) gpa.value=p.gpa; if(p.major!=null) major.value=p.major; if(p.system!=null) system.value=p.system; if(p.minrate!=null) minrate.value=p.minrate; }
     function profileToQuery(p){ return `${location.pathname}?${new URLSearchParams(p).toString()}`; }
@@ -349,7 +387,7 @@
       history.replaceState(null,'',profileToQuery(p));
     });
 
-    // ====== Analysis & render ======
+    // ===== Analysis & render =====
     function analyze(){
       const g = parseFloat(gpa.value);
       const m = (major.value||'').trim();
@@ -419,9 +457,9 @@
           const mid = parseFloat(row.children[2].textContent);
           const rate = parseInt(row.children[3].textContent,10);
           const gpaVal = parseFloat(gpa.value);
-          const majorVal = (major.value||'').trim();
-          const bm = {name, system, rate, mid, band, gpa:gpaVal, major: majorVal, ts: Date.now()};
-          if (isBookmarked(name, majorVal)) { removeBookmark(name, majorVal); st.classList.remove('filled'); }
+          const majorVal2 = (major.value||'').trim();
+          const bm = {name, system, rate, mid, band, gpa:gpaVal, major: majorVal2, ts: Date.now()};
+          if (isBookmarked(name, majorVal2)) { removeBookmark(name, majorVal2); st.classList.remove('filled'); }
           else { addBookmark(bm); st.classList.add('filled'); }
         });
       });
@@ -429,20 +467,15 @@
       renderBookmarks();
     }
 
-    // ====== Drawer + Buttons ======
+    // Drawer + buttons
     const drawer = document.getElementById('drawer');
     document.getElementById('bmBtn').addEventListener('click', ()=> drawer.classList.toggle('open'));
     document.getElementById('closeDrawer').addEventListener('click', ()=> drawer.classList.remove('open'));
     document.getElementById('clearBms').addEventListener('click', ()=> saveBookmarks([]));
 
-    // Toggle all whys
-    document.getElementById('toggleDetails').addEventListener('click', ()=>{
-      document.querySelectorAll('.why').forEach(w=>{
-        w.style.display = (w.style.display==='block')? 'none':'block';
-      });
-    });
+    document.getElementById('toggleDetails').addEventListener('click', ()=>{ document.querySelectorAll('.why').forEach(w=>{ w.style.display = (w.style.display==='block')? 'none':'block'; }); });
 
-    // ====== Init: coach intro & restore profile ======
+    // Init
     (async function init(){
       await say('Start with your weighted GPA.');
       const q = Object.fromEntries(new URL(location.href).searchParams.entries());
