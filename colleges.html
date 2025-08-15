@@ -6,7 +6,7 @@
   <title>Colleges | Pathfinder</title>
   <style>
     :root{
-      --bg:#0b1020; --panel:#121936; --muted:#9aa4c7; --text:#eaf0ff; --accent:#4da3ff; --accent-2:#7cc8ff;
+      --bg:#0b1020; --panel:#0f1533; --muted:#9aa4c7; --text:#eaf0ff; --accent:#4da3ff; --accent-2:#7cc8ff;
       --ok:#1ed760; --warn:#ffcc00; --danger:#ff5c5c; --line:#243066;
     }
     *{box-sizing:border-box}
@@ -14,24 +14,30 @@
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 800px at 10% -10%,#13224d 0%, transparent 50%), radial-gradient(1000px 700px at 110% 10%, #0c1a3a 0%, transparent 50%), var(--bg);color:var(--text)}
     a{color:var(--text);text-decoration:none}
 
-    /* Expanded layout */
-    .container{max-width:1380px;margin:0 auto;padding:28px}
-    header{position:sticky;top:0;background:rgba(11,16,32,.7);backdrop-filter: blur(8px);border-bottom:1px solid #1b2550;z-index:10}
+    .container{max-width:1280px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;background:rgba(11,16,32,.7);backdrop-filter: blur(8px);border-bottom:1px solid #1b2550;z-index:20}
     nav{display:flex;gap:14px;align-items:center;justify-content:space-between}
     .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
     .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
-    .links{display:flex;gap:8px}
-    .link{padding:10px 14px;border-radius:12px;color:var(--muted);border:1px solid transparent}
+    .links{display:flex;gap:8px;align-items:center}
+    .iconbtn{border:1px solid #223068;background:#0b1332;border-radius:12px;padding:8px 10px;cursor:pointer}
+    .link{padding:8px 12px;border-radius:12px;color:var(--muted);border:1px solid transparent}
     .link:hover{color:var(--text);border-color:#273064;background:linear-gradient(180deg,#121a3b,#0e1633)}
     .active{color:var(--text);border:1px solid #2a3a7a;background:linear-gradient(180deg,#19245a,#121a3f);box-shadow:0 0 0 1px #1f2b5e inset}
 
-    h1{font-size:34px;margin:22px 0 10px}
-    p.lead{color:var(--muted);margin:0 0 18px;font-size:15px}
+    h1{font-size:32px;margin:18px 0 8px}
+    p.lead{color:var(--muted);margin:0 0 18px}
 
-    .panel{background:linear-gradient(180deg,#0e1635,#0b1230);border:1px solid #233068;border-radius:18px;padding:22px;box-shadow:0 14px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02)}
-    .grid{display:grid;grid-template-columns:1.1fr 1.9fr 1.1fr;gap:16px}
-    @media (max-width: 1200px){.grid{grid-template-columns:1fr 1fr}}
-    @media (max-width: 900px){.grid{grid-template-columns:1fr}}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    .panel{background:linear-gradient(180deg,#0e1635,#0b1230);border:1px solid #233068;border-radius:18px;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02)}
+
+    /* STEPPER */
+    .stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+    .step{background:#0b1332;border:1px solid #223068;border-radius:12px;padding:10px;text-align:center;color:#9fb2ff}
+    .step.active{background:#14205a;color:#fff;border-color:#2e4dac}
+
+    .row{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:800px){.row{grid-template-columns:1fr 1fr}}
 
     label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
     input,select,button,textarea{width:100%;padding:14px 16px;border-radius:12px;background:#0a1331;border:1px solid #243470;color:var(--text);font-size:15px}
@@ -40,16 +46,19 @@
     button{cursor:pointer;background:linear-gradient(180deg,#1c3f86,#17346f);border-color:#2a56a6;font-weight:700}
     button:hover{transform:translateY(-1px)}
 
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:720px){.row{grid-template-columns:1fr}}
-
     .note{font-size:12px;color:var(--muted)}
     .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
     .chip{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a3a7a;color:var(--muted)}
 
-    /* Table gets bigger and scrolls horizontally on mobile */
+    /* COLLAPSIBLE FILTERS */
+    .collapse{border-top:1px dashed #223068;margin-top:12px;padding-top:12px}
+    .collapse summary{cursor:pointer;list-style:none}
+    .collapse summary::-webkit-details-marker{display:none}
+    .collapse summary .twisty{margin-left:6px;opacity:.7}
+
+    /* TABLE */
     .table-wrap{overflow:auto;border-radius:14px}
-    table{width:100%;min-width:820px;border-collapse:separate;border-spacing:0 12px}
+    table{width:100%;min-width:780px;border-collapse:separate;border-spacing:0 12px}
     thead th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#a9b4db;text-align:left;padding:10px 12px}
     tbody td{padding:16px 14px;background:#0b1332;border:1px solid #273777;vertical-align:top;font-size:15px}
     tbody tr{border-radius:12px}
@@ -59,30 +68,23 @@
     .safety{background:rgba(30,215,96,.15);color:#9af2bb;border:1px solid rgba(30,215,96,.35)}
     .target{background:rgba(255,204,0,.12);color:#ffe08a;border:1px solid rgba(255,204,0,.35)}
     .reach{background:rgba(255,92,92,.14);color:#ffb3b3;border:1px solid rgba(255,92,92,.35)}
-    .count{color:var(--muted);font-size:13px;margin:8px 0 0}
     .why{font-size:12.5px;color:#c8d3ff;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
-    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;border:1px solid #2a3a7a;border-radius:999px;padding:6px 10px;color:#cfe0ff}
-    .pill input{width:auto}
-    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-
-    .density{display:inline-flex;border:1px solid #2a3a7a;border-radius:12px;overflow:hidden}
-    .density button{background:#0a1331;border:0;padding:8px 12px}
-    .density button.active{background:#122157}
-
-    .row-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
     .mini-link{font-size:12px;border:1px solid #2a3a7a;border-radius:999px;padding:6px 10px;background:#0a1331;display:inline-block}
-    .star{cursor:pointer;user-select:none}
-    .star.filled{filter:drop-shadow(0 0 6px var(--accent))}
 
-    /* Bookmarks panel */
-    .bm-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    /* BOTTOM ACTION BAR */
+    .actionbar{position:sticky;bottom:0;left:0;right:0;background:rgba(10,15,30,.85);backdrop-filter:blur(8px);border-top:1px solid #223068;padding:10px;display:flex;justify-content:space-between;align-items:center;z-index:15}
+
+    /* DRAWER (Bookmarks) */
+    .drawer{position:fixed;top:64px;right:16px;width:360px;max-width:92vw;background:var(--panel);border:1px solid #233068;border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,.45);padding:14px;display:none;z-index:30}
+    .drawer.open{display:block}
     .bm-empty{color:var(--muted);font-size:13px}
     .bm-item{border:1px solid #273777;background:#0b1332;border-radius:12px;padding:12px;margin-bottom:10px}
     .bm-title{display:flex;justify-content:space-between;gap:8px;align-items:center}
     .bm-title h4{margin:0;font-size:14px}
     .bm-meta{font-size:12px;color:#a9b4db;margin:4px 0}
     .bm-actions{display:flex;gap:6px}
-    .bm-note{margin-top:8px}
+    .star{cursor:pointer;user-select:none}
+    .star.filled{filter:drop-shadow(0 0 6px var(--accent))}
   </style>
 </head>
 <body>
@@ -94,32 +96,50 @@
           <a class="link" href="index.html">Home</a>
           <a class="link" href="explore.html">Explore</a>
           <a class="link active" href="colleges.html">Colleges</a>
+          <!-- compact icon buttons -->
+          <button id="shareBtn" class="iconbtn" title="Save & copy shareable link">🔗</button>
+          <button id="bmBtn" class="iconbtn" title="Bookmarks">⭐</button>
         </div>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <h1>California Colleges — Personalized Fit</h1>
-    <p class="lead">Enter your <strong>weighted GPA</strong>, choose a major, and see where you stand. Click <em>Why?</em> for the explanation, add bookmarks + notes, and save a shareable profile link.</p>
+    <h1>Find Your Best-Fit Colleges</h1>
+    <p class="lead">We’ll guide you step-by-step. Start with your <strong>weighted GPA</strong>, then choose a <strong>major</strong>. Filters and advanced details stay tucked away until you need them.</p>
 
-    <div class="grid">
-      <section class="panel">
-        <div class="row">
-          <div>
-            <label for="gpa">Weighted GPA (can be above 4.0)</label>
-            <input id="gpa" type="number" min="0" max="5.00" step="0.01" placeholder="e.g., 4.18" />
-          </div>
-          <div>
-            <label for="major">Major</label>
-            <input list="majors" id="major" placeholder="Start typing… e.g., Electrical Engineering" />
-            <datalist id="majors"></datalist>
-          </div>
+    <!-- Stepper + Inputs -->
+    <section class="panel">
+      <div class="stepper" aria-label="progress">
+        <div class="step active" id="s1">1. GPA</div>
+        <div class="step" id="s2">2. Major</div>
+        <div class="step" id="s3">3. Results</div>
+      </div>
+
+      <div class="row" id="step1">
+        <div>
+          <label for="gpa">Weighted GPA (can be above 4.0)</label>
+          <input id="gpa" type="number" min="0" max="5.00" step="0.01" placeholder="e.g., 4.18" />
         </div>
+        <div style="align-self:end"><button id="toStep2">Next →</button></div>
+      </div>
 
-        <div class="toolbar">
-          <label class="pill"><input type="checkbox" id="detailed"/> Detailed view</label>
-          <label class="pill">System
+      <div class="row" id="step2" style="display:none">
+        <div>
+          <label for="major">Major</label>
+          <input list="majors" id="major" placeholder="Start typing… e.g., Electrical Engineering" />
+          <datalist id="majors"></datalist>
+        </div>
+        <div style="display:flex;gap:8px;align-items:end">
+          <button id="back1">← Back</button>
+          <button id="run">Show Results</button>
+        </div>
+      </div>
+
+      <details class="collapse" id="filters">
+        <summary><strong>Filters</strong> <span class="twisty">▸</span></summary>
+        <div class="row" style="margin-top:8px">
+          <label>System
             <select id="system">
               <option value="ALL">All</option>
               <option value="UC">UC</option>
@@ -127,7 +147,7 @@
               <option value="Private">Private</option>
             </select>
           </label>
-          <label class="pill">Min admit rate
+          <label>Min admit rate
             <select id="minrate">
               <option value="0">Any</option>
               <option value="10">≥ 10%</option>
@@ -135,127 +155,76 @@
               <option value="30">≥ 30%</option>
             </select>
           </label>
-          <div class="density" id="densityCtl">
-            <button data-d="cozy" class="active">Cozy</button>
-            <button data-d="comfortable">Comfortable</button>
-            <button data-d="compact">Compact</button>
-          </div>
-          <button id="saveShare">Save & Share Link</button>
         </div>
+      </details>
 
-        <div style="height:10px"></div>
-        <button id="analyze">Analyze Colleges</button>
-        <p class="note" style="margin-top:10px">Note: Numbers below use <strong>placeholder midpoints & admit rates</strong> for demo. Replace the <code>COLLEGES</code> dataset with your verified data when ready.</p>
+      <p class="note" style="margin-top:10px">Badges use placeholder midpoints & rates. Replace the <code>COLLEGES</code> dataset with verified values when ready.</p>
+    </section>
 
-        <div class="chips" id="legend">
-          <span class="chip"><span class="tag safety">Safety</span> GPA ≥ midpoint + 0.20</span>
-          <span class="chip"><span class="tag target">Target</span> |GPA − midpoint| ≤ 0.15</span>
-          <span class="chip"><span class="tag reach">Reach</span> GPA ≤ midpoint − 0.16</span>
-        </div>
-      </section>
+    <!-- Results -->
+    <section class="panel">
+      <div class="table-wrap" id="tableWrap"><div id="results" aria-live="polite"></div></div>
+      <div class="chips" id="legend" style="margin-top:10px">
+        <span class="chip"><span class="tag safety">Safety</span> GPA ≥ midpoint + 0.20</span>
+        <span class="chip"><span class="tag target">Target</span> |GPA − midpoint| ≤ 0.15</span>
+        <span class="chip"><span class="tag reach">Reach</span> GPA ≤ midpoint − 0.16</span>
+      </div>
+    </section>
 
-      <section class="panel">
-        <div class="table-wrap" id="tableWrap"><div id="results"></div></div>
-        <p class="count" id="count"></p>
-      </section>
-
-      <aside class="panel">
-        <div class="bm-header">
-          <h3 style="margin:0">⭐ Bookmarks</h3>
-          <button id="clearBms" title="Clear all">Clear</button>
-        </div>
-        <div id="bmList"></div>
-      </aside>
+    <div class="actionbar">
+      <div id="count" class="note">No results yet.</div>
+      <div style="display:flex;gap:8px">
+        <button id="detailed">Toggle details</button>
+        <button id="analyze">Re-run</button>
+      </div>
     </div>
 
-    <footer>
-      Made by Omar • Pathfinder © 2025
-    </footer>
+    <!-- Drawer: Bookmarks -->
+    <aside class="drawer" id="drawer">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <strong>Bookmarks</strong>
+        <div>
+          <button id="clearBms" class="mini-link">Clear</button>
+          <button id="closeDrawer" class="mini-link">Close</button>
+        </div>
+      </div>
+      <div id="bmList"></div>
+    </aside>
   </main>
 
   <script>
-    // ====== Majors (expand as needed) ======
-    const MAJORS = [
-      "Electrical Engineering","Civil Engineering","Mechanical Engineering","Materials Science",
-      "Computer Science","Business Administration","Finance","Mathematics","Psychology","Nursing",
-      "Liberal Arts"
-    ];
+    // ====== Majors ======
+    const MAJORS = ["Electrical Engineering","Civil Engineering","Mechanical Engineering","Materials Science","Computer Science","Business Administration","Finance","Mathematics","Psychology","Nursing","Liberal Arts"];
 
-    // ====== DEMO College dataset ======
-    // midGpa: overall midpoint weighted GPA
-    // midByMajor: optional per-major midpoint (overrides overall when available)
-    // admitRate: approximate rate (%), placeholder
+    // ====== Dataset (demo) ======
     const COLLEGES = [
-      // UCs
-      {name:"UC Berkeley", system:"UC", midGpa:4.25, admitRate:12, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science","Liberal Arts"],
-        midByMajor:{"Electrical Engineering":4.28,"Computer Science":4.30,"Mathematics":4.18,"Liberal Arts":4.08}
-      },
-      {name:"UCLA", system:"UC", midGpa:4.23, admitRate:11, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Psychology","Mathematics","Liberal Arts"],
-        midByMajor:{"Electrical Engineering":4.26,"Computer Science":4.29,"Psychology":4.15,"Mathematics":4.17,"Liberal Arts":4.05}
-      },
-      {name:"UC San Diego", system:"UC", midGpa:4.15, admitRate:24, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science","Liberal Arts"],
-        midByMajor:{"Computer Science":4.22,"Electrical Engineering":4.18,"Mathematics":4.06,"Liberal Arts":3.98}
-      },
-      {name:"UC Santa Barbara", system:"UC", midGpa:4.10, admitRate:26, majors:["Mechanical Engineering","Computer Science","Mathematics","Psychology","Liberal Arts"],
-        midByMajor:{"Mechanical Engineering":4.16,"Computer Science":4.14,"Mathematics":4.02,"Liberal Arts":3.95}
-      },
-      {name:"UC Irvine", system:"UC", midGpa:4.08, admitRate:28, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing","Liberal Arts"],
-        midByMajor:{"Nursing":4.20,"Computer Science":4.14,"Electrical Engineering":4.06,"Business Administration":3.98,"Liberal Arts":3.90}
-      },
+      {name:"UC Berkeley", system:"UC", midGpa:4.25, admitRate:12, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science","Liberal Arts"], midByMajor:{"Electrical Engineering":4.28,"Computer Science":4.30,"Mathematics":4.18,"Liberal Arts":4.08}},
+      {name:"UCLA", system:"UC", midGpa:4.23, admitRate:11, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Psychology","Mathematics","Liberal Arts"], midByMajor:{"Electrical Engineering":4.26,"Computer Science":4.29,"Psychology":4.15,"Mathematics":4.17,"Liberal Arts":4.05}},
+      {name:"UC San Diego", system:"UC", midGpa:4.15, admitRate:24, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science","Liberal Arts"], midByMajor:{"Computer Science":4.22,"Electrical Engineering":4.18,"Mathematics":4.06,"Liberal Arts":3.98}},
+      {name:"UC Santa Barbara", system:"UC", midGpa:4.10, admitRate:26, majors:["Mechanical Engineering","Computer Science","Mathematics","Psychology","Liberal Arts"], midByMajor:{"Mechanical Engineering":4.16,"Computer Science":4.14,"Mathematics":4.02,"Liberal Arts":3.95}},
+      {name:"UC Irvine", system:"UC", midGpa:4.08, admitRate:28, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing","Liberal Arts"], midByMajor:{"Nursing":4.20,"Computer Science":4.14,"Electrical Engineering":4.06,"Business Administration":3.98,"Liberal Arts":3.90}},
       {name:"UC Davis", system:"UC", midGpa:4.02, admitRate:37, majors:["Mechanical Engineering","Computer Science","Psychology","Mathematics","Materials Science","Nursing","Liberal Arts"]},
       {name:"UC Santa Cruz", system:"UC", midGpa:3.90, admitRate:51, majors:["Computer Science","Mathematics","Psychology","Liberal Arts"]},
       {name:"UC Riverside", system:"UC", midGpa:3.85, admitRate:57, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Liberal Arts"]},
       {name:"UC Merced", system:"UC", midGpa:3.78, admitRate:86, majors:["Mechanical Engineering","Computer Science","Mathematics","Liberal Arts"]},
-
-      // CSUs / Cal Polys
-      {name:"Cal Poly San Luis Obispo", system:"CSU", midGpa:4.05, admitRate:29, majors:["Electrical Engineering","Mechanical Engineering","Materials Science","Business Administration","Computer Science","Mathematics","Liberal Arts"],
-        midByMajor:{"Computer Science":4.10,"Mechanical Engineering":4.08,"Liberal Arts":3.85}
-      },
+      {name:"Cal Poly SLO", system:"CSU", midGpa:4.05, admitRate:29, majors:["Electrical Engineering","Mechanical Engineering","Materials Science","Business Administration","Computer Science","Mathematics","Liberal Arts"], midByMajor:{"Computer Science":4.10,"Mechanical Engineering":4.08,"Liberal Arts":3.85}},
       {name:"Cal Poly Pomona", system:"CSU", midGpa:3.86, admitRate:45, majors:["Electrical Engineering","Mechanical Engineering","Civil Engineering","Computer Science","Business Administration","Mathematics","Liberal Arts"]},
-      {name:"San Diego State", system:"CSU", midGpa:3.90, admitRate:38, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing","Mathematics","Liberal Arts"],
-        midByMajor:{"Nursing":4.00,"Computer Science":3.95}
-      },
+      {name:"San Diego State", system:"CSU", midGpa:3.90, admitRate:38, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing","Mathematics","Liberal Arts"], midByMajor:{"Nursing":4.00,"Computer Science":3.95}},
       {name:"San José State", system:"CSU", midGpa:3.85, admitRate:54, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Mathematics","Liberal Arts"]},
       {name:"Long Beach State", system:"CSU", midGpa:3.80, admitRate:42, majors:["Mechanical Engineering","Civil Engineering","Computer Science","Business Administration","Mathematics","Liberal Arts"]},
       {name:"CSU Fullerton", system:"CSU", midGpa:3.70, admitRate:59, majors:["Computer Science","Business Administration","Finance","Psychology","Mathematics","Liberal Arts"]},
       {name:"CSU Northridge", system:"CSU", midGpa:3.60, admitRate:66, majors:["Mechanical Engineering","Civil Engineering","Computer Science","Business Administration","Psychology","Mathematics","Liberal Arts"]},
       {name:"San Francisco State", system:"CSU", midGpa:3.55, admitRate:84, majors:["Business Administration","Computer Science","Psychology","Mathematics","Liberal Arts"]},
-      {name:"Sacramento State", system:"CSU", midGpa:3.55, admitRate:74, majors:["Mechanical Engineering","Civil Engineering","Business Administration","Mathematics","Liberal Arts"]},
-      {name:"Chico State", system:"CSU", midGpa:3.50, admitRate:85, majors:["Mechanical Engineering","Civil Engineering","Business Administration","Computer Science","Mathematics","Liberal Arts"]},
-      {name:"Fresno State", system:"CSU", midGpa:3.45, admitRate:90, majors:["Mechanical Engineering","Civil Engineering","Business Administration","Computer Science","Nursing","Mathematics","Liberal Arts"]},
-      {name:"Sonoma State", system:"CSU", midGpa:3.40, admitRate:92, majors:["Business Administration","Computer Science","Psychology","Mathematics","Liberal Arts"]},
-      {name:"CSU East Bay", system:"CSU", midGpa:3.35, admitRate:89, majors:["Business Administration","Computer Science","Psychology","Liberal Arts"]},
-      {name:"CSU Monterey Bay", system:"CSU", midGpa:3.35, admitRate:93, majors:["Business Administration","Computer Science","Mathematics","Liberal Arts"]},
-      {name:"CSU San Marcos", system:"CSU", midGpa:3.40, admitRate:80, majors:["Business Administration","Computer Science","Nursing","Psychology","Mathematics","Liberal Arts"]},
-      {name:"CSU San Bernardino", system:"CSU", midGpa:3.40, admitRate:91, majors:["Business Administration","Computer Science","Psychology","Mathematics","Liberal Arts"]},
-
-      // Privates (CA)
-      {name:"Stanford", system:"Private", midGpa:4.30, admitRate:4, majors:["Computer Science","Mathematics","Electrical Engineering","Liberal Arts"],
-        midByMajor:{"Computer Science":4.33,"Mathematics":4.25}
-      },
-      {name:"Caltech", system:"Private", midGpa:4.30, admitRate:3, majors:["Electrical Engineering","Mechanical Engineering","Mathematics","Materials Science"],
-        midByMajor:{"Mechanical Engineering":4.31,"Electrical Engineering":4.32}
-      },
-      {name:"USC", system:"Private", midGpa:4.15, admitRate:12, majors:["Business Administration","Computer Science","Mechanical Engineering","Electrical Engineering","Mathematics","Liberal Arts"],
-        midByMajor:{"Business Administration":4.05,"Computer Science":4.18}
-      },
-      {name:"Santa Clara University", system:"Private", midGpa:3.95, admitRate:52, majors:["Computer Science","Business Administration","Electrical Engineering","Finance","Mathematics","Liberal Arts"]},
-      {name:"Pepperdine", system:"Private", midGpa:3.90, admitRate:53, majors:["Business Administration","Psychology","Finance","Liberal Arts"]},
-      {name:"Loyola Marymount (LMU)", system:"Private", midGpa:3.85, admitRate:46, majors:["Business Administration","Computer Science","Finance","Psychology","Liberal Arts"]},
+      {name:"USC", system:"Private", midGpa:4.15, admitRate:12, majors:["Business Administration","Computer Science","Mechanical Engineering","Electrical Engineering","Mathematics","Liberal Arts"], midByMajor:{"Business Administration":4.05,"Computer Science":4.18}},
+      {name:"Stanford", system:"Private", midGpa:4.30, admitRate:4, majors:["Computer Science","Mathematics","Electrical Engineering","Liberal Arts"], midByMajor:{"Computer Science":4.33,"Mathematics":4.25}}
     ];
 
-    // ====== Utility: Admissions link (search) ======
-    function admissionsUrl(name){
-      const q = encodeURIComponent(name + ' undergraduate admissions');
-      return `https://www.google.com/search?q=${q}`;
-    }
-
-    // Populate majors datalist
+    // ====== Helpers ======
     const majorsDL = document.getElementById('majors');
-    MAJORS.forEach(m => { const opt = document.createElement('option'); opt.value = m; majorsDL.appendChild(opt); });
+    MAJORS.forEach(m => majorsDL.insertAdjacentHTML('beforeend', `<option value="${m}"></option>`));
 
-    // Helpers
     const getMidpoint = (college, major) => (college.midByMajor && college.midByMajor[major]) ? college.midByMajor[major] : college.midGpa;
+    const admissionsUrl = (name) => `https://www.google.com/search?q=${encodeURIComponent(name+' undergraduate admissions')}`;
 
     function classify(gpa, midpoint){
       if (isNaN(gpa) || isNaN(midpoint)) return {band:"—", diff:NaN};
@@ -264,102 +233,111 @@
       if (Math.abs(diff) <= 0.15) return {band:"Target", diff};
       return {band:"Reach", diff};
     }
-
-    function fitTagClass(band){
-      return band === 'Safety' ? 'safety' : band === 'Target' ? 'target' : 'reach';
-    }
-
+    const fitTagClass = (b) => b==='Safety'?'safety':(b==='Target'?'target':'reach');
     function reasonText({gpa, mid, band, name, major}){
-      const delta = +(gpa - mid).toFixed(2);
-      const aboveBelow = delta >= 0 ? 'above' : 'below';
-      const abs = Math.abs(delta).toFixed(2);
-      const majorNote = `This midpoint is ${major ? 'for <strong>'+major+'</strong> at ' : ''}${name}.`;
-      return `${majorNote} Median weighted GPA is <strong>${mid.toFixed(2)}</strong>. Your GPA is <strong>${abs}</strong> ${aboveBelow} the midpoint → <strong>${band}</strong>.`;
+      const delta = +(gpa - mid).toFixed(2); const aboveBelow = delta >= 0 ? 'above' : 'below'; const abs = Math.abs(delta).toFixed(2);
+      return `${major?`<strong>${major}</strong> at ${name}`:name}: midpoint <strong>${mid.toFixed(2)}</strong>. Your GPA is <strong>${abs}</strong> ${aboveBelow} → <strong>${band}</strong>.`;
     }
 
-    // ====== Bookmarks (localStorage) ======
+    // ====== Bookmarks (drawer, localStorage) ======
     const LS_KEYS = {BOOKMARKS:'pf_bookmarks', PROFILE:'pf_profile'};
-    const getJSON = (k, fallback) => { try{ return JSON.parse(localStorage.getItem(k)) ?? fallback; }catch{ return fallback; } };
-    const setJSON = (k, v) => localStorage.setItem(k, JSON.stringify(v));
-
-    function bookmarkKey(item){ return `${item.name}|${item.major}`; }
-    function loadBookmarks(){ return getJSON(LS_KEYS.BOOKMARKS, []); }
-    function saveBookmarks(arr){ setJSON(LS_KEYS.BOOKMARKS, arr); renderBookmarks(); }
-    function isBookmarked(name, major){ return loadBookmarks().some(b => b.name===name && b.major===major); }
-    function addBookmark(bm){ const list = loadBookmarks(); if (!isBookmarked(bm.name, bm.major)){ list.push(bm); saveBookmarks(list); } }
-    function removeBookmark(name, major){ saveBookmarks(loadBookmarks().filter(b => !(b.name===name && b.major===major))); }
+    const getJSON = (k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f;}catch{return f;}};
+    const setJSON = (k,v)=>localStorage.setItem(k, JSON.stringify(v));
+    const bookmarkKey = (b)=>`${b.name}|${b.major}`;
+    const loadBookmarks = ()=>getJSON(LS_KEYS.BOOKMARKS, []);
+    const saveBookmarks = (arr)=>{setJSON(LS_KEYS.BOOKMARKS, arr); renderBookmarks();};
+    const isBookmarked = (name, major)=>loadBookmarks().some(b=>b.name===name && b.major===major);
+    const addBookmark = (bm)=>{const arr=loadBookmarks(); if(!isBookmarked(bm.name,bm.major)){arr.push(bm); saveBookmarks(arr);} };
+    const removeBookmark = (n,m)=>saveBookmarks(loadBookmarks().filter(b=>!(b.name===n && b.major===m)));
 
     function renderBookmarks(){
       const list = loadBookmarks();
       const box = document.getElementById('bmList');
-      if (!list.length){ box.innerHTML = `<p class="bm-empty">No bookmarks yet. Click the ★ next to a college to save it.</p>`; return; }
-      box.innerHTML = list.map((b,i)=>{
+      if (!list.length){ box.innerHTML = `<p class="bm-empty">No bookmarks yet. Click ★ in the results to save a college.</p>`; return; }
+      box.innerHTML = list.map(b=>{
         const tag = fitTagClass(b.band);
         return `<div class="bm-item" data-k="${bookmarkKey(b)}">
-          <div class="bm-title">
-            <h4>${b.name}</h4>
+          <div class="bm-title"><h4>${b.name}</h4>
             <div class="bm-actions">
               <span class="tag ${tag}">${b.band}</span>
-              <button class="mini-link" data-act="visit">Admissions</button>
+              <a class="mini-link" target="_blank" href="${admissionsUrl(b.name)}">Admissions</a>
               <button class="mini-link" data-act="remove">Remove</button>
-            </div>
-          </div>
-          <div class="bm-meta">${b.system} • ${b.major} • Mid ${b.mid.toFixed(2)} • Your GPA ${b.gpa.toFixed(2)} • Δ ${(b.gpa-b.mid).toFixed(2)}</div>
-          <div class="bm-note">
-            <label class="note" style="display:block;margin-bottom:4px">Notes</label>
-            <textarea placeholder="Add a note…" data-act="note">${b.note||''}</textarea>
-          </div>
+            </div></div>
+          <div class="bm-meta">${b.system} • ${b.major} • Mid ${b.mid.toFixed(2)} • GPA ${b.gpa.toFixed(2)} • Δ ${(b.gpa-b.mid).toFixed(2)}</div>
         </div>`;
       }).join('');
-
-      // wire actions
-      box.querySelectorAll('.bm-item').forEach(div =>{
-        const key = div.dataset.k;
-        const [name, major] = key.split('|');
-        div.querySelector('[data-act="remove"]').addEventListener('click', ()=> removeBookmark(name, major));
-        div.querySelector('[data-act="visit"]').addEventListener('click', ()=> window.open(admissionsUrl(name), '_blank'));
-        const ta = div.querySelector('[data-act="note"]');
-        ta.addEventListener('input', ()=>{
-          const arr = loadBookmarks();
-          const idx = arr.findIndex(b => b.name===name && b.major===major);
-          if (idx>-1){ arr[idx].note = ta.value; saveBookmarks(arr); }
-        });
+      box.querySelectorAll('[data-act="remove"]').forEach(btn=>{
+        const k = btn.closest('.bm-item').dataset.k; const [n,m]=k.split('|');
+        btn.addEventListener('click',()=>removeBookmark(n,m));
       });
     }
 
+    // ====== UI State & Actions ======
+    const drawer = document.getElementById('drawer');
+    document.getElementById('bmBtn').addEventListener('click', ()=> drawer.classList.toggle('open'));
+    document.getElementById('closeDrawer').addEventListener('click', ()=> drawer.classList.remove('open'));
     document.getElementById('clearBms').addEventListener('click', ()=> saveBookmarks([]));
 
-    function renderTable(rows, detailed, major){
+    // Stepper
+    const s1=document.getElementById('s1'), s2=document.getElementById('s2'), s3=document.getElementById('s3');
+    function setStep(n){ [s1,s2,s3].forEach((el,i)=> el.classList.toggle('active', i===n-1)); }
+    document.getElementById('toStep2').addEventListener('click', ()=>{document.getElementById('step1').style.display='none'; document.getElementById('step2').style.display='grid'; setStep(2);});
+    document.getElementById('back1').addEventListener('click', ()=>{document.getElementById('step2').style.display='none'; document.getElementById('step1').style.display='grid'; setStep(1);});
+    document.getElementById('run').addEventListener('click', ()=>{analyze(); setStep(3);});
+
+    // Share (profile in URL + clipboard)
+    function getProfile(){return {gpa: gpa.value, major: major.value, system: system.value, minrate: minrate.value};}
+    function applyProfile(p){ if(!p) return; if(p.gpa!=null) gpa.value=p.gpa; if(p.major!=null) major.value=p.major; if(p.system!=null) system.value=p.system; if(p.minrate!=null) minrate.value=p.minrate; }
+    function profileToQuery(p){ return `${location.pathname}?${new URLSearchParams(p).toString()}`; }
+    document.getElementById('shareBtn').addEventListener('click', async ()=>{
+      const p = getProfile(); setJSON(LS_KEYS.PROFILE, p);
+      const link = location.origin + profileToQuery(p);
+      try{ await navigator.clipboard.writeText(link); alert('Shareable link copied!\n'+link);}catch{ prompt('Copy link:', link); }
+      history.replaceState(null,'',profileToQuery(p));
+    });
+
+    // Analysis
+    function analyze(){
+      const g = parseFloat(document.getElementById('gpa').value);
+      const m = (document.getElementById('major').value||'').trim();
+      const sys = document.getElementById('system').value;
+      const minR = parseInt(document.getElementById('minrate').value,10)||0;
+
+      const rows = COLLEGES
+        .filter(c => (sys==='ALL' ? true : c.system===sys))
+        .filter(c => c.admitRate >= minR)
+        .filter(c => !m || c.majors.includes(m))
+        .map((c, idx) => {
+          const mid = getMidpoint(c, m);
+          const fit = classify(g, mid);
+          return { id:idx, name:c.name, system:c.system, rate:c.admitRate, mid, fit, gpa:g };
+        })
+        .sort((a,b)=>a.mid-b.mid);
+
+      renderTable(rows, m);
+    }
+
+    function renderTable(rows, major){
       const el = document.getElementById('results');
-      if (!rows.length){ el.innerHTML = '<p class="note">No matching colleges for that major with current filters. Try another major or widen filters.</p>'; document.getElementById('count').textContent=''; return; }
+      if (!rows.length){ el.innerHTML = '<p class="note">No results yet. Enter GPA, choose a major, and click Show Results.</p>'; document.getElementById('count').textContent='No results'; return; }
 
-      const thead = `
-        <thead>
-          <tr>
-            <th>College</th>
-            <th>System</th>
-            <th>Admit rate</th>
-            <th>Midpoint GPA</th>
-            <th>Fit</th>
-          </tr>
-        </thead>`;
+      const thead = `<thead><tr>
+        <th>College</th><th>Fit</th><th>Midpoint GPA</th><th>Admit rate</th><th>Actions</th>
+      </tr></thead>`;
 
-      const tbody = rows.map(r => {
+      const tbody = rows.map(r=>{
         const tag = fitTagClass(r.fit.band);
         const why = reasonText({gpa:r.gpa, mid:r.mid, band:r.fit.band, name:r.name, major});
-        const whyBlock = detailed ? `<div class="why">${why}</div>` : `<div class="why" style="display:none">${why}</div>`;
-        const toggleBtn = detailed ? '' : `<button class="mini-link miniwhy" data-id="${r.id}">Why?</button>`;
-        const starFilled = isBookmarked(r.name, major) ? 'filled' : '';
-        const starLabel = isBookmarked(r.name, major) ? 'Unbookmark' : 'Bookmark';
         return `<tr id="row-${r.id}">
-          <td>${r.name}<div class="row-actions"><span class="star ${starFilled}" data-act="star" title="${starLabel}">★</span> <a class="mini-link" href="${admissionsUrl(r.name)}" target="_blank" rel="noopener">Admissions</a></div></td>
-          <td>${r.system}</td>
-          <td>${r.rate}%</td>
+          <td>${r.name}<div class="note">${r.system}</div></td>
+          <td><span class="tag ${tag}">${r.fit.band}</span></td>
           <td>${r.mid.toFixed(2)}</td>
+          <td>${r.rate}%</td>
           <td>
-            <span class="tag ${tag}">${r.fit.band}</span>
-            ${toggleBtn}
-            ${whyBlock}
+            <button class="mini-link" data-why="${r.id}">Why?</button>
+            <a class="mini-link" target="_blank" href="${admissionsUrl(r.name)}">Admissions</a>
+            <span class="mini-link star ${isBookmarked(r.name, major)?'':'"'} data-star="${r.id}">★</span>
+            <div class="why" id="why-${r.id}" style="display:none">${why}</div>
           </td>
         </tr>`;
       }).join('');
@@ -367,143 +345,53 @@
       el.innerHTML = `<table>${thead}<tbody>${tbody}</tbody></table>`;
       document.getElementById('count').textContent = `${rows.length} result${rows.length===1?'':'s'}`;
 
-      // wire up Why? toggles in simple view
-      document.querySelectorAll('.miniwhy').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const row = document.getElementById('row-'+btn.dataset.id);
-          const why = row.querySelector('.why');
-          why.style.display = (why.style.display === 'none' || why.style.display === '') ? 'block' : 'none';
-          btn.textContent = (why.style.display === 'block') ? 'Hide' : 'Why?';
+      // wire Why & Star
+      document.querySelectorAll('[data-why]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const id = btn.getAttribute('data-why');
+          const panel = document.getElementById('why-'+id);
+          const visible = panel.style.display==='block';
+          panel.style.display = visible?'none':'block';
+          btn.textContent = visible?'Why?':'Hide';
         });
       });
 
-      // wire up stars
-      document.querySelectorAll('[data-act="star"]').forEach(star =>{
-        const row = star.closest('tr');
-        const name = row.querySelector('td').childNodes[0].textContent;
-        const gpa = parseFloat(document.getElementById('gpa').value);
-        const mid = parseFloat(row.children[3].textContent);
-        const band = row.querySelector('.tag').textContent.trim();
-        const system = row.children[1].textContent.trim();
-        const rate = parseInt(row.children[2].textContent,10);
-        const currentMajor = (document.getElementById('major').value||'').trim();
-
-        const bm = {name, system, rate, mid, band, gpa, major: currentMajor, ts: Date.now()};
-
-        function toggle(){
-          if (isBookmarked(name, currentMajor)){
-            removeBookmark(name, currentMajor);
-            star.classList.remove('filled');
-          } else {
-            addBookmark(bm);
-            star.classList.add('filled');
-          }
-        }
-        star.addEventListener('click', toggle);
+      document.querySelectorAll('[data-star]').forEach(st=>{
+        st.addEventListener('click',()=>{
+          const id = st.getAttribute('data-star');
+          const row = document.getElementById('row-'+id);
+          const name = row.children[0].firstChild.textContent.trim();
+          const band = row.querySelector('.tag').textContent.trim();
+          const system = row.children[0].querySelector('.note').textContent.trim();
+          const mid = parseFloat(row.children[2].textContent);
+          const rate = parseInt(row.children[3].textContent,10);
+          const gpa = parseFloat(document.getElementById('gpa').value);
+          const major = (document.getElementById('major').value||'').trim();
+          const bm = {name, system, rate, mid, band, gpa, major, ts: Date.now()};
+          if (isBookmarked(name, major)) { removeBookmark(name, major); st.classList.remove('filled'); }
+          else { addBookmark(bm); st.classList.add('filled'); }
+        });
       });
 
-      // Refresh bookmarks panel state
       renderBookmarks();
     }
 
-    function analyze(){
-      const gpa = parseFloat(document.getElementById('gpa').value);
-      const major = (document.getElementById('major').value || '').trim();
-      const detailed = document.getElementById('detailed').checked;
-      const sys = document.getElementById('system').value;
-      const minRate = parseInt(document.getElementById('minrate').value, 10) || 0;
-
-      const pool = COLLEGES
-        .filter(c => (sys==='ALL' ? true : c.system===sys))
-        .filter(c => c.admitRate >= minRate)
-        .filter(c => !major || c.majors.includes(major))
-        .map((c, idx) => {
-          const mid = getMidpoint(c, major);
-          return {
-            id: idx,
-            name: c.name,
-            system: c.system,
-            rate: c.admitRate,
-            mid,
-            fit: classify(gpa, mid),
-            gpa
-          };
-        })
-        .sort((a,b) => a.mid - b.mid);
-
-      renderTable(pool, detailed, major);
-    }
+    // Init from URL/localStorage & demo
+    (function init(){
+      const q = Object.fromEntries(new URL(location.href).searchParams.entries());
+      if (Object.keys(q).length) { applyProfile(q); }
+      else { applyProfile(getJSON(LS_KEYS.PROFILE, null)); }
+      if (!gpa.value) gpa.value = '4.00';
+      if (!major.value) major.value = 'Mathematics';
+      renderBookmarks();
+    })();
 
     document.getElementById('analyze').addEventListener('click', analyze);
-
-    // Density controls
-    (function(){
-      const ctl = document.getElementById('densityCtl');
-      const tableWrap = document.getElementById('tableWrap');
-      ctl.addEventListener('click', e => {
-        const btn = e.target.closest('button');
-        if (!btn) return;
-        ctl.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        const mode = btn.dataset.d;
-        if (mode==='comfortable') tableWrap.style.setProperty('--row-gap','14px');
-        if (mode==='cozy') tableWrap.style.setProperty('--row-gap','12px');
-        if (mode==='compact') tableWrap.style.setProperty('--row-gap','6px');
+    document.getElementById('detailed').addEventListener('click', ()=>{
+      document.querySelectorAll('.why').forEach(w=>{
+        w.style.display = (w.style.display==='block')? 'none':'block';
       });
-    })();
-
-    // ====== Save Profile & Shareable Link ======
-    function getProfile(){
-      return {
-        gpa: document.getElementById('gpa').value,
-        major: document.getElementById('major').value,
-        detailed: document.getElementById('detailed').checked ? 1 : 0,
-        system: document.getElementById('system').value,
-        minrate: document.getElementById('minrate').value
-      };
-    }
-    function applyProfile(p){
-      if (!p) return;
-      if (p.gpa!=null) document.getElementById('gpa').value = p.gpa;
-      if (p.major!=null) document.getElementById('major').value = p.major;
-      if (p.detailed!=null) document.getElementById('detailed').checked = !!(+p.detailed);
-      if (p.system!=null) document.getElementById('system').value = p.system;
-      if (p.minrate!=null) document.getElementById('minrate').value = p.minrate;
-    }
-    function profileToQuery(p){
-      const params = new URLSearchParams(p).toString();
-      return `${location.pathname}?${params}`;
-    }
-    function parseQuery(){
-      const u = new URL(location.href);
-      const q = Object.fromEntries(u.searchParams.entries());
-      if (Object.keys(q).length) return q; else return null;
-    }
-
-    // Save & copy share link
-    document.getElementById('saveShare').addEventListener('click', async ()=>{
-      const p = getProfile();
-      setJSON(LS_KEYS.PROFILE, p);
-      const link = location.origin + profileToQuery(p);
-      try{
-        await navigator.clipboard.writeText(link);
-        alert('Link copied!\n' + link);
-      }catch{
-        prompt('Copy your link:', link);
-      }
-      history.replaceState(null, '', profileToQuery(p));
     });
-
-    // On load: pull from URL or localStorage, then analyze
-    (function init(){
-      const q = parseQuery();
-      if (q){ applyProfile(q); }
-      else { applyProfile(getJSON(LS_KEYS.PROFILE, null)); }
-      if (!document.getElementById('gpa').value) document.getElementById('gpa').value = '4.00';
-      if (!document.getElementById('major').value) document.getElementById('major').value = 'Mathematics';
-      analyze();
-      renderBookmarks();
-    })();
   </script>
 </body>
 </html>
