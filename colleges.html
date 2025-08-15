@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pathfinder - Colleges</title>
+  <style>
+    body {
+      background-color: #0b0c10;
+      color: #f1f1f1;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1f2833;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #45a29e;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #66fcf1;
+      font-size: 26px;
+    }
+
+    nav a {
+      color: #f1f1f1;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #66fcf1;
+    }
+
+    .container {
+      padding: 40px 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .title {
+      font-size: 32px;
+      color: #66fcf1;
+      margin-bottom: 15px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #c5c6c7;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .section-box {
+      background-color: #1f2833;
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #45a29e;
+      box-shadow: 0 0 10px #45a29e55;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Pathfinder</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore Majors</a>
+      <a href="colleges.html">Colleges</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="title">🎓 College Match Tool</div>
+    <div class="subtitle">
+      Find out which California colleges are a match based on your GPA, major, and goals. Select your preferences and get real insights into your chances.
+    </div>
+
+    <div class="section-box" id="collegeForm">
+      <!-- Form and input fields will be added in Chunk 2 -->
+    </div>
+  </div>
+</body>
+</html>
+<form id="collegeMatcher">
+  <label for="gpa">🎯 Your GPA:</label><br>
+  <input type="number" id="gpa" step="0.01" min="0" max="5" placeholder="e.g. 3.85" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none;"><br>
+
+  <label for="major">🔍 Interested Major:</label><br>
+  <input type="text" id="major" list="majors" placeholder="Type to search..." required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none;">
+  <datalist id="majors">
+    <option value="Psychology">
+    <option value="Computer Science">
+    <option value="Mechanical Engineering">
+    <option value="Electrical Engineering">
+    <option value="Nursing">
+    <option value="Biology">
+    <option value="Sociology">
+    <option value="Political Science">
+    <option value="Economics">
+    <option value="Business Administration">
+    <option value="Accounting">
+    <option value="Civil Engineering">
+    <option value="Film and Media Studies">
+    <option value="Kinesiology">
+    <option value="Mathematics">
+    <option value="Physics">
+    <option value="Education">
+    <option value="Architecture">
+    <option value="Environmental Science">
+    <option value="Anthropology">
+    <option value="Finance">
+    <option value="Public Health">
+    <option value="English Literature">
+    <option value="Materials Science">
+    <option value="Astronomy">
+  </datalist>
+
+  <label for="colleges">🏫 Select Schools (type to filter, add multiple):</label><br>
+  <select id="colleges" multiple size="10" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none;">
+    <option>UC Berkeley</option>
+    <option>UC Davis</option>
+    <option>UC Irvine</option>
+    <option>UC Los Angeles (UCLA)</option>
+    <option>UC Merced</option>
+    <option>UC Riverside</option>
+    <option>UC San Diego (UCSD)</option>
+    <option>UC Santa Barbara (UCSB)</option>
+    <option>UC Santa Cruz</option>
+    <option>Cal Poly San Luis Obispo</option>
+    <option>Cal Poly Pomona</option>
+    <option>San Diego State University (SDSU)</option>
+    <option>San Francisco State University</option>
+    <option>San Jose State University</option>
+    <option>CSU Long Beach</option>
+    <option>CSU Fullerton</option>
+    <option>CSU Los Angeles</option>
+    <option>CSU Northridge</option>
+    <option>CSU Chico</option>
+    <option>CSU Sacramento</option>
+    <option>CSU East Bay</option>
+    <option>CSU Dominguez Hills</option>
+    <option>Humboldt State University</option>
+    <option>CSU San Marcos</option>
+    <option>Fresno State</option>
+  </select>
+
+  <label for="residency">🌎 Residency:</label><br>
+  <select id="residency" style="width: 100%; padding: 10px; margin: 10px 0 20px; border-radius: 8px; border: none;">
+    <option value="in-state">In-State (California Resident)</option>
+    <option value="out-of-state">Out-of-State</option>
+  </select>
+
+  <button type="submit" style="padding: 12px 20px; background-color: #45a29e; color: white; border: none; border-radius: 10px; font-size: 16px; cursor: pointer;">
+    Analyze Results 🔎
+  </button>
+</form>
+
+<!-- Where analysis results will appear -->
+<div id="results" style="margin-top: 40px;"></div>
+<!-- CHUNK 3: College Analysis Result Section -->
+<div id="results" class="mt-10 hidden">
+  <h2 class="text-2xl font-bold mb-4">🎓 Your College Match Analysis</h2>
+  <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Dynamic college cards will be inserted here -->
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("collegeForm");
+  const resultsSection = document.getElementById("results");
+  const resultsContainer = document.getElementById("resultsContainer");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const gpa = parseFloat(document.getElementById("gpaInput").value);
+    const major = document.getElementById("majorInput").value.trim().toLowerCase();
+    const selectedColleges = Array.from(document.querySelectorAll(".college-checkbox:checked")).map(el => el.value);
+
+    resultsSection.classList.remove("hidden");
+    resultsContainer.innerHTML = ""; // Clear previous results
+
+    selectedColleges.forEach((collegeName) => {
+      const college = colleges.find(c => c.name === collegeName);
+      const acceptanceRate = college.acceptanceRates[major] || college.generalAcceptance;
+      const targetType = gpa > acceptanceRate + 0.10 ? "Safety" : gpa > acceptanceRate - 0.05 ? "Target" : "Reach";
+
+      const card = document.createElement("div");
+      card.className = "bg-white bg-opacity-5 rounded-2xl shadow-lg p-6 hover:scale-105 transition-transform border border-blue-500";
+      card.innerHTML = `
+        <h3 class="text-xl font-bold text-blue-300 mb-2">${college.name}</h3>
+        <p><strong>Major:</strong> ${capitalize(major)}</p>
+        <p><strong>Your GPA:</strong> ${gpa.toFixed(2)}</p>
+        <p><strong>Avg Acceptance Rate (${capitalize(major)}):</strong> ${(acceptanceRate * 100).toFixed(1)}%</p>
+        <p><strong>Match Type:</strong> <span class="font-bold ${targetType === 'Reach' ? 'text-red-400' : targetType === 'Target' ? 'text-yellow-300' : 'text-green-400'}">${targetType}</span></p>
+        <p class="mt-2"><a href="${college.admissionsLink}" target="_blank" class="underline text-blue-400">Visit Admissions Page ↗</a></p>
+      `;
+      resultsContainer.appendChild(card);
+    });
+  });
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Match | Pathfinder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ...existing styles from previous chunks... */
+    .footer {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #aaa;
+      padding: 2rem 0;
+      border-top: 1px solid #333;
+    }
+    .footer a {
+      color: #4FC3F7;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- ...existing content from previous chunks... -->
+
+  <footer class="footer">
+    <p>&copy; 2025 Pathfinder. Built with 💙 to help students find their path. Visit <a href="https://www.universityofcalifornia.edu/" target="_blank">UC Admissions</a> and <a href="https://www2.calstate.edu/" target="_blank">CSU Admissions</a> for more info.</p>
+  </footer>
+</body>
+</html>
