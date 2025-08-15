@@ -1,167 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>College Explorer | Pathfinder</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Colleges | Pathfinder</title>
   <style>
-    body {
-      background-color: #0d1117;
-      color: #c9d1d9;
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 2rem;
+    :root{
+      --bg:#0b1020;       /* midnight */
+      --panel:#121936;    /* deep slate */
+      --muted:#9aa4c7;    /* muted text */
+      --text:#eaf0ff;     /* main text */
+      --accent:#4da3ff;   /* blue glow */
+      --accent-2:#7cc8ff; /* lighter */
+      --ok:#1ed760;
+      --warn:#ffcc00;
+      --danger:#ff5c5c;
     }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 800px at 10% -10%,#13224d 0%, transparent 50%), radial-gradient(1000px 700px at 110% 10%, #0c1a3a 0%, transparent 50%), var(--bg);color:var(--text)}
+    a{color:var(--text);text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;background:rgba(11,16,32,.7);backdrop-filter: blur(8px);border-bottom:1px solid #1b2550;z-index:10}
+    nav{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+    .links{display:flex;gap:8px}
+    .link{padding:10px 14px;border-radius:12px;color:var(--muted);border:1px solid transparent}
+    .link:hover{color:var(--text);border-color:#273064;background:linear-gradient(180deg,#121a3b,#0e1633)}
+    .active{color:var(--text);border:1px solid #2a3a7a;background:linear-gradient(180deg,#19245a,#121a3f);box-shadow:0 0 0 1px #1f2b5e inset}
+    h1{font-size:28px;margin:18px 0 12px}
+    p.lead{color:var(--muted);margin:0 0 22px}
 
-    h1 {
-      text-align: center;
-      color: #58a6ff;
-    }
+    .panel{background:linear-gradient(180deg,#0e1635,#0b1230);border:1px solid #233068;border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02)}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width: 760px){.grid{grid-template-columns:2fr 3fr}}
 
-    .input-group {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input,select,button{width:100%;padding:12px 14px;border-radius:12px;background:#0a1331;border:1px solid #243470;color:var(--text)}
+    input:focus,select:focus,button:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.25)}
+    button{cursor:pointer;background:linear-gradient(180deg,#1c3f86,#17346f);border-color:#2a56a6;font-weight:600}
+    button:hover{transform:translateY(-1px)}
 
-    input, select, button {
-      padding: 0.75rem;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-    }
+    .note{font-size:12px;color:var(--muted)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+    .chip{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a3a7a;color:var(--muted)}
 
-    input {
-      width: 200px;
-    }
-
-    button {
-      background-color: #238636;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background-color: #2ea043;
-    }
-
-    .results {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-
-    .card {
-      background-color: #161b22;
-      border-radius: 10px;
-      padding: 1rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 0 10px rgba(88, 166, 255, 0.1);
-    }
-
-    .card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(88, 166, 255, 0.2);
-    }
-
-    .college-name {
-      font-size: 1.2rem;
-      color: #58a6ff;
-      margin-bottom: 0.5rem;
-    }
-
-    .tag {
-      padding: 0.4rem 0.7rem;
-      border-radius: 5px;
-      display: inline-block;
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
-      font-weight: bold;
-    }
-
-    .reach {
-      background-color: #da3633;
-      color: white;
-    }
-
-    .target {
-      background-color: #dbab09;
-      color: black;
-    }
-
-    .safety {
-      background-color: #238636;
-      color: white;
-    }
-
-    a {
-      color: #58a6ff;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
+    table{width:100%;border-collapse:separate;border-spacing:0 10px}
+    thead th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#a9b4db;text-align:left;padding:8px 10px}
+    tbody td{padding:14px 12px;background:#0b1332;border:1px solid #273777}
+    tbody tr{border-radius:12px}
+    tbody td:first-child{border-top-left-radius:12px;border-bottom-left-radius:12px}
+    tbody td:last-child{border-top-right-radius:12px;border-bottom-right-radius:12px}
+    .tag{font-size:12px;padding:6px 10px;border-radius:999px;display:inline-block}
+    .safety{background:rgba(30,215,96,.15);color:#9af2bb;border:1px solid rgba(30,215,96,.35)}
+    .target{background:rgba(255,204,0,.12);color:#ffe08a;border:1px solid rgba(255,204,0,.35)}
+    .reach{background:rgba(255,92,92,.14);color:#ffb3b3;border:1px solid rgba(255,92,92,.35)}
+    .count{color:var(--muted);font-size:13px;margin:8px 0 0}
+    footer{margin:28px 0 40px;color:var(--muted);font-size:12px;text-align:center}
   </style>
 </head>
 <body>
-  <h1>🎓 College Explorer</h1>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand"><span class="dot"></span> Pathfinder</div>
+        <div class="links">
+          <a class="link" href="index.html">Home</a>
+          <a class="link" href="explore.html">Explore</a>
+          <a class="link active" href="colleges.html">Colleges</a>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-  <div class="input-group">
-    <input type="number" step="0.01" id="gpaInput" placeholder="Enter your GPA (e.g. 3.8)" />
-    <input type="text" id="majorInput" placeholder="Type a major (e.g. Nursing)" />
-    <button onclick="analyzeColleges()">Find Matches</button>
-  </div>
+  <main class="container">
+    <h1>California Colleges — Target / Reach / Safety</h1>
+    <p class="lead">Enter your GPA, choose a major, and instantly see where each college may be a safety, target, or reach — using demo GPA bands you can replace with real data later.</p>
 
-  <div class="results" id="resultsContainer"></div>
+    <div class="grid">
+      <section class="panel">
+        <label for="gpa">Your GPA (unweighted, 0–4.0)</label>
+        <input id="gpa" type="number" min="0" max="4.5" step="0.01" placeholder="e.g., 3.82" />
 
-  <!-- Connect to your JS file -->
-  <script src="collegeData.js"></script>
+        <div style="height:12px"></div>
+        <label for="major">Major</label>
+        <input list="majors" id="major" placeholder="Start typing… e.g., Electrical Engineering" />
+        <datalist id="majors"></datalist>
+
+        <div style="height:12px"></div>
+        <button id="analyze">Analyze Colleges</button>
+        <p class="note" style="margin-top:10px">Note: Data below uses <strong>placeholder GPA midpoints</strong> for demo purposes. Replace the <code>COLLEGES</code> dataset in this file with your verified numbers when you're ready.</p>
+
+        <div class="chips" id="legend">
+          <span class="chip"><span class="tag safety">Safety</span> GPA is ~0.20+ above the college's midpoint</span>
+          <span class="chip"><span class="tag target">Target</span> within ±0.15 of midpoint</span>
+          <span class="chip"><span class="tag reach">Reach</span> ~0.16+ below midpoint</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div id="results"></div>
+        <p class="count" id="count"></p>
+      </section>
+    </div>
+
+    <footer>
+      Made by Omar • Pathfinder © 2025
+    </footer>
+  </main>
 
   <script>
-    function analyzeColleges() {
-      const gpa = parseFloat(document.getElementById("gpaInput").value);
-      const major = document.getElementById("majorInput").value.toLowerCase().trim();
-      const resultsContainer = document.getElementById("resultsContainer");
-      resultsContainer.innerHTML = "";
+    // ====== Majors (expand as needed) ======
+    const MAJORS = [
+      "Electrical Engineering","Civil Engineering","Mechanical Engineering","Materials Science",
+      "Computer Science","Business Administration","Finance","Mathematics","Psychology","Nursing"
+    ];
 
-      if (isNaN(gpa) || !major) {
-        resultsContainer.innerHTML = "<p>Please enter a valid GPA and major.</p>";
-        return;
-      }
+    // ====== DEMO College dataset ======
+    // For each college, set a midpoint GPA (admitGpa50) to anchor safety/target/reach.
+    // Replace numbers with your verified data later.
+    const COLLEGES = [
+      // UCs
+      {name:"UC Berkeley", system:"UC", admitGpa50:4.20, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science"]},
+      {name:"UCLA", system:"UC", admitGpa50:4.18, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Psychology","Mathematics"]},
+      {name:"UC San Diego", system:"UC", admitGpa50:4.10, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science"]},
+      {name:"UC Santa Barbara", system:"UC", admitGpa50:4.05, majors:["Mechanical Engineering","Computer Science","Mathematics","Psychology"]},
+      {name:"UC Irvine", system:"UC", admitGpa50:4.05, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing"]},
+      {name:"UC Davis", system:"UC", admitGpa50:4.00, majors:["Mechanical Engineering","Computer Science","Psychology","Mathematics","Materials Science","Nursing"]},
+      {name:"UC Santa Cruz", system:"UC", admitGpa50:3.85, majors:["Computer Science","Mathematics","Psychology"]},
+      {name:"UC Riverside", system:"UC", admitGpa50:3.80, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration"]},
+      {name:"UC Merced", system:"UC", admitGpa50:3.75, majors:["Mechanical Engineering","Computer Science","Mathematics"]},
 
-      const filtered = colleges.filter(college =>
-        college.majors.some(m => m.toLowerCase().includes(major))
-      );
+      // CSUs / Cal Polys
+      {name:"Cal Poly San Luis Obispo", system:"CSU", admitGpa50:4.05, majors:["Electrical Engineering","Mechanical Engineering","Materials Science","Business Administration","Computer Science"]},
+      {name:"Cal Poly Pomona", system:"CSU", admitGpa50:3.85, majors:["Electrical Engineering","Mechanical Engineering","Civil Engineering","Computer Science","Business Administration"]},
+      {name:"San Diego State", system:"CSU", admitGpa50:3.90, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing"]},
+      {name:"San José State", system:"CSU", admitGpa50:3.85, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration"]},
+      {name:"Long Beach State", system:"CSU", admitGpa50:3.80, majors:["Mechanical Engineering","Civil Engineering","Computer Science","Business Administration"]},
+      {name:"CSU Fullerton", system:"CSU", admitGpa50:3.70, majors:["Computer Science","Business Administration","Finance","Psychology"]},
+      {name:"CSU Northridge", system:"CSU", admitGpa50:3.60, majors:["Mechanical Engineering","Civil Engineering","Computer Science","Business Administration","Psychology"]},
+      {name:"San Francisco State", system:"CSU", admitGpa50:3.55, majors:["Business Administration","Computer Science","Psychology","Mathematics"]},
+      {name:"Sacramento State", system:"CSU", admitGpa50:3.55, majors:["Mechanical Engineering","Civil Engineering","Business Administration"]},
+      {name:"Chico State", system:"CSU", admitGpa50:3.50, majors:["Mechanical Engineering","Civil Engineering","Business Administration","Computer Science"]},
+      {name:"Fresno State", system:"CSU", admitGpa50:3.45, majors:["Mechanical Engineering","Civil Engineering","Business Administration","Computer Science","Nursing"]},
+      {name:"Sonoma State", system:"CSU", admitGpa50:3.40, majors:["Business Administration","Computer Science","Psychology","Mathematics"]},
+      {name:"CSU East Bay", system:"CSU", admitGpa50:3.35, majors:["Business Administration","Computer Science","Psychology"]},
+      {name:"CSU Monterey Bay", system:"CSU", admitGpa50:3.35, majors:["Business Administration","Computer Science","Mathematics"]},
+      {name:"CSU San Marcos", system:"CSU", admitGpa50:3.40, majors:["Business Administration","Computer Science","Nursing","Psychology"]},
+      {name:"CSU San Bernardino", system:"CSU", admitGpa50:3.40, majors:["Business Administration","Computer Science","Psychology","Mathematics"]},
+    ];
 
-      if (filtered.length === 0) {
-        resultsContainer.innerHTML = "<p>No matching colleges found. Try another major.</p>";
-        return;
-      }
+    // Populate majors datalist
+    const majorsDL = document.getElementById('majors');
+    MAJORS.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m; majorsDL.appendChild(opt);
+    });
 
-      filtered.forEach(college => {
-        let tag = "";
-        const diff = gpa - college.avgGPA;
-        if (diff >= 0.2) tag = `<span class="tag safety">Safety</span>`;
-        else if (diff >= -0.2) tag = `<span class="tag target">Target</span>`;
-        else tag = `<span class="tag reach">Reach</span>`;
-
-        const card = `
-          <div class="card">
-            <div class="college-name">${college.name}</div>
-            <div><strong>Avg GPA:</strong> ${college.avgGPA}</div>
-            <div><strong>Acceptance:</strong> ${college.acceptanceRate}%</div>
-            <div><a href="${college.admissionsLink}" target="_blank">Visit Admissions Site</a></div>
-            ${tag}
-          </div>
-        `;
-        resultsContainer.innerHTML += card;
-      });
+    // Classification logic
+    function classify(gpa, midpoint){
+      if (isNaN(gpa) || isNaN(midpoint)) return "—";
+      const diff = gpa - midpoint;
+      if (diff >= 0.20) return "Safety";      // 0.20+ above midpoint
+      if (Math.abs(diff) <= 0.15) return "Target"; // within ±0.15
+      return "Reach";                            // otherwise reach
     }
+
+    function renderTable(rows){
+      const el = document.getElementById('results');
+      if (!rows.length){ el.innerHTML = '<p class="note">No matching colleges for that major yet. Try another major or add more colleges to the dataset.</p>'; return; }
+
+      const thead = `
+        <thead>
+          <tr>
+            <th>College</th>
+            <th>System</th>
+            <th>Midpoint GPA</th>
+            <th>Fit</th>
+          </tr>
+        </thead>`;
+
+      const tbody = rows.map(r => {
+        const tag = r.fit === 'Safety' ? 'safety' : r.fit === 'Target' ? 'target' : 'reach';
+        return `<tr>
+          <td>${r.name}</td>
+          <td>${r.system}</td>
+          <td>${r.mid.toFixed(2)}</td>
+          <td><span class="tag ${tag}">${r.fit}</span></td>
+        </tr>`;
+      }).join('');
+
+      el.innerHTML = `<table>${thead}<tbody>${tbody}</tbody></table>`;
+      document.getElementById('count').textContent = `${rows.length} result${rows.length===1?'':'s'}`;
+    }
+
+    document.getElementById('analyze').addEventListener('click', () => {
+      const gpa = parseFloat(document.getElementById('gpa').value);
+      const major = (document.getElementById('major').value || '').trim();
+      if (!major){
+        renderTable([]);
+        document.getElementById('count').textContent = 'Pick a major to see matches.';
+        return;
+      }
+
+      const matches = COLLEGES
+        .filter(c => c.majors.includes(major))
+        .map(c => ({ name:c.name, system:c.system, mid:c.admitGpa50, fit: classify(gpa, c.admitGpa50) }))
+        .sort((a,b) => a.mid - b.mid);
+
+      renderTable(matches);
+    });
+
+    // Optional: pre-fill demo values to show how it works
+    document.getElementById('gpa').value = "3.82";
+    document.getElementById('major').value = "Electrical Engineering";
   </script>
 </body>
 </html>
