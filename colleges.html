@@ -4,14 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Colleges | Pathfinder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#0b1020; --panel:#0f1533; --muted:#9aa4c7; --text:#eaf0ff; --accent:#4da3ff; --accent-2:#7cc8ff;
       --ok:#1ed760; --warn:#ffcc00; --danger:#ff5c5c; --line:#243066;
+      --glass:linear-gradient(180deg,#10183a,#0c1230);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 800px at 10% -10%,#13224d 0%, transparent 50%), radial-gradient(1000px 700px at 110% 10%, #0c1a3a 0%, transparent 50%), var(--bg);color:var(--text)}
+    body{margin:0;font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:
+      radial-gradient(1200px 800px at 10% -10%,#13224d 0%, transparent 50%),
+      radial-gradient(1000px 700px at 110% 10%, #0c1a3a 0%, transparent 50%), var(--bg);color:var(--text)}
     a{color:var(--text);text-decoration:none}
 
     .container{max-width:1280px;margin:0 auto;padding:24px}
@@ -28,33 +32,37 @@
     h1{font-size:32px;margin:18px 0 8px}
     p.lead{color:var(--muted);margin:0 0 18px}
 
-    .grid{display:grid;grid-template-columns:1fr;gap:16px}
-    .panel{background:linear-gradient(180deg,#0e1635,#0b1230);border:1px solid #233068;border-radius:18px;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02)}
+    .panel{background:var(--glass);border:1px solid #233068;border-radius:18px;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02)}
+
+    /* COACH (typewriter prompt) */
+    .coach{display:flex;align-items:center;gap:8px;border:1px solid #223068;background:#0a1331AA;padding:12px 14px;border-radius:14px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+    .coach .caret{width:10px;height:18px;background:#8fb8ff;display:inline-block;margin-left:4px;animation:blink 1s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
+    .coach .dots{display:inline-flex;gap:4px;margin-left:6px}
+    .coach .dot{width:6px;height:6px;border-radius:50%;background:#9fb2ff;opacity:.4;animation:bounce 1s infinite ease-in-out}
+    .coach .dot:nth-child(2){animation-delay:.15s}.coach .dot:nth-child(3){animation-delay:.3s}
+    @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-4px);opacity:1}}
 
     /* STEPPER */
-    .stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+    .stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
     .step{background:#0b1332;border:1px solid #223068;border-radius:12px;padding:10px;text-align:center;color:#9fb2ff}
     .step.active{background:#14205a;color:#fff;border-color:#2e4dac}
 
+    /* FORM */
     .row{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width:800px){.row{grid-template-columns:1fr 1fr}}
-
     label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-    input,select,button,textarea{width:100%;padding:14px 16px;border-radius:12px;background:#0a1331;border:1px solid #243470;color:var(--text);font-size:15px}
-    textarea{min-height:72px;resize:vertical}
-    input:focus,select:focus,button:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.25)}
+    input,select,button{width:100%;padding:14px 16px;border-radius:12px;background:#0a1331;border:1px solid #243470;color:var(--text);font-size:15px}
+    input:focus,select:focus,button:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,163,255,.25)}
     button{cursor:pointer;background:linear-gradient(180deg,#1c3f86,#17346f);border-color:#2a56a6;font-weight:700}
     button:hover{transform:translateY(-1px)}
 
     .note{font-size:12px;color:var(--muted)}
-    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-    .chip{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a3a7a;color:var(--muted)}
 
     /* COLLAPSIBLE FILTERS */
     .collapse{border-top:1px dashed #223068;margin-top:12px;padding-top:12px}
     .collapse summary{cursor:pointer;list-style:none}
     .collapse summary::-webkit-details-marker{display:none}
-    .collapse summary .twisty{margin-left:6px;opacity:.7}
 
     /* TABLE */
     .table-wrap{overflow:auto;border-radius:14px}
@@ -71,7 +79,7 @@
     .why{font-size:12.5px;color:#c8d3ff;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
     .mini-link{font-size:12px;border:1px solid #2a3a7a;border-radius:999px;padding:6px 10px;background:#0a1331;display:inline-block}
 
-    /* BOTTOM ACTION BAR */
+    /* ACTION BAR */
     .actionbar{position:sticky;bottom:0;left:0;right:0;background:rgba(10,15,30,.85);backdrop-filter:blur(8px);border-top:1px solid #223068;padding:10px;display:flex;justify-content:space-between;align-items:center;z-index:15}
 
     /* DRAWER (Bookmarks) */
@@ -85,6 +93,12 @@
     .bm-actions{display:flex;gap:6px}
     .star{cursor:pointer;user-select:none}
     .star.filled{filter:drop-shadow(0 0 6px var(--accent))}
+
+    /* LOADER */
+    .loader{display:inline-flex;gap:6px;margin-left:6px}
+    .loader .dot{width:8px;height:8px;border-radius:50%;background:#9fb2ff;opacity:.4;animation:bounce 1s infinite ease-in-out}
+    .loader .dot:nth-child(2){animation-delay:.15s}.loader .dot:nth-child(3){animation-delay:.3s}
+    @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-4px);opacity:1}}
   </style>
 </head>
 <body>
@@ -96,7 +110,6 @@
           <a class="link" href="index.html">Home</a>
           <a class="link" href="explore.html">Explore</a>
           <a class="link active" href="colleges.html">Colleges</a>
-          <!-- compact icon buttons -->
           <button id="shareBtn" class="iconbtn" title="Save & copy shareable link">🔗</button>
           <button id="bmBtn" class="iconbtn" title="Bookmarks">⭐</button>
         </div>
@@ -105,11 +118,14 @@
   </header>
 
   <main class="container">
-    <h1>Find Your Best-Fit Colleges</h1>
-    <p class="lead">We’ll guide you step-by-step. Start with your <strong>weighted GPA</strong>, then choose a <strong>major</strong>. Filters and advanced details stay tucked away until you need them.</p>
+    <h1>Find Your Best‑Fit Colleges</h1>
+    <div class="panel coach" aria-live="polite">
+      <div id="coachText">Welcome!</div>
+      <span class="caret"></span>
+      <div class="dots" id="coachDots" style="display:none"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    </div>
 
-    <!-- Stepper + Inputs -->
-    <section class="panel">
+    <section class="panel" style="margin-top:12px">
       <div class="stepper" aria-label="progress">
         <div class="step active" id="s1">1. GPA</div>
         <div class="step" id="s2">2. Major</div>
@@ -137,7 +153,7 @@
       </div>
 
       <details class="collapse" id="filters">
-        <summary><strong>Filters</strong> <span class="twisty">▸</span></summary>
+        <summary><strong>Filters</strong></summary>
         <div class="row" style="margin-top:8px">
           <label>System
             <select id="system">
@@ -161,7 +177,6 @@
       <p class="note" style="margin-top:10px">Badges use placeholder midpoints & rates. Replace the <code>COLLEGES</code> dataset with verified values when ready.</p>
     </section>
 
-    <!-- Results -->
     <section class="panel">
       <div class="table-wrap" id="tableWrap"><div id="results" aria-live="polite"></div></div>
       <div class="chips" id="legend" style="margin-top:10px">
@@ -174,12 +189,11 @@
     <div class="actionbar">
       <div id="count" class="note">No results yet.</div>
       <div style="display:flex;gap:8px">
-        <button id="detailed">Toggle details</button>
+        <button id="toggleDetails">Toggle details</button>
         <button id="analyze">Re-run</button>
       </div>
     </div>
 
-    <!-- Drawer: Bookmarks -->
     <aside class="drawer" id="drawer">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <strong>Bookmarks</strong>
@@ -194,7 +208,10 @@
 
   <script>
     // ====== Majors ======
-    const MAJORS = ["Electrical Engineering","Civil Engineering","Mechanical Engineering","Materials Science","Computer Science","Business Administration","Finance","Mathematics","Psychology","Nursing","Liberal Arts"];
+    const MAJORS = [
+      "Electrical Engineering","Civil Engineering","Mechanical Engineering","Materials Science",
+      "Computer Science","Business Administration","Finance","Mathematics","Psychology","Nursing","Liberal Arts"
+    ];
 
     // ====== Dataset (demo) ======
     const COLLEGES = [
@@ -222,9 +239,9 @@
     // ====== Helpers ======
     const majorsDL = document.getElementById('majors');
     MAJORS.forEach(m => majorsDL.insertAdjacentHTML('beforeend', `<option value="${m}"></option>`));
-
     const getMidpoint = (college, major) => (college.midByMajor && college.midByMajor[major]) ? college.midByMajor[major] : college.midGpa;
     const admissionsUrl = (name) => `https://www.google.com/search?q=${encodeURIComponent(name+' undergraduate admissions')}`;
+    const fitTagClass = (b) => b==='Safety'?'safety':(b==='Target'?'target':'reach');
 
     function classify(gpa, midpoint){
       if (isNaN(gpa) || isNaN(midpoint)) return {band:"—", diff:NaN};
@@ -233,7 +250,6 @@
       if (Math.abs(diff) <= 0.15) return {band:"Target", diff};
       return {band:"Reach", diff};
     }
-    const fitTagClass = (b) => b==='Safety'?'safety':(b==='Target'?'target':'reach');
     function reasonText({gpa, mid, band, name, major}){
       const delta = +(gpa - mid).toFixed(2); const aboveBelow = delta >= 0 ? 'above' : 'below'; const abs = Math.abs(delta).toFixed(2);
       return `${major?`<strong>${major}</strong> at ${name}`:name}: midpoint <strong>${mid.toFixed(2)}</strong>. Your GPA is <strong>${abs}</strong> ${aboveBelow} → <strong>${band}</strong>.`;
@@ -272,20 +288,57 @@
       });
     }
 
-    // ====== UI State & Actions ======
-    const drawer = document.getElementById('drawer');
-    document.getElementById('bmBtn').addEventListener('click', ()=> drawer.classList.toggle('open'));
-    document.getElementById('closeDrawer').addEventListener('click', ()=> drawer.classList.remove('open'));
-    document.getElementById('clearBms').addEventListener('click', ()=> saveBookmarks([]));
-
-    // Stepper
+    // ====== UI: Stepper & Typewriter coach ======
     const s1=document.getElementById('s1'), s2=document.getElementById('s2'), s3=document.getElementById('s3');
     function setStep(n){ [s1,s2,s3].forEach((el,i)=> el.classList.toggle('active', i===n-1)); }
-    document.getElementById('toStep2').addEventListener('click', ()=>{document.getElementById('step1').style.display='none'; document.getElementById('step2').style.display='grid'; setStep(2);});
-    document.getElementById('back1').addEventListener('click', ()=>{document.getElementById('step2').style.display='none'; document.getElementById('step1').style.display='grid'; setStep(1);});
-    document.getElementById('run').addEventListener('click', ()=>{analyze(); setStep(3);});
 
-    // Share (profile in URL + clipboard)
+    const coachText = document.getElementById('coachText');
+    const coachDots = document.getElementById('coachDots');
+    let typing = false; let typeQueue = Promise.resolve();
+    function typeLine(text, speed=22){
+      return new Promise(resolve=>{
+        typing = true; coachDots.style.display='none'; coachText.textContent='';
+        let i=0; const timer = setInterval(()=>{
+          coachText.textContent += text.charAt(i++);
+          if(i>=text.length){ clearInterval(timer); typing=false; resolve(); }
+        }, speed);
+      });
+    }
+    function say(text){ typeQueue = typeQueue.then(()=>typeLine(text)); return typeQueue; }
+    function thinking(on=true){ coachDots.style.display = on ? 'inline-flex' : 'none'; }
+
+    // ====== Flow: auto-advance & analyze ======
+    const gpa = document.getElementById('gpa');
+    const major = document.getElementById('major');
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+
+    function toStep2(){ step1.style.display='none'; step2.style.display='grid'; setStep(2); major.focus(); }
+    function toStep1(){ step2.style.display='none'; step1.style.display='grid'; setStep(1); gpa.focus(); }
+    document.getElementById('toStep2').addEventListener('click', toStep2);
+    document.getElementById('back1').addEventListener('click', toStep1);
+
+    function validGpa(){ const v=parseFloat(gpa.value); return !isNaN(v) && v>=0 && v<=5; }
+    function matchesMajor(val){ return MAJORS.map(m=>m.toLowerCase()).includes((val||'').toLowerCase().trim()); }
+
+    // Debounce helper
+    function debounce(fn,ms){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),ms); }; }
+
+    gpa.addEventListener('input', debounce(()=>{
+      if (validGpa()){
+        say('Great — now choose your intended major.').then(()=>{ toStep2(); });
+      }
+    }, 400));
+    gpa.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && validGpa()){ e.preventDefault(); toStep2(); } });
+
+    function goResults(){ setStep(3); thinking(true); say('Crunching your matches').then(()=>{
+      setTimeout(()=>{ analyze(); thinking(false); }, 450);
+    }); }
+
+    major.addEventListener('change', ()=>{ if(matchesMajor(major.value)){ goResults(); } });
+    major.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); if(matchesMajor(major.value)) goResults(); } });
+
+    // ====== Share (profile in URL + clipboard) ======
     function getProfile(){return {gpa: gpa.value, major: major.value, system: system.value, minrate: minrate.value};}
     function applyProfile(p){ if(!p) return; if(p.gpa!=null) gpa.value=p.gpa; if(p.major!=null) major.value=p.major; if(p.system!=null) system.value=p.system; if(p.minrate!=null) minrate.value=p.minrate; }
     function profileToQuery(p){ return `${location.pathname}?${new URLSearchParams(p).toString()}`; }
@@ -296,10 +349,10 @@
       history.replaceState(null,'',profileToQuery(p));
     });
 
-    // Analysis
+    // ====== Analysis & render ======
     function analyze(){
-      const g = parseFloat(document.getElementById('gpa').value);
-      const m = (document.getElementById('major').value||'').trim();
+      const g = parseFloat(gpa.value);
+      const m = (major.value||'').trim();
       const sys = document.getElementById('system').value;
       const minR = parseInt(document.getElementById('minrate').value,10)||0;
 
@@ -317,7 +370,7 @@
       renderTable(rows, m);
     }
 
-    function renderTable(rows, major){
+    function renderTable(rows, majorVal){
       const el = document.getElementById('results');
       if (!rows.length){ el.innerHTML = '<p class="note">No results yet. Enter GPA, choose a major, and click Show Results.</p>'; document.getElementById('count').textContent='No results'; return; }
 
@@ -327,7 +380,8 @@
 
       const tbody = rows.map(r=>{
         const tag = fitTagClass(r.fit.band);
-        const why = reasonText({gpa:r.gpa, mid:r.mid, band:r.fit.band, name:r.name, major});
+        const why = reasonText({gpa:r.gpa, mid:r.mid, band:r.fit.band, name:r.name, major:majorVal});
+        const starred = isBookmarked(r.name, majorVal);
         return `<tr id="row-${r.id}">
           <td>${r.name}<div class="note">${r.system}</div></td>
           <td><span class="tag ${tag}">${r.fit.band}</span></td>
@@ -336,7 +390,7 @@
           <td>
             <button class="mini-link" data-why="${r.id}">Why?</button>
             <a class="mini-link" target="_blank" href="${admissionsUrl(r.name)}">Admissions</a>
-            <span class="mini-link star ${isBookmarked(r.name, major)?'':'"'} data-star="${r.id}">★</span>
+            <span class="mini-link star ${starred?'filled':''}" data-star="${r.id}">★</span>
             <div class="why" id="why-${r.id}" style="display:none">${why}</div>
           </td>
         </tr>`;
@@ -345,7 +399,6 @@
       el.innerHTML = `<table>${thead}<tbody>${tbody}</tbody></table>`;
       document.getElementById('count').textContent = `${rows.length} result${rows.length===1?'':'s'}`;
 
-      // wire Why & Star
       document.querySelectorAll('[data-why]').forEach(btn=>{
         btn.addEventListener('click',()=>{
           const id = btn.getAttribute('data-why');
@@ -365,10 +418,10 @@
           const system = row.children[0].querySelector('.note').textContent.trim();
           const mid = parseFloat(row.children[2].textContent);
           const rate = parseInt(row.children[3].textContent,10);
-          const gpa = parseFloat(document.getElementById('gpa').value);
-          const major = (document.getElementById('major').value||'').trim();
-          const bm = {name, system, rate, mid, band, gpa, major, ts: Date.now()};
-          if (isBookmarked(name, major)) { removeBookmark(name, major); st.classList.remove('filled'); }
+          const gpaVal = parseFloat(gpa.value);
+          const majorVal = (major.value||'').trim();
+          const bm = {name, system, rate, mid, band, gpa:gpaVal, major: majorVal, ts: Date.now()};
+          if (isBookmarked(name, majorVal)) { removeBookmark(name, majorVal); st.classList.remove('filled'); }
           else { addBookmark(bm); st.classList.add('filled'); }
         });
       });
@@ -376,22 +429,28 @@
       renderBookmarks();
     }
 
-    // Init from URL/localStorage & demo
-    (function init(){
-      const q = Object.fromEntries(new URL(location.href).searchParams.entries());
-      if (Object.keys(q).length) { applyProfile(q); }
-      else { applyProfile(getJSON(LS_KEYS.PROFILE, null)); }
-      if (!gpa.value) gpa.value = '4.00';
-      if (!major.value) major.value = 'Mathematics';
-      renderBookmarks();
-    })();
+    // ====== Drawer + Buttons ======
+    const drawer = document.getElementById('drawer');
+    document.getElementById('bmBtn').addEventListener('click', ()=> drawer.classList.toggle('open'));
+    document.getElementById('closeDrawer').addEventListener('click', ()=> drawer.classList.remove('open'));
+    document.getElementById('clearBms').addEventListener('click', ()=> saveBookmarks([]));
 
-    document.getElementById('analyze').addEventListener('click', analyze);
-    document.getElementById('detailed').addEventListener('click', ()=>{
+    // Toggle all whys
+    document.getElementById('toggleDetails').addEventListener('click', ()=>{
       document.querySelectorAll('.why').forEach(w=>{
         w.style.display = (w.style.display==='block')? 'none':'block';
       });
     });
+
+    // ====== Init: coach intro & restore profile ======
+    (async function init(){
+      await say('Start with your weighted GPA.');
+      const q = Object.fromEntries(new URL(location.href).searchParams.entries());
+      if (Object.keys(q).length) { applyProfile(q); }
+      else { const p = getJSON(LS_KEYS.PROFILE, null); applyProfile(p); }
+      if (!gpa.value) gpa.value = '4.00';
+      if (!major.value) major.value = '';
+    })();
   </script>
 </body>
 </html>
