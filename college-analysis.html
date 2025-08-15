@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pathfinder | College Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #0d1117;
+      color: white;
+    }
+    header {
+      background-color: #161b22;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 10px #58a6ff;
+    }
+    header h1 {
+      font-size: 1.5rem;
+      color: #58a6ff;
+    }
+    main {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .result-card {
+      background: #1c2128;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 12px rgba(88, 166, 255, 0.2);
+    }
+    .result-card h2 {
+      color: #58a6ff;
+      margin-bottom: 0.5rem;
+    }
+    .label {
+      font-weight: bold;
+      color: #c9d1d9;
+    }
+    .tag {
+      padding: 0.25rem 0.75rem;
+      border-radius: 5px;
+      font-size: 0.875rem;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+    .reach {
+      background-color: #ff4d4d;
+      color: white;
+    }
+    .target {
+      background-color: #f0ad4e;
+      color: white;
+    }
+    .safety {
+      background-color: #5cb85c;
+      color: white;
+    }
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .note {
+      font-size: 0.9rem;
+      color: #8b949e;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎓 Pathfinder College Match</h1>
+    <a href="index.html">Home</a>
+  </header>
+
+  <main>
+    <h2>Your Personalized College Match Results</h2>
+
+    <!-- Example Card -->
+    <div class="result-card">
+      <h2>University of California, Berkeley</h2>
+      <div class="label">Major:</div> Psychology<br>
+      <div class="label">GPA:</div> 3.82<br>
+      <div class="label">Acceptance Rate:</div> 14.4%<br>
+      <div class="label">Major Difficulty:</div> Moderate (Graduation rate 88%)<br>
+      <div class="label">Estimated Admission Chance:</div> 25-30%<br>
+      <div class="label">Type:</div> <span class="tag target">🎯 Target</span><br>
+      <div class="label">Admissions Info:</div> <a href="https://admissions.berkeley.edu/" target="_blank">Visit Website</a>
+      <p class="note">Why target? Your GPA is within range, and psychology isn’t the most impacted major at Berkeley. Still competitive, but a strong application gives you a real shot.</p>
+    </div>
+
+    <!-- More result-card divs will be inserted dynamically by JS later -->
+
+  </main>
+
+</body>
+</html>
+
