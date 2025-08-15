@@ -6,20 +6,13 @@
   <title>Colleges | Pathfinder</title>
   <style>
     :root{
-      --bg:#0b1020;       /* midnight */
-      --panel:#121936;    /* deep slate */
-      --muted:#9aa4c7;    /* muted text */
-      --text:#eaf0ff;     /* main text */
-      --accent:#4da3ff;   /* blue glow */
-      --accent-2:#7cc8ff; /* lighter */
-      --ok:#1ed760;
-      --warn:#ffcc00;
-      --danger:#ff5c5c;
+      --bg:#0b1020; --panel:#121936; --muted:#9aa4c7; --text:#eaf0ff; --accent:#4da3ff; --accent-2:#7cc8ff;
+      --ok:#1ed760; --warn:#ffcc00; --danger:#ff5c5c; --line:#243066;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 800px at 10% -10%,#13224d 0%, transparent 50%), radial-gradient(1000px 700px at 110% 10%, #0c1a3a 0%, transparent 50%), var(--bg);color:var(--text)}
     a{color:var(--text);text-decoration:none}
-    .container{max-width:1100px;margin:0 auto;padding:24px}
+    .container{max-width:1150px;margin:0 auto;padding:24px}
     header{position:sticky;top:0;background:rgba(11,16,32,.7);backdrop-filter: blur(8px);border-bottom:1px solid #1b2550;z-index:10}
     nav{display:flex;gap:12px;align-items:center;justify-content:space-between}
     .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
@@ -28,12 +21,13 @@
     .link{padding:10px 14px;border-radius:12px;color:var(--muted);border:1px solid transparent}
     .link:hover{color:var(--text);border-color:#273064;background:linear-gradient(180deg,#121a3b,#0e1633)}
     .active{color:var(--text);border:1px solid #2a3a7a;background:linear-gradient(180deg,#19245a,#121a3f);box-shadow:0 0 0 1px #1f2b5e inset}
-    h1{font-size:28px;margin:18px 0 12px}
-    p.lead{color:var(--muted);margin:0 0 22px}
+
+    h1{font-size:28px;margin:18px 0 8px}
+    p.lead{color:var(--muted);margin:0 0 18px}
 
     .panel{background:linear-gradient(180deg,#0e1635,#0b1230);border:1px solid #233068;border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02)}
     .grid{display:grid;grid-template-columns:1fr;gap:12px}
-    @media (min-width: 760px){.grid{grid-template-columns:2fr 3fr}}
+    @media (min-width: 860px){.grid{grid-template-columns:2fr 3fr}}
 
     label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
     input,select,button{width:100%;padding:12px 14px;border-radius:12px;background:#0a1331;border:1px solid #243470;color:var(--text)}
@@ -41,13 +35,16 @@
     button{cursor:pointer;background:linear-gradient(180deg,#1c3f86,#17346f);border-color:#2a56a6;font-weight:600}
     button:hover{transform:translateY(-1px)}
 
+    .row{display:grid;grid-template-columns:1fr;gap:10px}
+    @media (min-width:680px){.row{grid-template-columns:repeat(2,1fr)}}
+
     .note{font-size:12px;color:var(--muted)}
     .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
     .chip{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a3a7a;color:var(--muted)}
 
     table{width:100%;border-collapse:separate;border-spacing:0 10px}
     thead th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#a9b4db;text-align:left;padding:8px 10px}
-    tbody td{padding:14px 12px;background:#0b1332;border:1px solid #273777}
+    tbody td{padding:14px 12px;background:#0b1332;border:1px solid #273777;vertical-align:top}
     tbody tr{border-radius:12px}
     tbody td:first-child{border-top-left-radius:12px;border-bottom-left-radius:12px}
     tbody td:last-child{border-top-right-radius:12px;border-bottom-right-radius:12px}
@@ -56,6 +53,10 @@
     .target{background:rgba(255,204,0,.12);color:#ffe08a;border:1px solid rgba(255,204,0,.35)}
     .reach{background:rgba(255,92,92,.14);color:#ffb3b3;border:1px solid rgba(255,92,92,.35)}
     .count{color:var(--muted);font-size:13px;margin:8px 0 0}
+    .why{font-size:12px;color:#c8d3ff;margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;border:1px solid #2a3a7a;border-radius:999px;padding:6px 10px;color:#cfe0ff}
+    .pill input{width:auto}
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
     footer{margin:28px 0 40px;color:var(--muted);font-size:12px;text-align:center}
   </style>
 </head>
@@ -74,27 +75,51 @@
   </header>
 
   <main class="container">
-    <h1>California Colleges — Target / Reach / Safety</h1>
-    <p class="lead">Enter your GPA, choose a major, and instantly see where each college may be a safety, target, or reach — using demo GPA bands you can replace with real data later.</p>
+    <h1>California Colleges — Personalized Fit</h1>
+    <p class="lead">Enter your <strong>weighted GPA</strong>, choose a major, and see which colleges look like <span class="tag safety">Safety</span>, <span class="tag target">Target</span>, or <span class="tag reach">Reach</span>. Click <em>Why?</em> to see the explanation.</p>
 
     <div class="grid">
       <section class="panel">
-        <label for="gpa">Your GPA (unweighted, 0–4.0)</label>
-        <input id="gpa" type="number" min="0" max="4.5" step="0.01" placeholder="e.g., 3.82" />
+        <div class="row">
+          <div>
+            <label for="gpa">Weighted GPA (can be above 4.0)</label>
+            <input id="gpa" type="number" min="0" max="5.00" step="0.01" placeholder="e.g., 4.18" />
+          </div>
+          <div>
+            <label for="major">Major</label>
+            <input list="majors" id="major" placeholder="Start typing… e.g., Electrical Engineering" />
+            <datalist id="majors"></datalist>
+          </div>
+        </div>
 
-        <div style="height:12px"></div>
-        <label for="major">Major</label>
-        <input list="majors" id="major" placeholder="Start typing… e.g., Electrical Engineering" />
-        <datalist id="majors"></datalist>
+        <div class="toolbar">
+          <label class="pill"><input type="checkbox" id="detailed"/> Detailed view</label>
+          <label class="pill">System
+            <select id="system">
+              <option value="ALL">All</option>
+              <option value="UC">UC</option>
+              <option value="CSU">CSU</option>
+              <option value="Private">Private</option>
+            </select>
+          </label>
+          <label class="pill">Min admit rate
+            <select id="minrate">
+              <option value="0">Any</option>
+              <option value="10">≥ 10%</option>
+              <option value="20">≥ 20%</option>
+              <option value="30">≥ 30%</option>
+            </select>
+          </label>
+        </div>
 
-        <div style="height:12px"></div>
+        <div style="height:10px"></div>
         <button id="analyze">Analyze Colleges</button>
-        <p class="note" style="margin-top:10px">Note: Data below uses <strong>placeholder GPA midpoints</strong> for demo purposes. Replace the <code>COLLEGES</code> dataset in this file with your verified numbers when you're ready.</p>
+        <p class="note" style="margin-top:10px">Note: Numbers below use <strong>placeholder midpoints & admit rates</strong> for demo. Replace the <code>COLLEGES</code> dataset with your verified data when ready.</p>
 
         <div class="chips" id="legend">
-          <span class="chip"><span class="tag safety">Safety</span> GPA is ~0.20+ above the college's midpoint</span>
-          <span class="chip"><span class="tag target">Target</span> within ±0.15 of midpoint</span>
-          <span class="chip"><span class="tag reach">Reach</span> ~0.16+ below midpoint</span>
+          <span class="chip"><span class="tag safety">Safety</span> GPA ≥ midpoint + 0.20</span>
+          <span class="chip"><span class="tag target">Target</span> |GPA − midpoint| ≤ 0.15</span>
+          <span class="chip"><span class="tag reach">Reach</span> GPA ≤ midpoint − 0.16</span>
         </div>
       </section>
 
@@ -117,103 +142,149 @@
     ];
 
     // ====== DEMO College dataset ======
-    // For each college, set a midpoint GPA (admitGpa50) to anchor safety/target/reach.
-    // Replace numbers with your verified data later.
+    // midGpa: midpoint weighted GPA for admits (placeholder)
+    // admitRate: overall or major-specific approximate admit rate (placeholder, %)
     const COLLEGES = [
       // UCs
-      {name:"UC Berkeley", system:"UC", admitGpa50:4.20, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science"]},
-      {name:"UCLA", system:"UC", admitGpa50:4.18, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Psychology","Mathematics"]},
-      {name:"UC San Diego", system:"UC", admitGpa50:4.10, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science"]},
-      {name:"UC Santa Barbara", system:"UC", admitGpa50:4.05, majors:["Mechanical Engineering","Computer Science","Mathematics","Psychology"]},
-      {name:"UC Irvine", system:"UC", admitGpa50:4.05, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing"]},
-      {name:"UC Davis", system:"UC", admitGpa50:4.00, majors:["Mechanical Engineering","Computer Science","Psychology","Mathematics","Materials Science","Nursing"]},
-      {name:"UC Santa Cruz", system:"UC", admitGpa50:3.85, majors:["Computer Science","Mathematics","Psychology"]},
-      {name:"UC Riverside", system:"UC", admitGpa50:3.80, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration"]},
-      {name:"UC Merced", system:"UC", admitGpa50:3.75, majors:["Mechanical Engineering","Computer Science","Mathematics"]},
+      {name:"UC Berkeley", system:"UC", midGpa:4.25, admitRate:12, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science"]},
+      {name:"UCLA", system:"UC", midGpa:4.23, admitRate:11, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Psychology","Mathematics"]},
+      {name:"UC San Diego", system:"UC", midGpa:4.15, admitRate:24, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science"]},
+      {name:"UC Santa Barbara", system:"UC", midGpa:4.10, admitRate:26, majors:["Mechanical Engineering","Computer Science","Mathematics","Psychology"]},
+      {name:"UC Irvine", system:"UC", midGpa:4.08, admitRate:28, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing"]},
+      {name:"UC Davis", system:"UC", midGpa:4.02, admitRate:37, majors:["Mechanical Engineering","Computer Science","Psychology","Mathematics","Materials Science","Nursing"]},
+      {name:"UC Santa Cruz", system:"UC", midGpa:3.90, admitRate:51, majors:["Computer Science","Mathematics","Psychology"]},
+      {name:"UC Riverside", system:"UC", midGpa:3.85, admitRate:57, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration"]},
+      {name:"UC Merced", system:"UC", midGpa:3.78, admitRate:86, majors:["Mechanical Engineering","Computer Science","Mathematics"]},
 
       // CSUs / Cal Polys
-      {name:"Cal Poly San Luis Obispo", system:"CSU", admitGpa50:4.05, majors:["Electrical Engineering","Mechanical Engineering","Materials Science","Business Administration","Computer Science"]},
-      {name:"Cal Poly Pomona", system:"CSU", admitGpa50:3.85, majors:["Electrical Engineering","Mechanical Engineering","Civil Engineering","Computer Science","Business Administration"]},
-      {name:"San Diego State", system:"CSU", admitGpa50:3.90, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing"]},
-      {name:"San José State", system:"CSU", admitGpa50:3.85, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration"]},
-      {name:"Long Beach State", system:"CSU", admitGpa50:3.80, majors:["Mechanical Engineering","Civil Engineering","Computer Science","Business Administration"]},
-      {name:"CSU Fullerton", system:"CSU", admitGpa50:3.70, majors:["Computer Science","Business Administration","Finance","Psychology"]},
-      {name:"CSU Northridge", system:"CSU", admitGpa50:3.60, majors:["Mechanical Engineering","Civil Engineering","Computer Science","Business Administration","Psychology"]},
-      {name:"San Francisco State", system:"CSU", admitGpa50:3.55, majors:["Business Administration","Computer Science","Psychology","Mathematics"]},
-      {name:"Sacramento State", system:"CSU", admitGpa50:3.55, majors:["Mechanical Engineering","Civil Engineering","Business Administration"]},
-      {name:"Chico State", system:"CSU", admitGpa50:3.50, majors:["Mechanical Engineering","Civil Engineering","Business Administration","Computer Science"]},
-      {name:"Fresno State", system:"CSU", admitGpa50:3.45, majors:["Mechanical Engineering","Civil Engineering","Business Administration","Computer Science","Nursing"]},
-      {name:"Sonoma State", system:"CSU", admitGpa50:3.40, majors:["Business Administration","Computer Science","Psychology","Mathematics"]},
-      {name:"CSU East Bay", system:"CSU", admitGpa50:3.35, majors:["Business Administration","Computer Science","Psychology"]},
-      {name:"CSU Monterey Bay", system:"CSU", admitGpa50:3.35, majors:["Business Administration","Computer Science","Mathematics"]},
-      {name:"CSU San Marcos", system:"CSU", admitGpa50:3.40, majors:["Business Administration","Computer Science","Nursing","Psychology"]},
-      {name:"CSU San Bernardino", system:"CSU", admitGpa50:3.40, majors:["Business Administration","Computer Science","Psychology","Mathematics"]},
+      {name:"Cal Poly San Luis Obispo", system:"CSU", midGpa:4.05, admitRate:29, majors:["Electrical Engineering","Mechanical Engineering","Materials Science","Business Administration","Computer Science"]},
+      {name:"Cal Poly Pomona", system:"CSU", midGpa:3.86, admitRate:45, majors:["Electrical Engineering","Mechanical Engineering","Civil Engineering","Computer Science","Business Administration"]},
+      {name:"San Diego State", system:"CSU", midGpa:3.90, admitRate:38, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration","Nursing"]},
+      {name:"San José State", system:"CSU", midGpa:3.85, admitRate:54, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Business Administration"]},
+      {name:"Long Beach State", system:"CSU", midGpa:3.80, admitRate:42, majors:["Mechanical Engineering","Civil Engineering","Computer Science","Business Administration"]},
+      {name:"CSU Fullerton", system:"CSU", midGpa:3.70, admitRate:59, majors:["Computer Science","Business Administration","Finance","Psychology"]},
+      {name:"CSU Northridge", system:"CSU", midGpa:3.60, admitRate:66, majors:["Mechanical Engineering","Civil Engineering","Computer Science","Business Administration","Psychology"]},
+      {name:"San Francisco State", system:"CSU", midGpa:3.55, admitRate:84, majors:["Business Administration","Computer Science","Psychology","Mathematics"]},
+      {name:"Sacramento State", system:"CSU", midGpa:3.55, admitRate:74, majors:["Mechanical Engineering","Civil Engineering","Business Administration"]},
+      {name:"Chico State", system:"CSU", midGpa:3.50, admitRate:85, majors:["Mechanical Engineering","Civil Engineering","Business Administration","Computer Science"]},
+      {name:"Fresno State", system:"CSU", midGpa:3.45, admitRate:90, majors:["Mechanical Engineering","Civil Engineering","Business Administration","Computer Science","Nursing"]},
+      {name:"Sonoma State", system:"CSU", midGpa:3.40, admitRate:92, majors:["Business Administration","Computer Science","Psychology","Mathematics"]},
+      {name:"CSU East Bay", system:"CSU", midGpa:3.35, admitRate:89, majors:["Business Administration","Computer Science","Psychology"]},
+      {name:"CSU Monterey Bay", system:"CSU", midGpa:3.35, admitRate:93, majors:["Business Administration","Computer Science","Mathematics"]},
+      {name:"CSU San Marcos", system:"CSU", midGpa:3.40, admitRate:80, majors:["Business Administration","Computer Science","Nursing","Psychology"]},
+      {name:"CSU San Bernardino", system:"CSU", midGpa:3.40, admitRate:91, majors:["Business Administration","Computer Science","Psychology","Mathematics"]},
+
+      // Privates (CA)
+      {name:"Stanford", system:"Private", midGpa:4.30, admitRate:4, majors:["Computer Science","Mathematics","Electrical Engineering"]},
+      {name:"Caltech", system:"Private", midGpa:4.30, admitRate:3, majors:["Electrical Engineering","Mechanical Engineering","Mathematics","Materials Science"]},
+      {name:"USC", system:"Private", midGpa:4.15, admitRate:12, majors:["Business Administration","Computer Science","Mechanical Engineering","Electrical Engineering","Mathematics"]},
+      {name:"Santa Clara University", system:"Private", midGpa:3.95, admitRate:52, majors:["Computer Science","Business Administration","Electrical Engineering","Finance"]},
+      {name:"Pepperdine", system:"Private", midGpa:3.90, admitRate:53, majors:["Business Administration","Psychology","Finance"]},
+      {name:"Loyola Marymount (LMU)", system:"Private", midGpa:3.85, admitRate:46, majors:["Business Administration","Computer Science","Finance","Psychology"]},
     ];
 
     // Populate majors datalist
     const majorsDL = document.getElementById('majors');
-    MAJORS.forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m; majorsDL.appendChild(opt);
-    });
+    MAJORS.forEach(m => { const opt = document.createElement('option'); opt.value = m; majorsDL.appendChild(opt); });
 
-    // Classification logic
+    // Classification logic with diff message
     function classify(gpa, midpoint){
-      if (isNaN(gpa) || isNaN(midpoint)) return "—";
-      const diff = gpa - midpoint;
-      if (diff >= 0.20) return "Safety";      // 0.20+ above midpoint
-      if (Math.abs(diff) <= 0.15) return "Target"; // within ±0.15
-      return "Reach";                            // otherwise reach
+      if (isNaN(gpa) || isNaN(midpoint)) return {band:"—", diff:NaN};
+      const diff = +(gpa - midpoint).toFixed(2);
+      if (diff >= 0.20) return {band:"Safety", diff};
+      if (Math.abs(diff) <= 0.15) return {band:"Target", diff};
+      return {band:"Reach", diff};
     }
 
-    function renderTable(rows){
+    function fitTagClass(band){
+      return band === 'Safety' ? 'safety' : band === 'Target' ? 'target' : 'reach';
+    }
+
+    function reasonText(gpa, mid, band){
+      if (isNaN(gpa) || isNaN(mid)) return '';
+      const delta = +(gpa - mid).toFixed(2);
+      const aboveBelow = delta >= 0 ? 'above' : 'below';
+      const abs = Math.abs(delta).toFixed(2);
+      return `Median weighted GPA for this major is <strong>${mid.toFixed(2)}</strong>. Your GPA is <strong>${abs}</strong> ${aboveBelow} the midpoint → <strong>${band}</strong>.`;
+    }
+
+    function renderTable(rows, detailed){
       const el = document.getElementById('results');
-      if (!rows.length){ el.innerHTML = '<p class="note">No matching colleges for that major yet. Try another major or add more colleges to the dataset.</p>'; return; }
+      if (!rows.length){ el.innerHTML = '<p class="note">No matching colleges for that major with current filters. Try another major or widen filters.</p>'; document.getElementById('count').textContent=''; return; }
 
       const thead = `
         <thead>
           <tr>
             <th>College</th>
             <th>System</th>
+            <th>Admit rate</th>
             <th>Midpoint GPA</th>
             <th>Fit</th>
           </tr>
         </thead>`;
 
       const tbody = rows.map(r => {
-        const tag = r.fit === 'Safety' ? 'safety' : r.fit === 'Target' ? 'target' : 'reach';
-        return `<tr>
+        const tag = fitTagClass(r.fit.band);
+        const why = reasonText(r.gpa, r.mid, r.fit.band);
+        const whyBlock = detailed ? `<div class="why">${why}</div>` : `<div class="why" style="display:none">${why}</div>`;
+        const toggleBtn = detailed ? '' : `<button class="miniwhy" data-id="${r.id}">Why?</button>`;
+        return `<tr id="row-${r.id}">
           <td>${r.name}</td>
           <td>${r.system}</td>
+          <td>${r.rate}%</td>
           <td>${r.mid.toFixed(2)}</td>
-          <td><span class="tag ${tag}">${r.fit}</span></td>
+          <td>
+            <span class="tag ${tag}">${r.fit.band}</span>
+            ${toggleBtn}
+            ${whyBlock}
+          </td>
         </tr>`;
       }).join('');
 
       el.innerHTML = `<table>${thead}<tbody>${tbody}</tbody></table>`;
       document.getElementById('count').textContent = `${rows.length} result${rows.length===1?'':'s'}`;
+
+      // wire up Why? toggles in simple view
+      document.querySelectorAll('.miniwhy').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const row = document.getElementById('row-'+btn.dataset.id);
+          const why = row.querySelector('.why');
+          why.style.display = (why.style.display === 'none' || why.style.display === '') ? 'block' : 'none';
+          btn.textContent = (why.style.display === 'block') ? 'Hide' : 'Why?';
+        });
+      });
     }
 
-    document.getElementById('analyze').addEventListener('click', () => {
+    function analyze(){
       const gpa = parseFloat(document.getElementById('gpa').value);
       const major = (document.getElementById('major').value || '').trim();
-      if (!major){
-        renderTable([]);
-        document.getElementById('count').textContent = 'Pick a major to see matches.';
-        return;
-      }
+      const detailed = document.getElementById('detailed').checked;
+      const sys = document.getElementById('system').value;
+      const minRate = parseInt(document.getElementById('minrate').value, 10) || 0;
 
-      const matches = COLLEGES
-        .filter(c => c.majors.includes(major))
-        .map(c => ({ name:c.name, system:c.system, mid:c.admitGpa50, fit: classify(gpa, c.admitGpa50) }))
+      const pool = COLLEGES
+        .filter(c => (sys==='ALL' ? true : c.system===sys))
+        .filter(c => c.admitRate >= minRate)
+        .filter(c => !major || c.majors.includes(major))
+        .map((c, idx) => ({
+          id: idx,
+          name: c.name,
+          system: c.system,
+          rate: c.admitRate,
+          mid: c.midGpa,
+          fit: classify(gpa, c.midGpa),
+          gpa
+        }))
         .sort((a,b) => a.mid - b.mid);
 
-      renderTable(matches);
-    });
+      renderTable(pool, detailed);
+    }
 
-    // Optional: pre-fill demo values to show how it works
-    document.getElementById('gpa').value = "3.82";
-    document.getElementById('major').value = "Electrical Engineering";
+    document.getElementById('analyze').addEventListener('click', analyze);
+
+    // Prefill demo
+    document.getElementById('gpa').value = "4.00";
+    document.getElementById('major').value = "Mathematics";
   </script>
 </body>
 </html>
