@@ -1,140 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pathfinder | Colleges</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>College Explorer | Pathfinder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Inter', sans-serif;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #0a0a0a;
-      color: white;
-    }
-    header {
-      background: #111;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    nav a {
-      color: #00bfff;
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-    nav a:hover {
-      color: #1e90ff;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 2rem auto;
       padding: 2rem;
-      background: #1c1c1c;
-      border-radius: 1rem;
-      box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);
     }
-    .container h1 {
-      margin-bottom: 1rem;
-      color: #00bfff;
+
+    h1 {
+      text-align: center;
+      color: #58a6ff;
     }
+
     .input-group {
-      margin: 1rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
-    .input-group label {
-      display: block;
-      margin-bottom: 0.3rem;
+
+    input, select, button {
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    input {
+      width: 200px;
+    }
+
+    button {
+      background-color: #238636;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #2ea043;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background-color: #161b22;
+      border-radius: 10px;
+      padding: 1rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 0 10px rgba(88, 166, 255, 0.1);
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px rgba(88, 166, 255, 0.2);
+    }
+
+    .college-name {
+      font-size: 1.2rem;
+      color: #58a6ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .tag {
+      padding: 0.4rem 0.7rem;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
       font-weight: bold;
     }
-    .input-group input, .input-group select {
-      width: 100%;
-      padding: 0.5rem;
-      font-size: 1rem;
-      border-radius: 0.5rem;
-      border: none;
-    }
-    .input-group input:focus {
-      outline: none;
-      box-shadow: 0 0 10px #00bfff;
-    }
-    button {
-      background: #00bfff;
+
+    .reach {
+      background-color: #da3633;
       color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
     }
-    button:hover {
-      background: #1e90ff;
+
+    .target {
+      background-color: #dbab09;
+      color: black;
     }
-    #results {
-      margin-top: 2rem;
+
+    .safety {
+      background-color: #238636;
+      color: white;
     }
-    .college-card {
-      border-left: 4px solid #00bfff;
-      background: #2a2a2a;
-      padding: 1rem;
-      margin: 1rem 0;
-      border-radius: 0.5rem;
+
+    a {
+      color: #58a6ff;
+      text-decoration: none;
     }
-    .college-card h3 {
-      margin: 0 0 0.5rem 0;
-      color: #1e90ff;
-    }
-    .college-card a {
-      color: #87cefa;
+
+    a:hover {
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h2>Pathfinder</h2>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="explore.html">Explore Majors</a>
-      <a href="college.html">Colleges</a>
-    </nav>
-  </header>
+  <h1>🎓 College Explorer</h1>
 
-  <div class="container">
-    <h1>College Match Tool</h1>
-    <div class="input-group">
-      <label for="gpa">Enter your GPA:</label>
-      <input type="number" id="gpa" placeholder="e.g. 3.75" min="0" max="5" step="0.01">
-    </div>
-
-    <div class="input-group">
-      <label for="major">Enter your Major:</label>
-      <input type="text" id="major" placeholder="e.g. Computer Science">
-    </div>
-
-    <div class="input-group">
-      <label for="residency">Residency Status:</label>
-      <select id="residency">
-        <option value="in-state">In-State</option>
-        <option value="out-of-state">Out-of-State</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label for="location">Preferred Location (optional):</label>
-      <input type="text" id="location" placeholder="e.g. Los Angeles">
-    </div>
-
-    <button onclick="analyzeColleges()">Analyze Colleges</button>
-
-    <div id="results"></div>
+  <div class="input-group">
+    <input type="number" step="0.01" id="gpaInput" placeholder="Enter your GPA (e.g. 3.8)" />
+    <input type="text" id="majorInput" placeholder="Type a major (e.g. Nursing)" />
+    <button onclick="analyzeColleges()">Find Matches</button>
   </div>
 
+  <div class="results" id="resultsContainer"></div>
+
+  <!-- Connect to your JS file -->
   <script src="collegeData.js"></script>
-  <script src="collegeLogic.js"></script>
+
+  <script>
+    function analyzeColleges() {
+      const gpa = parseFloat(document.getElementById("gpaInput").value);
+      const major = document.getElementById("majorInput").value.toLowerCase().trim();
+      const resultsContainer = document.getElementById("resultsContainer");
+      resultsContainer.innerHTML = "";
+
+      if (isNaN(gpa) || !major) {
+        resultsContainer.innerHTML = "<p>Please enter a valid GPA and major.</p>";
+        return;
+      }
+
+      const filtered = colleges.filter(college =>
+        college.majors.some(m => m.toLowerCase().includes(major))
+      );
+
+      if (filtered.length === 0) {
+        resultsContainer.innerHTML = "<p>No matching colleges found. Try another major.</p>";
+        return;
+      }
+
+      filtered.forEach(college => {
+        let tag = "";
+        const diff = gpa - college.avgGPA;
+        if (diff >= 0.2) tag = `<span class="tag safety">Safety</span>`;
+        else if (diff >= -0.2) tag = `<span class="tag target">Target</span>`;
+        else tag = `<span class="tag reach">Reach</span>`;
+
+        const card = `
+          <div class="card">
+            <div class="college-name">${college.name}</div>
+            <div><strong>Avg GPA:</strong> ${college.avgGPA}</div>
+            <div><strong>Acceptance:</strong> ${college.acceptanceRate}%</div>
+            <div><a href="${college.admissionsLink}" target="_blank">Visit Admissions Site</a></div>
+            ${tag}
+          </div>
+        `;
+        resultsContainer.innerHTML += card;
+      });
+    }
+  </script>
 </body>
 </html>
