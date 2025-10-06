@@ -5,90 +5,74 @@
   <title>Colleges | Pathfinder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
-
   <style>
+    /* ==== Global (match Explore) ==== */
+    *{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --bg:#0b0b0b;     /* matte black */
-      --panel:#151515;  /* dark gray panel */
+      --bg:#0e0e0e;       /* matte black like Explore */
+      --panel:#1a1a1a;
       --line:#2a2a2a;
-      --text:#efeff2;
-      --muted:#a8b0c2;
-      --accent:#5aa6ff;
+      --text:#e0e0e0;
+      --muted:#b0b7c8;
+      --accent:#82b1ff;
       --ok:#1ed760; --warn:#ffcc00; --danger:#ff5c5c;
     }
-
-    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
-      margin:0;
       font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--text);
+      background:var(--bg); color:var(--text);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
     a{color:#cfe1ff;text-decoration:none}
     a:hover{color:#fff}
 
-    /* simple top nav */
-    header{
-      position:sticky;top:0;z-index:5;
-      background:#0f0f10; border-bottom:1px solid var(--line);
-    }
-    .nav{
-      max-width:1200px;margin:0 auto;
-      padding:14px 18px; display:flex; align-items:center; justify-content:space-between;
-    }
-    .brand{display:flex;align-items:center;gap:8px;font-weight:700}
-    .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
-    .links{display:flex;gap:10px}
-    .links a{padding:8px 10px;border-radius:10px;color:#cfd7ea}
-    .links a.active{background:#1a1a1a;border:1px solid var(--line);color:#fff}
+    /* ==== Top nav (simple, same vibe) ==== */
+    header{position:sticky;top:0;z-index:5;background:#111;border-bottom:1px solid #333}
+    .nav{max-width:1100px;margin:0 auto;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+    .brand{font-weight:700;color:var(--accent)}
+    .links a{color:#82b1ff;margin:0 12px;font-weight:700}
+    .links a:hover{color:#fff}
+    .links a.active{color:#fff;border-bottom:2px solid var(--accent)}
 
-    main{max-width:1200px;margin:0 auto;padding:20px 18px}
+    main{max-width:1100px;margin:40px auto;padding:0 20px}
+    h1{font-size:2.0rem;color:var(--accent);text-shadow:0 0 5px #82b1ff;margin-bottom:8px}
+    .lead{color:#aaa;margin-bottom:16px}
 
-    h1{font-size:26px;margin:8px 0 6px}
-    .lead{color:#b7bed2;margin:0 0 16px}
-
-    .panel{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:16px;
-    }
-
-    .grid{
-      display:grid; gap:12px;
-    }
-    @media(min-width:860px){
-      .grid{grid-template-columns:2fr 1fr 1fr 1fr}
-    }
-
+    /* ==== Panels & controls ==== */
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+    .grid{display:grid;gap:12px}
+    @media(min-width:860px){.grid{grid-template-columns:2fr 2fr 1fr 1fr}}
     label{display:block;font-size:13px;color:#b7bed2;margin-bottom:6px}
     input,select,button{
-      width:100%; padding:12px 12px; border-radius:10px;
-      background:#0f0f10; color:var(--text); border:1px solid var(--line);
-      font-size:15px;
+      width:100%;padding:14px 14px;border-radius:10px;border:1px solid #444;
+      background:#1b1b1b;color:var(--text);font-size:1rem
     }
-    input:focus,select:focus,button:focus{outline:none;border-color:#3b72c7; box-shadow:0 0 0 3px rgba(90,166,255,.15)}
+    input:focus,select:focus,button:focus{outline:none;border-color:#3b72c7;box-shadow:0 0 0 3px rgba(130,177,255,.15)}
     button{cursor:pointer;font-weight:700;background:#1c2740}
     button:hover{filter:brightness(1.05)}
+    /* remove number spinners if any browser keeps them (just in case) */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+    input[type=number]{-moz-appearance:textfield}
 
     .legend{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 0}
-    .tag{font-size:12px;padding:5px 9px;border-radius:999px;border:1px solid #00000022;display:inline-block}
+    .tag{font-size:12px;padding:6px 9px;border-radius:999px;border:1px solid #00000022;display:inline-block}
     .safety{background:rgba(30,215,96,.15);color:#a6f0bf;border-color:rgba(30,215,96,.35)}
     .target{background:rgba(255,204,0,.12);color:#ffe08a;border-color:rgba(255,204,0,.35)}
     .reach{background:rgba(255,92,92,.14);color:#ffb6b6;border-color:rgba(255,92,92,.35)}
+    .note{color:#9aa4b9;font-size:12px}
 
-    .count{color:#b7bed2;font-size:14px;margin:10px 0}
+    .count{color:#b7bed2;font-size:14px;margin:16px 2px}
 
+    /* ==== Table ==== */
     .table-wrap{overflow:auto;border-radius:12px;border:1px solid var(--line)}
     table{width:100%;border-collapse:separate;border-spacing:0}
     thead th{
-      text-align:left; font-size:12px; letter-spacing:.05em; text-transform:uppercase;
-      color:#aeb7cb; background:#161616; padding:10px 12px; border-bottom:1px solid var(--line);
-      position:sticky; top:0; z-index:1;
+      text-align:left;font-size:12px;letter-spacing:.05em;text-transform:uppercase;
+      color:#aeb7cb;background:#161616;padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:1
     }
     tbody td{padding:14px 12px;border-bottom:1px solid #1f1f1f}
-    tbody tr:hover{background:#121212}
-    .note{color:#9aa4b9;font-size:12px}
+    tbody tr:hover{background:#141414}
 
     .footnote{color:#9aa4b9;font-size:12px;margin-top:8px}
   </style>
@@ -96,25 +80,26 @@
 <body>
   <header>
     <div class="nav">
-      <div class="brand"><span class="dot"></span> Pathfinder</div>
+      <div class="brand">Pathfinder</div>
       <div class="links">
         <a href="index.html">Home</a>
         <a href="explore.html">Explore</a>
-        <a class="active" href="colleges.html">Colleges</a>
+        <a href="colleges.html" class="active">Colleges</a>
       </div>
     </div>
   </header>
 
   <main>
     <h1>Find Colleges by GPA & Major</h1>
-    <p class="lead">Type your (weighted) GPA, pick a major, and filter if you want. Results update instantly.</p>
+    <p class="lead">Type your weighted GPA, pick a major, and filter if you want. Results update instantly.</p>
 
     <!-- Filters -->
     <section class="panel" aria-label="Filters">
       <div class="grid">
         <div>
           <label for="gpa">Weighted GPA</label>
-          <input id="gpa" type="number" min="0" max="5" step="0.01" placeholder="e.g., 4.10">
+          <!-- Use text+inputmode=decimal so typing isn't hijacked by browsers -->
+          <input id="gpa" type="text" inputmode="decimal" placeholder="e.g., 4.10">
         </div>
         <div>
           <label for="major">Major</label>
@@ -164,23 +149,20 @@
               <th>Links</th>
             </tr>
           </thead>
-          <tbody id="rows">
-            <!-- filled by JS -->
-          </tbody>
+          <tbody id="rows"></tbody>
         </table>
       </div>
-      <p class="footnote">Tip: you can share a link like <code>?gpa=4.12&major=Computer%20Science</code> to pre-fill the filters.</p>
+      <p class="footnote">Tip: share <code>?gpa=4.12&major=Computer%20Science</code> to pre-fill filters.</p>
     </section>
   </main>
 
   <script>
-    // Simple, human-sized list. Update/expand as you verify data.
+    /* ==== Data (small, human-sized demo) ==== */
     const MAJORS = [
       "Electrical Engineering","Mechanical Engineering","Civil Engineering","Materials Science",
       "Computer Science","Mathematics","Psychology","Business Administration","Finance","Nursing","Liberal Arts"
     ];
 
-    // Small demo dataset. midByMajor overrides midGpa when present.
     const COLLEGES = [
       {name:"UC Berkeley", system:"UC", midGpa:4.25, admitRate:12, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Mathematics","Materials Science","Liberal Arts"], midByMajor:{"Electrical Engineering":4.28,"Computer Science":4.30,"Mathematics":4.18,"Liberal Arts":4.08}},
       {name:"UCLA", system:"UC", midGpa:4.23, admitRate:11, majors:["Electrical Engineering","Mechanical Engineering","Computer Science","Psychology","Mathematics","Liberal Arts"], midByMajor:{"Electrical Engineering":4.26,"Computer Science":4.29,"Psychology":4.15,"Mathematics":4.17,"Liberal Arts":4.05}},
@@ -193,6 +175,7 @@
       {name:"Stanford", system:"Private", midGpa:4.30, admitRate:4, majors:["Computer Science","Mathematics","Electrical Engineering","Liberal Arts"], midByMajor:{"Computer Science":4.33,"Mathematics":4.25}}
     ];
 
+    /* ==== DOM ==== */
     const majorsDL = document.getElementById('majors');
     MAJORS.forEach(m => majorsDL.insertAdjacentHTML('beforeend', `<option value="${m}">`));
 
@@ -203,11 +186,18 @@
     const rowsEl = document.getElementById('rows');
     const countEl = document.getElementById('count');
 
-    // helpers
-    function getMidpoint(c, m){
-      if (c.midByMajor && c.midByMajor[m]) return c.midByMajor[m];
-      return c.midGpa;
+    /* ==== Helpers ==== */
+    function parseGpaLoose(str){
+      // Accept "4", "4.1", "4,1" (comma), trims spaces; returns number or NaN
+      if (str==null) return NaN;
+      const cleaned = String(str).replace(',', '.').trim();
+      const v = parseFloat(cleaned);
+      if (isNaN(v)) return NaN;
+      return Math.max(0, Math.min(5, v));
     }
+    function formatGpa(v){ return isNaN(v) ? "" : v.toFixed(2); }
+
+    function getMidpoint(c, m){ return (c.midByMajor && c.midByMajor[m]) ? c.midByMajor[m] : c.midGpa; }
     function classify(gpa, mid){
       if (isNaN(gpa) || isNaN(mid)) return {band:"—"};
       const diff = +(gpa - mid).toFixed(2);
@@ -215,38 +205,30 @@
       if (Math.abs(diff) <= 0.15) return {band:"Target", diff};
       return {band:"Reach", diff};
     }
-    function fitClass(b){ return b==="Safety"?"safety":(b==="Target"?"target":"reach"); }
-    function admissionsUrl(name){ return `https://www.google.com/search?q=${encodeURIComponent(name+' undergraduate admissions')}`; }
-
-    function clampGpa(){
-      let v = parseFloat(gpaEl.value);
-      if (isNaN(v)) return NaN;
-      v = Math.max(0, Math.min(5, v));
-      gpaEl.value = v.toFixed(2);
-      return v;
-    }
+    const fitClass = b => b==="Safety"?"safety":(b==="Target"?"target":"reach");
+    const admissionsUrl = name => `https://www.google.com/search?q=${encodeURIComponent(name+' undergraduate admissions')}`;
 
     function analyze(){
-      const g = clampGpa();
-      const m = (majorEl.value || "").trim();
+      // IMPORTANT: do not format while typing; just read the current value
+      const g = parseGpaLoose(gpaEl.value);
+      const m = (majorEl.value||"").trim();
       const sys = sysEl.value;
-      const minR = parseInt(minRateEl.value, 10) || 0;
+      const minR = parseInt(minRateEl.value,10)||0;
 
-      let data = COLLEGES
-        .filter(c => (sys === "ALL" ? true : c.system === sys))
+      const items = COLLEGES
+        .filter(c => (sys==="ALL" ? true : c.system===sys))
         .filter(c => c.admitRate >= minR)
-        .filter(c => !m || (c.majors || []).includes(m))
-        .map((c, i) => {
+        .filter(c => !m || (c.majors||[]).includes(m))
+        .map((c,i)=>{
           const mid = getMidpoint(c, m);
           const fit = classify(g, mid);
-          return {id:i, name:c.name, system:c.system, mid, rate:c.admitRate, fit, major:m};
+          return {id:i, name:c.name, system:c.system, mid, rate:c.admitRate, fit};
         });
 
-      // sort Safety -> Target -> Reach, then by mid
       const rank = b => b==="Safety"?0 : b==="Target"?1 : b==="Reach"?2 : 3;
-      data.sort((a,b)=> rank(a.fit.band)-rank(b.fit.band) || a.mid-b.mid);
+      items.sort((a,b)=> rank(a.fit.band)-rank(b.fit.band) || a.mid-b.mid);
 
-      render(data);
+      render(items);
     }
 
     function render(items){
@@ -266,28 +248,40 @@
           <td><span class="tag ${fitClass(r.fit.band)}">${r.fit.band}</span></td>
           <td>${isFinite(r.mid)? r.mid.toFixed(2) : "—"}</td>
           <td>${r.rate}%</td>
-          <td>
-            <a href="${admissionsUrl(r.name)}" target="_blank" rel="noopener">Admissions</a>
-          </td>
+          <td><a href="${admissionsUrl(r.name)}" target="_blank" rel="noopener">Admissions</a></td>
         `;
         rowsEl.appendChild(tr);
       });
     }
 
-    // events
+    /* ==== Events (no interference while typing) ==== */
     function debounce(fn,ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a),ms); }; }
     const run = debounce(analyze, 150);
 
     [gpaEl, majorEl, sysEl, minRateEl].forEach(el=>{
       el.addEventListener('input', run);
       el.addEventListener('change', run);
-      el.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); analyze(); }});
+      el.addEventListener('keydown', e=>{
+        if(e.key==='Enter'){
+          e.preventDefault();
+          // On Enter, format GPA nicely once and re-run
+          const val = parseGpaLoose(gpaEl.value);
+          if (!isNaN(val)) gpaEl.value = formatGpa(val);
+          analyze();
+        }
+      });
     });
 
-    // init from URL (?gpa=&major=)
+    // Format GPA when the field loses focus (but never while typing)
+    gpaEl.addEventListener('blur', ()=>{
+      const val = parseGpaLoose(gpaEl.value);
+      gpaEl.value = formatGpa(val);
+    });
+
+    // Init from URL (?gpa=&major=)
     (function init(){
-      const params = new URL(location.href).searchParams;
-      const qpG = params.get('gpa'); const qpM = params.get('major');
+      const p = new URL(location.href).searchParams;
+      const qpG = p.get('gpa'); const qpM = p.get('major');
       if (qpG) gpaEl.value = qpG;
       if (qpM) majorEl.value = qpM;
       if (!gpaEl.value) gpaEl.value = "4.00";
