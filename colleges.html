@@ -1,381 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Explore Majors | Pathfinder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <title>Colleges | Pathfinder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Outfit',sans-serif;background:#0e0e0e;color:#e0e0e0}
-    nav{background:#111;padding:15px 30px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333}
-    nav a{color:#82b1ff;text-decoration:none;margin:0 15px;font-weight:bold;transition:.2s}
-    nav a:hover{color:#fff}
-    nav a.active{color:#fff;border-bottom:2px solid #82b1ff}
-    header{text-align:center;padding:50px 20px 20px}
-    header h1{font-size:2.4rem;color:#82b1ff;text-shadow:0 0 5px #82b1ff;margin-bottom:8px}
-    header p{color:#aaa}
-    .container{max-width:1100px;margin:40px auto;padding:0 20px}
-    .searchbar{display:flex;gap:10px;align-items:center}
-    input[type="text"]{flex:1;padding:14px 18px;font-size:1rem;margin:20px 0;border-radius:10px;border:1px solid #444;background:#1b1b1b;color:#e0e0e0}
-    .card{background:#1a1a1a;border:1px solid #333;padding:18px;border-radius:12px;margin-bottom:18px;cursor:pointer;transition:.2s}
-    .card:hover{background:#232323}
-    .card h2{font-size:1.3rem;color:#82b1ff;margin-bottom:6px}
-    .meta{color:#cfd8ffb0;font-size:.95rem;margin:2px 0 8px}
-    .details{display:none;margin-top:10px;color:#ccc;line-height:1.6}
-    ul{padding-left:20px}
-    .links a{color:#64b5f6;text-decoration:underline;margin-right:14px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0e0e0e; --panel:#1a1a1a; --line:#2a2a2a; --text:#e0e0e0; --muted:#b0b7c8; --accent:#82b1ff;
+      --ok:#1ed760; --warn:#ffcc00; --danger:#ff5c5c;
+    }
+    body{font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    a{color:#cfe1ff;text-decoration:none} a:hover{color:#fff}
+
+    /* nav */
+    header{position:sticky;top:0;z-index:5;background:#111;border-bottom:1px solid #333}
+    .nav{max-width:1100px;margin:0 auto;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+    .brand{font-weight:700;color:var(--accent)}
+    .links a{color:#82b1ff;margin:0 12px;font-weight:700}
     .links a:hover{color:#fff}
-    .row{display:flex;justify-content:space-between;gap:10px;align-items:center}
-    .cta a{font-size:.95rem;background:#1c2740;border:1px solid #3a4a7a;padding:8px 10px;border-radius:8px;text-decoration:none;color:#cfe1ff}
-    .cta a:hover{filter:brightness(1.05)}
-    .count{color:#9aa;margin:8px 2px 16px}
-    mark{background:#2a3a55;padding:0 2px;border-radius:3px}
+    .links a.active{color:#fff;border-bottom:2px solid var(--accent)}
+
+    main{max-width:1100px;margin:40px auto;padding:0 20px}
+    h1{font-size:2.0rem;color:var(--accent);text-shadow:0 0 5px #82b1ff;margin-bottom:8px}
+    .lead{color:#aaa;margin-bottom:16px}
+
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+    .grid{display:grid;gap:12px}
+    @media(min-width:860px){.grid{grid-template-columns:2fr 2fr 1fr 1fr}}
+
+    label{display:block;font-size:13px;color:#b7bed2;margin-bottom:6px}
+    input,select,button{width:100%;padding:14px;border-radius:10px;border:1px solid #444;background:#1b1b1b;color:var(--text);font-size:1rem}
+    input:focus,select:focus,button:focus{outline:none;border-color:#3b72c7;box-shadow:0 0 0 3px rgba(130,177,255,.15)}
+    button{cursor:pointer;font-weight:700;background:#1c2740} button:hover{filter:brightness(1.05)}
+
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 0}
+    .tag{font-size:12px;padding:6px 9px;border-radius:999px;border:1px solid #00000022;display:inline-block}
+    .safety{background:rgba(30,215,96,.15);color:#a6f0bf;border-color:rgba(30,215,96,.35)}
+    .target{background:rgba(255,204,0,.12);color:#ffe08a;border-color:rgba(255,204,0,.35)}
+    .reach{background:rgba(255,92,92,.14);color:#ffb6b6;border-color:rgba(255,92,92,.35)}
+
+    .count{color:#b7bed2;font-size:14px;margin:16px 2px}
+
+    .table-wrap{overflow:auto;border-radius:12px;border:1px solid var(--line)}
+    table{width:100%;border-collapse:separate;border-spacing:0}
+    thead th{text-align:left;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:#aeb7cb;background:#161616;padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:1}
+    tbody td{padding:14px 12px;border-bottom:1px solid #1f1f1f}
+    tbody tr:hover{background:#141414}
+
+    .footnote{color:#9aa4b9;font-size:12px;margin-top:8px}
   </style>
 </head>
 <body>
-  <nav>
-    <div class="nav-title" style="font-weight:700;font-size:1.1rem;color:#82b1ff">Pathfinder</div>
-    <div>
-      <a href="index.html">Home</a>
-      <a href="explore.html" class="active">Explore</a>
-      <a href="colleges.html">Colleges</a>
-    </div>
-  </nav>
-
   <header>
-    <h1>Explore Majors</h1>
-    <p>Click a major to see career info, classes, salary, and resources.</p>
+    <div class="nav">
+      <div class="brand">Pathfinder</div>
+      <div class="links">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="colleges.html" class="active">Colleges</a>
+      </div>
+    </div>
   </header>
 
-  <div class="container">
-    <div class="searchbar">
-      <input type="text" id="searchInput" placeholder="Try: civil engineering, nursing, algorithms, NCLEX" aria-label="Search majors">
-    </div>
-    <div class="count" id="count">Start typing to see results.</div>
-    <div id="resultsContainer" aria-live="polite"></div>
-  </div>
+  <main>
+    <h1>Find Colleges by GPA & Major</h1>
+    <p class="lead">Type your weighted GPA, pick a major, and (optionally) filter. Results update instantly.</p>
+
+    <section class="panel" aria-label="Filters">
+      <div class="grid">
+        <div>
+          <label for="gpa">Weighted GPA</label>
+          <!-- text+decimal prevents browser spinner + lets you type freely -->
+          <input id="gpa" type="text" inputmode="decimal" placeholder="e.g., 4.10">
+        </div>
+        <div>
+          <label for="major">Major</label>
+          <input list="majors" id="major" placeholder="Start typing…">
+          <datalist id="majors"></datalist>
+        </div>
+        <div>
+          <label for="system">System</label>
+          <select id="system">
+            <option value="ALL">All</option>
+            <option value="UC">UC</option>
+            <option value="CSU">CSU</option>
+            <option value="Private">Private</option>
+          </select>
+        </div>
+        <div>
+          <label for="minrate">Min admit rate</label>
+          <select id="minrate">
+            <option value="0">Any</option>
+            <option value="10">≥ 10%</option>
+            <option value="20">≥ 20%</option>
+            <option value="30">≥ 30%</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span class="tag safety">Safety</span>
+        <span class="tag target">Target</span>
+        <span class="tag reach">Reach</span>
+      </div>
+    </section>
+
+    <section style="margin-top:14px">
+      <div class="count" id="count">No results yet.</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>College</th>
+              <th>System</th>
+              <th>Fit</th>
+              <th>Midpoint GPA</th>
+              <th>Admit rate</th>
+              <th>Links</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p class="footnote">Tip: share <code>?gpa=4.12&major=Civil%20Engineering</code> to prefill.</p>
+    </section>
+  </main>
 
   <script>
-  // ==== Data (now includes specific engineering disciplines) ====
-  const majorsData = {
-    "biology": {
-      summary:"Study of living organisms, including anatomy, ecosystems, genetics, and cells. Prepares students for medicine, research, or teaching.",
-      salary:"$70,000 - $95,000",
-      studyYears:"4 years (BS), 6–8 years for MD/PhD",
-      passRate:"72% graduation rate nationally",
-      outlook:"89% employment",
-      tests:["GRE (grad school)","MCAT (pre-med)"],
-      classes:["Genetics","Microbiology","Anatomy","Biochemistry"],
-      colleges:["UC Davis","UCLA","Cal Poly SLO","CSU Long Beach"],
-      links:{official:"https://www.biologyonline.com/",salary:"https://www.bls.gov/ooh/life-physical-and-social-science/biological-technicians.htm",video:"https://www.youtube.com/watch?v=IStkXaSSj6g"}
-    },
-    "nursing": {
-      summary:"Focuses on patient care, working with doctors, and managing health outcomes in hospitals and clinics.",
-      salary:"$65,000 - $100,000",
-      studyYears:"2–4 years (ADN or BSN)",
-      passRate:"87% NCLEX pass rate (U.S. avg)",
-      outlook:"94% employment rate",
-      tests:["NCLEX-RN"],
-      classes:["Pharmacology","Anatomy","Health Assessment","Pediatrics"],
-      colleges:["UCLA","UC Irvine","CSU San Marcos"],
-      links:{official:"https://www.nursingworld.org/",salary:"https://www.bls.gov/ooh/healthcare/registered-nurses.htm",video:"https://www.youtube.com/watch?v=4XzI4unfeKs"}
-    },
-    "engineering": {
-      summary:"Broad field focused on solving problems with math, science, and technology. Includes mechanical, civil, electrical, and more.",
-      salary:"$80,000 - $120,000",
-      studyYears:"4 years (BS)",
-      passRate:"65% graduation rate nationally",
-      outlook:"92% employment",
-      tests:["FE Exam","PE License (optional)"],
-      classes:["Physics","Calculus","Statics","Thermodynamics"],
-      colleges:["UC Berkeley","Cal Poly SLO","San Jose State","CSU Fullerton"],
-      links:{official:"https://www.nspe.org/resources/licensure",salary:"https://www.bls.gov/ooh/architecture-and-engineering/home.htm",video:"https://www.youtube.com/watch?v=tuZxFL9cGkI"}
-    },
-    "civil engineering": {
-      summary:"Designs and builds infrastructure: bridges, roads, buildings, water systems. Heavy on structures, materials, and geotechnical.",
-      salary:"$75,000 - $115,000",
-      studyYears:"4 years (BS)",
-      passRate:"FE Civil pass rates vary by state",
-      outlook:"High demand in public works",
-      tests:["FE Civil","PE Civil (after experience)"],
-      classes:["Statics","Strength of Materials","Structural Analysis","Transportation","Hydraulics"],
-      colleges:["UC Berkeley","Cal Poly SLO","Cal Poly Pomona","San José State"],
-      links:{official:"https://ncees.org/engineering/fe/",salary:"https://www.bls.gov/ooh/architecture-and-engineering/civil-engineers.htm",video:"https://www.youtube.com/watch?v=8o3XJ3c3tH8"}
-    },
-    "mechanical engineering": {
-      summary:"Designs machines and systems—automotive, aerospace, energy. Strong in dynamics, thermo, and design.",
-      salary:"$80,000 - $125,000",
-      studyYears:"4 years (BS)",
-      passRate:"FE Mechanical pass rates vary by state",
-      outlook:"Broad demand across industries",
-      tests:["FE Mechanical","PE Mechanical (after experience)"],
-      classes:["Dynamics","Thermodynamics","Fluids","Mechanics of Materials","Machine Design"],
-      colleges:["UC San Diego","UC Santa Barbara","Cal Poly SLO","Long Beach State"],
-      links:{official:"https://ncees.org/engineering/fe/",salary:"https://www.bls.gov/ooh/architecture-and-engineering/mechanical-engineers.htm",video:"https://www.youtube.com/watch?v=M3dA0kGmF3k"}
-    },
-    "electrical engineering": {
-      summary:"Focuses on electronics, circuits, power, communications, and embedded systems.",
-      salary:"$85,000 - $130,000",
-      studyYears:"4 years (BS)",
-      passRate:"FE Electrical & Computer pass rates vary",
-      outlook:"Strong demand in hardware, energy, and comms",
-      tests:["FE Electrical and Computer","PE (after experience)"],
-      classes:["Circuits","Signals & Systems","Electromagnetics","Digital Logic","Embedded Systems"],
-      colleges:["UCLA","UC Irvine","UC Riverside","San José State"],
-      links:{official:"https://www.ieee.org/education/index.html",salary:"https://www.bls.gov/ooh/architecture-and-engineering/electrical-and-electronics-engineers.htm",video:"https://www.youtube.com/watch?v=Zx1bX8sAqks"}
-    },
-    "materials science": {
-      summary:"Studies how materials work (metals, polymers, ceramics) and designs new ones for batteries, aerospace, bio, etc.",
-      salary:"$80,000 - $120,000",
-      studyYears:"4 years (BS)",
-      passRate:"Varies; many pursue MS",
-      outlook:"Growing with energy and semiconductors",
-      tests:["FE","PE (less common)"],
-      classes:["Materials Thermodynamics","Microstructure","Solid State","Polymers","Characterization"],
-      colleges:["UC Berkeley","UC San Diego","Cal Poly SLO"],
-      links:{official:"https://www.mrs.org/",salary:"https://www.bls.gov/ooh/architecture-and-engineering/materials-engineers.htm",video:"https://www.youtube.com/watch?v=3a4Gkz4K3-c"}
-    },
-    "psychology": {
-      summary:"The study of behavior, thoughts, and emotions. Paths include therapy, research, education, or HR.",
-      salary:"$55,000 - $95,000",
-      studyYears:"4 years (BA), 6+ years (PhD or PsyD)",
-      passRate:"Varies by program",
-      outlook:"Steady demand",
-      tests:["GRE","EPPP (for licensure)"],
-      classes:["Abnormal Psych","Cognitive Psych","Neuroscience","Research Methods"],
-      colleges:["UC San Diego","UC Berkeley","CSU Long Beach"],
-      links:{official:"https://www.apa.org/careers/resources/guides/careers",salary:"https://www.bls.gov/ooh/community-and-social-service/psychologists.htm",video:"https://www.youtube.com/watch?v=vo4pMVb0R6M"}
-    },
-    "computer science": {
-      summary:"Computing, programming, and systems. Prepares students for software, data science, and AI.",
-      salary:"$90,000 - $160,000",
-      studyYears:"4 years (BS)",
-      passRate:"Varies by school",
-      outlook:"Very strong demand",
-      tests:["None required; optional certs"],
-      classes:["Data Structures","Algorithms","Web Dev","Machine Learning"],
-      colleges:["UC Irvine","UC San Diego","Stanford","CSU East Bay"],
-      links:{official:"https://cs50.harvard.edu/",salary:"https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm",video:"https://www.youtube.com/watch?v=O5nskjZ_GoI"}
-    },
-    "business": {
-      summary:"Management, marketing, entrepreneurship, leadership.",
-      salary:"$60,000 - $110,000",
-      studyYears:"4 years (BS or BBA)",
-      passRate:"Varies by program",
-      outlook:"Broad demand",
-      tests:["GMAT (for MBA)"],
-      classes:["Microeconomics","Finance","Marketing","Operations"],
-      colleges:["UC Riverside","UC Berkeley","CSU Fullerton","USC"],
-      links:{official:"https://www.hbs.edu/",salary:"https://www.bls.gov/ooh/management/home.htm",video:"https://www.youtube.com/watch?v=F0jYFz2T3XI"}
-    },
-    "finance": {
-      summary:"Managing money, analyzing investments, and preparing reports.",
-      salary:"$75,000 - $135,000",
-      studyYears:"4 years (BS)",
-      passRate:"CFA Level I ~60% historically",
-      outlook:"Strong in most markets",
-      tests:["CFA","Series 7 (optional)"],
-      classes:["Corporate Finance","Investments","Risk Management","Econometrics"],
-      colleges:["UCLA","CSU Northridge","Santa Clara University"],
-      links:{official:"https://www.cfainstitute.org/",salary:"https://www.bls.gov/ooh/business-and-financial/financial-analysts.htm",video:"https://www.youtube.com/watch?v=EGcCE5XSYV4"}
-    },
-    "education": {
-      summary:"Prepares students to become teachers, counselors, or administrators.",
-      salary:"$50,000 - $75,000",
-      studyYears:"4–5 years (includes credential)",
-      passRate:"Varies by exam",
-      outlook:"Consistent demand",
-      tests:["CBEST","CSET","RICA"],
-      classes:["Curriculum Planning","Instruction Methods","Psychology of Learning"],
-      colleges:["CSU Chico","UC Riverside","San Jose State"],
-      links:{official:"https://www.ctc.ca.gov/",salary:"https://www.bls.gov/ooh/education-training-and-library/home.htm",video:"https://www.youtube.com/watch?v=K2x1NK3jS5A"}
-    },
-    "law": {
-      summary:"Law for attorneys, judges, or legal analysts.",
-      salary:"$75,000 - $160,000",
-      studyYears:"7 years (BA + JD)",
-      passRate:"Bar pass rate varies by state",
-      outlook:"Competitive but stable",
-      tests:["LSAT","Bar Exam"],
-      classes:["Legal Writing","Contracts","Constitutional Law","Torts"],
-      colleges:["UCLA","USC Gould","Berkeley Law"],
-      links:{official:"https://www.lsac.org/",salary:"https://www.bls.gov/ooh/legal/lawyers.htm",video:"https://www.youtube.com/watch?v=kDh3nJ-RrCA"}
-    },
-    "art": {
-      summary:"Creative expression through design, illustration, animation, and visual media.",
-      salary:"$45,000 - $85,000",
-      studyYears:"4 years (BFA/BA)",
-      passRate:"Varies by school",
-      outlook:"Varies by field",
-      tests:["Portfolio"],
-      classes:["Drawing","Digital Media","Art History","Color Theory"],
-      colleges:["CalArts","CSU Long Beach","UC Irvine","Otis College"],
-      links:{official:"https://www.artinstitutes.edu/",salary:"https://www.bls.gov/ooh/arts-and-design/home.htm",video:"https://www.youtube.com/watch?v=pWV2ZtxTq3E"}
-    },
-    "environmental science": {
-      summary:"Study of the environment and solutions to environmental problems.",
-      salary:"$60,000 - $90,000",
-      studyYears:"4 years (BS)",
-      passRate:"Varies by program",
-      outlook:"Growing with sustainability",
-      tests:["None required"],
-      classes:["Ecology","Environmental Law","Earth Systems","Chemistry"],
-      colleges:["UC Santa Barbara","UC Davis","CSU Humboldt"],
-      links:{official:"https://www.epa.gov/education",salary:"https://www.bls.gov/ooh/life-physical-and-social-science/environmental-scientists.htm",video:"https://www.youtube.com/watch?v=JpE5Ug1h9dM"}
-    }
-  };
+    /* ---------- Data (small, human-sized) ---------- */
+    const MAJORS = [
+      "Civil Engineering","Mechanical Engineering","Electrical Engineering","Materials Science",
+      "Computer Science","Mathematics","Psychology","Business Administration","Finance","Nursing","Liberal Arts"
+    ];
 
-  // Aliases map to real keys so “civ eng” or “EE” still hit.
-  const ALIASES = {
-    "ce":"civil engineering",
-    "civ eng":"civil engineering",
-    "civil":"civil engineering",
-    "me":"mechanical engineering",
-    "mech eng":"mechanical engineering",
-    "ee":"electrical engineering",
-    "elec eng":"electrical engineering",
-    "mat sci":"materials science",
-    "materials eng":"materials science",
-    "cs":"computer science",
-    "comp sci":"computer science",
-    "biz":"business"
-  };
+    const COLLEGES = [
+      {name:"UC Berkeley", system:"UC", midGpa:4.25, admitRate:12, majors:["Civil Engineering","Mechanical Engineering","Electrical Engineering","Computer Science","Mathematics","Materials Science","Liberal Arts"], midByMajor:{"Civil Engineering":4.28,"Electrical Engineering":4.28,"Computer Science":4.30,"Mathematics":4.18,"Liberal Arts":4.08}},
+      {name:"UCLA", system:"UC", midGpa:4.23, admitRate:11, majors:["Civil Engineering","Mechanical Engineering","Electrical Engineering","Computer Science","Psychology","Mathematics","Liberal Arts"], midByMajor:{"Civil Engineering":4.26,"Electrical Engineering":4.26,"Computer Science":4.29,"Psychology":4.15,"Mathematics":4.17,"Liberal Arts":4.05}},
+      {name:"UC San Diego", system:"UC", midGpa:4.15, admitRate:24, majors:["Civil Engineering","Mechanical Engineering","Electrical Engineering","Computer Science","Mathematics","Materials Science","Liberal Arts"], midByMajor:{"Computer Science":4.22,"Electrical Engineering":4.18,"Mathematics":4.06,"Liberal Arts":3.98}},
+      {name:"UC Santa Barbara", system:"UC", midGpa:4.10, admitRate:26, majors:["Mechanical Engineering","Computer Science","Mathematics","Psychology","Liberal Arts"], midByMajor:{"Mechanical Engineering":4.16,"Computer Science":4.14,"Mathematics":4.02,"Liberal Arts":3.95}},
+      {name:"UC Irvine", system:"UC", midGpa:4.08, admitRate:28, majors:["Civil Engineering","Mechanical Engineering","Electrical Engineering","Computer Science","Business Administration","Nursing","Liberal Arts"], midByMajor:{"Nursing":4.20,"Computer Science":4.14,"Electrical Engineering":4.06,"Business Administration":3.98,"Liberal Arts":3.90}},
+      {name:"Cal Poly SLO", system:"CSU", midGpa:4.05, admitRate:29, majors:["Civil Engineering","Mechanical Engineering","Materials Science","Business Administration","Computer Science","Mathematics","Liberal Arts"], midByMajor:{"Computer Science":4.10,"Mechanical Engineering":4.08,"Civil Engineering":4.10,"Liberal Arts":3.85}},
+      {name:"San Diego State", system:"CSU", midGpa:3.90, admitRate:38, majors:["Civil Engineering","Mechanical Engineering","Electrical Engineering","Computer Science","Business Administration","Nursing","Mathematics","Liberal Arts"], midByMajor:{"Nursing":4.00,"Computer Science":3.95}},
+      {name:"USC", system:"Private", midGpa:4.15, admitRate:12, majors:["Business Administration","Computer Science","Mechanical Engineering","Electrical Engineering","Mathematics","Liberal Arts"], midByMajor:{"Business Administration":4.05,"Computer Science":4.18}},
+      {name:"Stanford", system:"Private", midGpa:4.30, admitRate:4, majors:["Computer Science","Mathematics","Electrical Engineering","Liberal Arts"], midByMajor:{"Computer Science":4.33,"Mathematics":4.25}}
+    ];
 
-  const resultsEl = document.getElementById("resultsContainer");
-  const inputEl = document.getElementById("searchInput");
-  const countEl = document.getElementById("count");
+    /* ---------- DOM ---------- */
+    const majorsDL = document.getElementById('majors');
+    MAJORS.forEach(m => majorsDL.insertAdjacentHTML('beforeend', `<option value="${m}">`));
 
-  function normalize(q){
-    q = (q||"").toLowerCase().trim();
-    if(ALIASES[q]) return ALIASES[q];
-    return q;
-  }
+    const gpaEl   = document.getElementById('gpa');
+    const majorEl = document.getElementById('major');
+    const sysEl   = document.getElementById('system');
+    const minEl   = document.getElementById('minrate');
+    const rowsEl  = document.getElementById('rows');
+    const countEl = document.getElementById('count');
 
-  function tokenize(q){
-    return q.split(/\s+/).filter(Boolean).map(t=>ALIASES[t]||t);
-  }
+    /* ---------- Helpers ---------- */
+    const ALIASES = {
+      "civ eng":"civil engineering",
+      "mech eng":"mechanical engineering",
+      "ee":"electrical engineering",
+      "mat sci":"materials science",
+      "comp sci":"computer science",
+      "cs":"computer science",
+      "biz":"business administration"
+    };
 
-  function hilite(text, tokens){
-    if(!text) return "";
-    let out = text;
-    // precompile once for all tokens for speed
-    tokens.forEach(t=>{
-      const esc = t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-      out = out.replace(new RegExp(`(${esc})`,'ig'), m=>`<mark>${m}</mark>`);
-    });
-    return out;
-  }
-
-  function search(){
-    const raw = inputEl.value;
-    const q = normalize(raw);
-    const tokens = tokenize(q);
-
-    if(!q){
-      countEl.textContent = "Start typing to see results.";
-      resultsEl.innerHTML = "";
-      return;
+    function normalizeMajor(s){
+      if(!s) return "";
+      const low = String(s).trim().toLowerCase();
+      return ALIASES[low] || low; // always lower
     }
 
-    const entries = Object.entries(majorsData);
+    function majorsContains(list, wantedLow){
+      if(!wantedLow) return true; // no filter
+      return (list||[]).some(x => x.toLowerCase() === wantedLow);
+    }
 
-    // Score each major
-    const scored = entries.map(([key,data])=>{
-      let score = 0;
-      const name = key.toLowerCase();
-      const hay = [
-        data.summary,
-        ...(data.classes||[]),
-        ...(data.tests||[]),
-        ...(data.colleges||[])
-      ].join(" ").toLowerCase();
+    function parseGpaLoose(str){
+      if (str == null) return NaN;
+      const cleaned = String(str).replace(',', '.').trim();
+      const v = parseFloat(cleaned);
+      if (isNaN(v)) return NaN;
+      return Math.max(0, Math.min(5, v));
+    }
+    function formatGpa(v){ return isNaN(v) ? "" : v.toFixed(2); }
 
-      tokens.forEach(t=>{
-        if(!t) return;
-        if(name.includes(t)) score += 3;
-        if(hay.includes(t)) score += 1;
+    function getMidpoint(college, majorLow){
+      if (majorLow && college.midByMajor){
+        for (const k in college.midByMajor){
+          if (k.toLowerCase() === majorLow) return college.midByMajor[k];
+        }
+      }
+      return college.midGpa;
+    }
+
+    function classify(gpa, mid){
+      if (isNaN(gpa) || isNaN(mid)) return {band:"—"};
+      const diff = +(gpa - mid).toFixed(2);
+      if (diff >= 0.20) return {band:"Safety", diff};
+      if (Math.abs(diff) <= 0.15) return {band:"Target", diff};
+      return {band:"Reach", diff};
+    }
+    const fitClass = b => b==="Safety"? "safety" : b==="Target" ? "target" : "reach";
+    const admissionsUrl = name => `https://www.google.com/search?q=${encodeURIComponent(name+' undergraduate admissions')}`;
+
+    /* ---------- Core ---------- */
+    function analyze(){
+      const g = parseGpaLoose(gpaEl.value);
+      const majorLow = normalizeMajor(majorEl.value);
+      const system = sysEl.value;
+      const minRate = parseInt(minEl.value, 10) || 0;
+
+      const items = COLLEGES
+        .filter(c => (system === "ALL" ? true : c.system === system))
+        .filter(c => c.admitRate >= minRate)
+        .filter(c => majorsContains(c.majors, majorLow))
+        .map((c, i) => {
+          const mid = getMidpoint(c, majorLow);
+          const fit = classify(g, mid);
+          return { id:i, name:c.name, system:c.system, mid, rate:c.admitRate, fit };
+        });
+
+      const rank = b => b==="Safety"?0 : b==="Target"?1 : b==="Reach"?2 : 3;
+      items.sort((a,b)=> rank(a.fit.band)-rank(b.fit.band) || a.mid-b.mid);
+
+      render(items);
+    }
+
+    function render(items){
+      rowsEl.innerHTML = "";
+      if (!items.length){
+        countEl.textContent = "No results yet. Enter GPA and choose a major.";
+        return;
+      }
+      const tally = items.reduce((acc,r)=>{ acc[r.fit.band]=(acc[r.fit.band]||0)+1; return acc; },{});
+      countEl.textContent = `${items.length} result${items.length===1?"":"s"} — ${tally.Safety||0} Safety • ${tally.Target||0} Target • ${tally.Reach||0} Reach`;
+
+      const frag = document.createDocumentFragment();
+      items.forEach(r=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${r.name}</td>
+          <td>${r.system}</td>
+          <td><span class="tag ${fitClass(r.fit.band)}">${r.fit.band}</span></td>
+          <td>${isFinite(r.mid) ? r.mid.toFixed(2) : "—"}</td>
+          <td>${r.rate}%</td>
+          <td><a href="${admissionsUrl(r.name)}" target="_blank" rel="noopener">Admissions</a></td>
+        `;
+        frag.appendChild(tr);
       });
-
-      // extra: if the whole query equals an alias to this key, boost
-      if(ALIASES[q] === key) score += 2;
-
-      return {key, data, score};
-    }).filter(x=>x.score>0)
-      .sort((a,b)=> b.score - a.score || a.key.localeCompare(b.key));
-
-    render(scored, tokens);
-  }
-
-  function render(items, tokens){
-    resultsEl.innerHTML = "";
-    if(!items.length){
-      countEl.textContent = "0 results";
-      resultsEl.innerHTML = "<p style='color:#999;margin-top:10px'>No matching majors. Try “civil engineering”, “EE”, “thermodynamics”, or “NCLEX”.</p>";
-      return;
+      requestAnimationFrame(()=>rowsEl.appendChild(frag));
     }
-    countEl.textContent = `${items.length} result${items.length===1?"":"s"}`;
 
-    const frag = document.createDocumentFragment();
-    items.forEach(({key,data})=>{
-      const card = document.createElement("div");
-      card.className = "card";
-      const id = "d-" + key.replace(/\s+/g,'-');
+    /* ---------- Events (debounced; don’t format while typing) ---------- */
+    function debounce(fn,ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a),ms); }; }
+    const run = debounce(analyze, 140);
 
-      card.innerHTML = `
-        <div class="row">
-          <h2>${hilite(capitalize(key), tokens)}</h2>
-          <div class="cta">
-            <a href="colleges.html?major=${encodeURIComponent(key)}">Find colleges</a>
-          </div>
-        </div>
-        <p class="meta"><strong>Salary:</strong> ${hilite(data.salary,tokens)} • <strong>Study:</strong> ${hilite(data.studyYears,tokens)} • <strong>Employment:</strong> ${hilite(data.outlook,tokens)}</p>
-        <div class="details" id="${id}">
-          <p><strong>Summary:</strong> ${hilite(data.summary,tokens)}</p>
-          <p><strong>Pass Rate:</strong> ${hilite(data.passRate,tokens)}</p>
-          <p><strong>Key Tests:</strong> ${hilite((data.tests||[]).join(", "),tokens)}</p>
-          <p><strong>Core Classes:</strong></p>
-          <ul>${(data.classes||[]).map(c=>`<li>${hilite(c,tokens)}</li>`).join("")}</ul>
-          <p><strong>Top California Colleges:</strong></p>
-          <ul>${(data.colleges||[]).map(c=>`<li>${hilite(c,tokens)}</li>`).join("")}</ul>
-          <p><strong>Resources:</strong></p>
-          <div class="links">
-            <a href="${data.links.official}" target="_blank" rel="noopener">📘 Official</a>
-            <a href="${data.links.salary}" target="_blank" rel="noopener">💰 Salary</a>
-            <a href="${data.links.video}" target="_blank" rel="noopener">▶️ Video</a>
-          </div>
-        </div>
-      `;
-
-      card.addEventListener('click', e=>{
-        // Only toggle when clicking empty space or header area
-        if(e.target.closest('.cta')) return;
-        const d = document.getElementById(id);
-        d.style.display = d.style.display === "block" ? "none" : "block";
+    [gpaEl, majorEl, sysEl, minEl].forEach(el=>{
+      el.addEventListener('input', run);
+      el.addEventListener('change', run);
+      el.addEventListener('keydown', e=>{
+        if(e.key==='Enter'){
+          e.preventDefault();
+          const val = parseGpaLoose(gpaEl.value);
+          if (!isNaN(val)) gpaEl.value = formatGpa(val);
+          analyze();
+        }
       });
-      frag.appendChild(card);
     });
-    // Batch DOM update once
-    requestAnimationFrame(()=>resultsEl.appendChild(frag));
-  }
 
-  function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+    // Format GPA when leaving the field (never during typing)
+    gpaEl.addEventListener('blur', ()=>{
+      const val = parseGpaLoose(gpaEl.value);
+      gpaEl.value = formatGpa(val);
+    });
 
-  // Debounced input
-  let t;
-  inputEl.addEventListener('input', ()=>{
-    clearTimeout(t);
-    t = setTimeout(search, 140);
-  });
-  inputEl.addEventListener('keydown', e=>{
-    if(e.key==='Enter'){ e.preventDefault(); search(); }
-  });
-
-  // Load from ?q=
-  (function init(){
-    const q = new URL(location.href).searchParams.get("q") || "";
-    if(q){ inputEl.value = q; search(); }
-  })();
+    // Init from URL (?gpa=&major=)
+    (function init(){
+      const p = new URL(location.href).searchParams;
+      const qpG = p.get('gpa'); const qpM = p.get('major');
+      if (qpG) gpaEl.value = qpG;
+      if (qpM) majorEl.value = qpM;
+      if (!gpaEl.value) gpaEl.value = "4.00";
+      analyze();
+    })();
   </script>
 </body>
 </html>
